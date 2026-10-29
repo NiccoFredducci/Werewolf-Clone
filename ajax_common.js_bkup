@@ -1,0 +1,743 @@
+/*******************************************************************************
+	AJAX共通ライブラリ
+	 - ajax.php
+	 - md5.js
+	 - jquery-1.4.4.js と一緒に使うこと
+*******************************************************************************/
+// アプリの場合
+if(IsApp()==true){
+	// var gsAjaxUrl = "http://werewolf.mo61.mobi/api/ajax.php";
+	var gsAjaxUrl = "https://lolipop-c61.ssl-lolipop.jp/mo61mobi/werewolf/api/ajax.php";
+	//var gsAjaxUrl = "https://lolipop-c61.ssl-lolipop.jp/mo61mobi/werewolf/api/ajax_test.php";
+	
+	
+} else {
+	var gsAjaxUrl = "http://localhost/werewolfAPI/ajax.php";
+}
+
+
+
+
+/*******************************************************************************
+	関数名	DoAjax
+	機能		指定されたモードにあわせて、データを作成し、Ajaxへアクセスする。
+			Ajaxが完了すると、モード名にSuccess、Errorが付加された関数が実行される。
+			
+			Ajaxへのアクセス時は、常にUDIDとチェックコードが送信される。
+	
+	入力	sMode		モード
+	出力	なし
+	
+	処理概要
+			1. CheckCodeを作成する
+			2. モードによってデータを作成する
+*******************************************************************************/
+var xhr;
+function DoAjax(sMode){
+	
+	// Androidの場合は何もしない
+	var sPlatform = CheckPlatform();	
+	
+	// var sUdid = GetUDID();
+	var sUdid = $("#gUDID").val();
+	
+	// ユーザー登録せずにカード購入ボタンを押した場合
+	var sUserCode = gsUserCode;
+	if(sUserCode == "" && sMode == "ShowMedalConfirm"){
+		// In App Purchase の購入画面に進む
+		ShowPurchaseConfirm_Success({"result":"1","DATA":""});
+		return;
+	}
+	
+	// チェックコードを作成する
+	var sCheckCode = MakeCheckCode(sUdid);
+	
+	// データパックを作成する
+	sDataPack = MakeDataPack(sMode, sCheckCode);
+	
+	// ローディングを表示する
+	ShowLoading(true);
+	
+	Log("ajax_common.js 46: DoAjax(" + sDataPack + ") " + gsAjaxUrl);
+	
+	// AJAXを実行する
+	xhr = $.ajax({
+		type:"POST",
+		url:gsAjaxUrl,
+		data:sDataPack,
+		dataType:"script",
+		cache: false,
+		async: true,
+		error:function(){
+			AjaxError({"error":"ErrSendData"});
+		}
+	});
+	
+}
+
+/*******************************************************************************
+	関数名	AbortAjax
+	機能		AJAXの通信を途中終了する。
+	
+	G入力	xhr		AJAXハンドラ
+	出力		なし
+*******************************************************************************/
+function AbortAjax(bAppStoreFlg) {
+		
+	// スマートパスでない場合
+	if(gbSmartPass != true && bAppStoreFlg != true){
+		// AJAXを停止する
+		xhr.abort();
+	}
+	
+	// ローディングを非表示にする
+	$("body").css("overflow-y", "scroll");
+	$("#Loading").hide();
+	
+	// 元ページに戻る
+//	jQT.goBack();
+	
+}
+
+
+/*******************************************************************************
+	関数名	MakeDataPack
+	機能	データパックを作成する
+	
+	入力	sMode			実行モード
+			sCheckCode		チェックコード
+	出力	sDataPack		データパック文字列
+	
+	処理概要
+			1. モードにあわせてデータを作成する
+			2. データをJSONに変換する
+			3. データパックを作成する
+			4. データパックを返して終了する
+*******************************************************************************/
+function MakeDataPack(sMode, sCheckCode){
+	
+	var dData = {};
+	var sDataJSON = "";
+	// var sUDID = GetUDID();
+	var sUDID = $("#gUDID").val();
+
+	// カード情報を取得する
+	var domGotCard = [];
+	
+	// コールバック内で実行される関数のため、グローバル変数を直接更新できないため
+	// 引数にグローバル変数のポインタを渡して、直接グローバル変数を更新する
+
+	// カードの購入状態を一時保存から取得する
+	domGotCard = LoadDataTmp("domGotCard");
+	
+	// UserCodeを取得する
+	var sUserCode = gsUserCode;
+	
+	
+	// モードによって切り替える
+	switch(sMode) {
+		
+		// 新規アカウント作成（すでに存在する場合は、ユーザー情報を取得）
+		case "MakeUser":
+			
+			// データを設定する
+			dData.UDID = sUDID;
+			dData.CC = sCheckCode;
+			dData.domGotCard = domGotCard;
+			
+			dData.UserCode = sUserCode;
+			
+			Log("75:" + dData.UDID + "/" + domGotCard["Lovers"]);
+	
+			
+			break;
+		
+		// ユーザー情報を取得する
+		case "GetUserInfo":
+			
+			// データを設定する
+			dData.UDID = sUDID;
+			dData.CC = sCheckCode;
+			dData.domGotCard = domGotCard;
+			dData.UserCode = sUserCode;
+			break;
+		
+		// 紹介者コードを登録する
+		case "UpdateFriend":
+			
+			// データを設定する
+			dData.UDID = sUDID;
+			dData.CC = sCheckCode;
+			
+			// 常にカード情報は送信する必要がある
+			dData.domGotCard = domGotCard;
+			dData.Friend = $("#Friend").val();
+			dData.UserCode = sUserCode;
+			Log("107:" + dData.Friend);
+
+			break;
+		
+		// 残ポイントを確認し、残数がある場合はメダル購入アラートを表示する
+		case "ShowMedalConfirm":
+			// データを設定する
+			dData.UDID = sUDID;
+			dData.CC = sCheckCode;
+			dData.UserCode = sUserCode;
+			
+			// 常にカード情報は送信する必要がある
+			dData.domGotCard = domGotCard;
+			
+			break;
+		
+		// ポイントを使用し、カードを有効にする
+		case "BuyCard":
+			// データを設定する
+			dData.UDID = sUDID;
+			dData.CC = sCheckCode;
+			dData.UserCode = sUserCode;
+			
+			// 常にカード情報は送信する必要がある
+			dData.domGotCard = domGotCard;
+			
+			dData.BuyCard = gsPurchaseRole;
+			
+			break;
+			
+		case "CampMedal":
+			// キャンペーンタイプによって切り分ける
+			switch(gsCampType){
+				case "LOBI":
+					sCampCode = $("#CampCode").val();
+					break;
+				case "FOXIV":
+					sCampCode = "FOXIV";
+					break;
+				default:
+					sCampCode = "";
+					break;
+			}
+			Log("CampMedal="+gsCampType + "/"+sCampCode);
+
+			dData.UDID = sUDID;
+			dData.UserCode = sUserCode;
+			dData.CampCode = sCampCode;
+			dData.CampType = gsCampType;
+			dData.CC = sCheckCode;
+			dData.domGotCard = domGotCard;
+			Log("236:CampMedal="+gsCampType + "/"+sCampCode);
+			break;
+			
+	}
+	
+	// JSON文字列に変換する
+	sDataJSON = JSON.stringify(dData);
+	
+	// データパックを作成する
+	sDataPack = "m=" + sMode + "&data=" + sDataJSON;
+	
+	Log("130:" + sDataPack);
+	
+	return sDataPack;
+	
+}
+
+
+/*******************************************************************************
+	関数名	GetUDID ver.4.5
+	機能		UDIDを取得し、キーチェーンアクセスに保存する。
+			この処理は、onDeviceReadyのタイミングで実行し、
+			$("#gUDID").val()に格納する。
+			
+	入力		なし
+	出力		sUDID
+	
+	開発終了	サーバーでのユーザー管理を終了するため、本機能は終了
+*******************************************************************************/
+function GetUDID(){
+	
+	// ver.3.0対応
+	// iPhone5になったときに、前のユーザーコードを引きづってくるように変更
+	// 前のユーザーコードは、iTunes経由でバックアップし、新しいiPhoneでも
+	// ユーザーコードを引き継ぐ。それによって、ポイントを引き継げるようにする。
+	var sDammyUDID = "suzuki15_iPhone5";
+	var sPlatform = CheckPlatform();
+	
+	// アプリでない場合
+	if(IsApp()==false || sPlatform != "iOS"){
+		
+		// ダミーを格納する
+		$("#gUDID").val(sDammyUDID);
+		return;
+		
+	}
+	
+	Log("Test uuid="+device.uuid);
+	cordova.exec(
+		// キーチェーンアクセスできた場合
+		function(value){
+			$("#gUDID").val(value);
+		}, 
+		// キーチェーンにアクセスできなかった場合
+		function(value) {
+			// デバイスのUDIDをそのまま格納すうｒ
+			$("#gUDID").val(device.uuid);
+			// $("#gUDID").val(value);
+		}, "UUID", "uniqueIdentifier", ["uniqueIdentifier"]
+	);
+
+	//return device.uuid;
+	return;
+}
+
+/*******************************************************************************
+	関数名	AjaxError
+	機能	Ajaxのエラー結果を表示する
+	
+	入力	oError		
+	出力
+	
+	処理概要
+*******************************************************************************/
+function AjaxError(oError){
+	
+	if(oError["DATA"]["error"] == "ErrQuery"){
+		Log("AjaxError! result:" + oError["result"] + "/" + oError["DATA"]["error"] + "/" + oError["DATA"]["ErrorDetail"] + "/" + oError["DATA"]["SQL"]);
+	} else {
+		Log("AjaxError! result:" + oError["result"] + "/" + oError["DATA"]["error"]);	
+		
+	}
+	
+	// ローディング画面を非表示にする
+	ShowLoading(false);
+	
+	// エラーアラート表示をする
+	if(oError){
+		aMessage = GetAlertMessage(oError["DATA"]["error"],"");
+		
+	} else {
+		aMessage = GetAlertMessage("ErrNetworkTimeout","");
+	}
+	ShowAlert(aMessage[0], aMessage[1]);
+
+
+}
+/*******************************************************************************
+	関数名	OutputData / CallBack関数なのでグローバルアクセスできない
+	機能		データをHTML出力する
+	
+	入力	DATA		受信データ
+	出力	なし
+*******************************************************************************/
+function OutputData(DATA){
+	
+	var sCardList = "";
+	
+	// カードデータをdomに反映する
+	var domGotCard = DATA["domGotCard"];
+	Log("294:"+domGotCard);
+	SaveDataTmp(domGotCard, "domGotCard");
+	
+	// ver.3.7修正
+	SaveData(domGotCard, "domGotCard");
+	
+	// メダル関連データをdomに反映する
+	var domMedal = [];
+	domMedal = {
+		"UserCode": DATA["UserCode"],
+		"PointLast": DATA["PointLast"],
+		"Friend": DATA["Friend"]
+	}
+	SaveDataTmp(domMedal, "domMedal");
+	
+	// UserCodeをdomに反映する 2012.10.06 ver.3.0 端末変更対応
+	gsUserCode = DATA["UserCode"];
+	Log("ajax_common.js 285:" + gsUserCode);
+	SaveData("gsUserCode");
+	
+	// 有効カードを有効にする
+	for(sRole in domGotCard){
+		
+		// カードが獲得状態の場合
+		if(domGotCard[sRole] > 0){
+			
+			// 対象カードを有効にする
+			EnableCardSelect(sRole);
+		}
+		
+		// For Debug
+		sCardList = sCardList + sRole + "/" + domGotCard[sRole] + "<br>";
+	}
+	
+	$("#UserCode").text(DATA["UserCode"]);
+	$("#UserCodeShow").text(DATA["UserCode"]);
+	$("#PointLast").text(DATA["PointLast"]);
+	
+	// お問い合わせメールのメール内容を設定する
+//	$("#MailTo").attr("href", "mailto:suzuki@c61.org?subject=Werewolf Contact&body=(User Code:" + DATA["UserCode"] + ")");
+	
+	// 友人登録されていない場合
+	if(DATA["Friend"]=="0" || DATA["Friend"] == ""){
+		$("#Medal .EntryFriendCode").show();
+		$("#Medal .DoneFriendCode").hide();
+		
+	} else {
+		$("#Medal .DoneFriendCode .DoneFriend").text(DATA["Friend"]);
+		$("#Medal .EntryFriendCode").hide();
+		$("#Medal .DoneFriendCode").show();
+		
+	}
+	
+	// ローディング画面を非表示にする
+	ShowLoading(false);
+	
+	// Debug
+	Log("ajax_common.js 190:" + sCardList);
+	
+}
+
+/*******************************************************************************
+	関数名	MakeUser_Success
+	機能	ユーザー作成の完了時に実行する。
+	
+	入力	oJSON	取得データ
+	出力	なし
+*******************************************************************************/
+function MakeUser_Success(oJSON){
+	
+	var sDataJSON = JSON.stringify(oJSON["DATA"]);
+	var DATA = oJSON["DATA"];
+	
+	// Ajaxの結果をDOMに出力する
+	OutputData(oJSON["DATA"]);
+	
+	// データを保存する
+	// 2012.10.06 ver.3.0 端末切り替え対応
+	SaveGame("SetMedal");
+	
+	// ページを移動する
+	//jQT.goTo("#Medal", "slideleft");
+	
+	// Google Log
+	//LogGA("Medal", "MakeUser", 0);
+	
+}
+
+/*******************************************************************************
+	関数名	GetUserInfo_Success
+	機能	ユーザー情報取得の完了時に実行する
+	
+	入力	oJSON	取得データ
+	出力	なし
+	
+	処理概要
+			1. 情報が存在しない場合
+			 1.1. データなしをアラートして終了する
+			2. 情報が存在する場合
+			 2.1. Outputに値を表示して終了する
+*******************************************************************************/
+function GetUserInfo_Success(oJSON){
+	
+	Log("358:GetUserInfo_Success Do.");
+	
+	// 情報が存在しない場合　初回起動時に発生する
+	if(oJSON["DATA"]["error"] == "ErrNoData"){
+		
+		// Userを作成する
+		//DoAjax('MakeUser');
+
+		// UDIDエラー
+		aMessage = GetAlertMessage("ErrNoData","");
+		ShowAlert(aMessage[0], aMessage[1]);
+		
+		return;
+	}
+	
+	// 情報が存在する場合
+	OutputData(oJSON["DATA"]);
+	
+	// データを保存する
+	SaveGame("SetMedal");
+
+	// ページを移動する
+	//jQT.goTo("#Medal", "slideleft");
+	
+	Log("ajax_common.js 250: GetInfo goTo=>Medal");
+	
+	// 読み込み完了表示　→ 不要に表示しない 2017.01.15
+	//aMessage = GetAlertMessage("LoadCardData","");
+	// ShowAlert(aMessage[0], aMessage[1]);
+	
+}
+
+
+/*******************************************************************************
+	関数名	UpdateFriend
+	機能		ご友人登録を行う。自分自身のコードや、文字数の違うコードが入力された場合は
+			サーバに接続せずにエラー終了する
+	
+	入力		なし
+	出力		なし
+*******************************************************************************/
+function UpdateFriend(){
+	
+	// 自分自身のコードを取得する
+	sMyCode = $("#Medal .UserCode").text();
+	
+	// 入力されたコードを取得する
+	sFriendCode = $("#Friend").val();
+	
+	// 自分自身のコードの場合
+	if(sFriendCode == sMyCode){
+		// エラーアラート表示をする
+		aMessage = GetAlertMessage("ErrInvalidFriendCodeMe","");
+		ShowAlert(aMessage[0], aMessage[1]);
+		return false;
+	}
+	
+	// 登録コードの文字数が５文字でない場合
+	if(sFriendCode.length < 5){
+		
+		// エラーアラート表示をする
+		aMessage = GetAlertMessage("ErrInvalidFriendCode","");
+		ShowAlert(aMessage[0], aMessage[1]);
+		return false;
+	}
+	
+	// Ajaxを実行する
+	DoAjax("UpdateFriend");
+	
+}
+			
+
+/*******************************************************************************
+	関数名	UpdateFriend_Success
+	機能	紹介者登録を成功した際の処理を実行する
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function UpdateFriend_Success(oJSON){
+	
+	var sDataJSON = JSON.stringify(oJSON["DATA"]);
+	OutputData(oJSON["DATA"]);
+	
+	// データを保存する
+	SaveGame("SetMedal");
+	
+	// 登録完了のアラートを表示する
+	aMessage = GetAlertMessage("UpdateFriend",oJSON["DATA"]["Friend"]);
+	ShowAlert(aMessage[0], aMessage[1]);
+	
+	// Google Log
+	//LogGA("Medal", "UpdateFriend", 0);
+	
+	
+}
+
+
+
+/*******************************************************************************
+	関数名	ShowPurchaseConfirm_Success
+	機能		AppStoreの購入確認フォームを表示する。
+			GetMedalInfoの結果、メダルがないときにこの関数は実行される
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function ShowPurchaseConfirm_Success(oJSON){
+	
+	// グローバル変数を参照する
+	var sFunction = gsFunction;
+	var sRole = gsPurchaseRole;
+	Log("450: ShowPurchaseConfirm_Success:" + sFunction + "/" + sRole);
+	var DATA = oJSON["DATA"];
+	
+	// ローディングを非表示にする
+	ShowLoading(false);
+	
+	// ProductID設定 (プロダクト追加にあわせて更新！） ******************
+	var aProductIds = [];
+	aProductIds = {
+		"Lovers":"Werewolf.Lovers",
+		"Psycho":"Werewolf.Psycho",
+		"Vampire":"Werewolf.Vampire",
+		"Death":"Werewolf.Death",
+		"Rich":"Werewolf.Rich",
+		"Bat":"Werewolf.Bat2",
+		"PsychoKiller":"Werewolf.PsychoKiller",
+		"GreatShaman":"Werewolf.GreatShaman",
+		"Cosplayer":"Werewolf.Cosplayer3",
+		"Paparazzi":"Werewolf.Paparazzi",
+		"Magician":"Werewolf.Magician",
+		"Bomber":"Werewolf.Bomber",
+		"Mentalist":"Werewolf.Mentalist",
+		"DarkShaman":"Werewolf.DarkShaman",
+		"Original":"Werewolf.Original"
+	};
+	
+	Log("463: sRole=" + sRole);
+	// 正しい役職が設定されていない場合
+	if(aProductIds[sRole] == undefined){
+		// エラーアラート表示をする
+		aMessage = GetAlertMessage("ErrSendData","");
+		ShowAlert(aMessage[0], aMessage[1]);
+		return false;
+	}
+	
+	// アプリの場合
+	if(IsApp() == true){
+		Log("4190:" + aProductIds[sRole]);
+		// 購入アラートを表示する
+		ShowPurchaseAlert(aProductIds[sRole], sFunction);
+		return;
+	} else {
+		//$("#Loading").show();
+		// アラートを表示して購入を完了
+		ShowConfirm(aProductIds[sRole], "このカードを購入しますか？", sFunction);
+		return;
+		//eval(sFunction);
+	}
+	// GetMedalInfo_SuccessNoMedalに実行 } ******
+	
+}
+
+
+/*******************************************************************************
+	関数名	ShowMedalConfirm_Success
+	機能		メダルの購入確認フォームを表示する
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function ShowMedalConfirm_Success(oJSON){
+	
+	// グローバル変数を参照する
+	var sFunction = "DoAjax('BuyCard')";
+	var sRole = gsPurchaseRole;
+	
+	var DATA = oJSON["DATA"];
+	
+	// メッセージを取得する
+	var	aMessage = GetAlertMessage("BuyCardByMedal", DATA["PointLast"]);
+	
+	// ローディングを非表示にする
+	ShowLoading(false);
+	
+	// 実行確認フォームを表示する
+	ShowConfirm(aMessage[0], aMessage[1], sFunction);
+	
+	return;
+}
+
+/*******************************************************************************
+	関数名	BuyCard_Success
+	機能		カード購入を成功した際の処理を実行する
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function BuyCard_Success(oJSON){
+	
+	// カード購入した結果をDOM保存する
+	OutputData(oJSON["DATA"]);
+	
+	// カードを有効にする
+	EnableCard(gsPurchaseRole);
+	
+	// データを保存する
+	SaveGame("SetMedal");
+	
+	// Google Log
+	//LogGA("Medal", "BuyCard", 0);
+	
+	return;
+	
+}
+/*******************************************************************************
+	関数名	BuyCard_Success_AlreadyBought
+	機能	カード購入時に、すでに購入済みだった際の処理をする
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function BuyCard_Success_AlreadyBought(oJSON){
+
+	// カード購入した結果をDOM保存する
+	OutputData(oJSON["DATA"]);
+	
+	// カードを有効にする
+	EnableCard(gsPurchaseRole);
+	
+	// すでに購入済みのアラートを表示する
+	aMessage = GetAlertMessage("ErrBuyCardAlready","");
+	ShowAlert(aMessage[0], aMessage[1]);
+	
+	// データを保存する
+	SaveGame("SetMedal");
+	
+}
+/*******************************************************************************
+	関数名	BuyCard_Success_PointEmpty
+	機能	カード購入時に、ポイント不足だった際の処理をする。
+			AppStoreの購入へと進む。
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function BuyCard_Success_PointEmpty(oJSON){
+	
+	alert("BuyCard_Success_PointEmpty");
+	var sDataJSON = JSON.stringify(oJSON["DATA"]);
+	OutputData(oJSON["DATA"]);
+	
+	// すでに購入済みのアラートを表示する
+	aMessage = GetAlertMessage("ErrBuyCardPointEmpty","");
+	ShowAlert(aMessage[0], aMessage[1]);
+	
+	// データを保存する
+	SaveGame("SetMedal");
+}
+
+
+/*******************************************************************************
+	関数名	MakeCheckCode
+	機能	チェックコードを作成する。UDIDと秘密鍵と日付からコードを作成する
+	
+	入力	sUDID		UDIDコード
+	出力	sCheckCode	チェックコード
+*******************************************************************************/
+function MakeCheckCode(sUDID){
+	// 秘密鍵
+	var sSecret = "mo61";
+	
+	var sCode = sUDID + sSecret;
+	
+	var sCheckCode = CRYPT.MD5.calc(sCode);
+	//var sCheckCode = MD5_hexhash(sCode);
+	
+	return sCheckCode;
+	
+}
+
+/*******************************************************************************
+	関数名	CampMedal_Success
+	機能		メダルの付与を成功したときの処理を実行する
+	
+	入力	oJSON		JSONオブジェクト
+	出力	なし
+*******************************************************************************/
+function CampMedal_Success(oJSON){
+	
+	var sDataJSON = JSON.stringify(oJSON["DATA"]);
+	OutputData(oJSON["DATA"], oJSON["result"]);
+
+	// データを保存する
+	SaveGame("SetMedal");
+	
+	// 登録完了のアラートを表示する
+	if(oJSON["DATA"]["CampType"] != "FOXIV"){
+		aMessage = GetAlertMessage("CampMedal",oJSON["DATA"]["PlusPoint"]);
+		ShowAlert(aMessage[0], aMessage[1]);
+	}
+	
+}

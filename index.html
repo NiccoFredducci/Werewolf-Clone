@@ -1,0 +1,4407 @@
+<!doctype html>
+<html style="background-color:#000">
+
+<head>
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta charset="UTF-8" content="" />
+
+	<meta http-equiv="Content-Security-Policy"
+	content="default-src * 'self' data: gap: 'unsafe-inline' 'unsafe-eval';
+	style-src * 'self' 'unsafe-inline' 'unsafe-eval' gap:;
+	script-src * 'self' 'unsafe-inline' 'unsafe-eval' gap:; frame-src *;">
+
+	<title>Werewolf</title>
+
+	<style type="text/css" media="screen">
+		@import "./jqtouch/jqtouch.css";
+	</style>
+	<style type="text/css" media="screen">
+		@import "theme.css";
+	</style>
+	<link rel="stylesheet" href="flickity.css" media="screen">
+	<style type="text/css" media="screen">
+		@import "werewolf.css";
+	</style>
+
+	<!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script> -->
+<script src="./jqtouch/jquery-3.7.1.min.js"></script>
+	<script src="./jqtouch/jqtouch.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./jqtouch/sortable.js" type="text/javascript" charset="utf-8"></script>
+<!--	<script src="./jqtouch/promise-7.0.4.min.js"></script>-->
+	<script type="text/javascript" charset="utf-8">
+
+		/* jQTouch Init ****************************************************/
+		var jQT = new $.jQTouch({
+			icon: '../icon.png',
+			icon4: '../icon@2x.png',
+			addGlossToIcon: false,
+			startupScreen: 'Default.png',
+			slideLeftSelector: '.slideleft'
+		});
+
+
+	</script>
+	<script src="common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="full.js" type="text/javascript" charset="utf-8"></script>
+	<!-- For Remote -->
+	<script src="remote.js" type="text/javascript" charset="utf-8"></script>
+
+	<!-- For AdMob -->
+<!--	<script type="text/javascript" charset="utf-8" src="AdMobCustom.js"></script>-->
+
+	<!-- QR code -->
+	<script src="./jqtouch/qrcode.min.js"></script>
+	<!-- Slider code -->
+	<script src="flickity.pkgd.js"></script>
+
+	<script src="./jqtouch/crypto-js.js"></script>
+
+	<script src="lang.js" type="text/javascript" charset="utf-8"></script>
+	<script src="account.js" type="text/javascript" charset="utf-8"></script>
+	<script src="twitter_connect.js" type="text/javascript" charset="utf-8"></script>
+	<script src="werewolf.js" type="text/javascript" charset="utf-8"></script>
+
+<!--	<script type="text/javascript" charset="utf-8" src="fastclick.js"></script>-->
+<!--	<script type="text/javascript" charset="utf-8" src="GALocalStorage.js"></script> -->
+
+<!-- Google tag (gtag.js) -->
+<!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-6DD6KYXZWM"></script>-->
+<!--
+<script async src="./jqtouch/gtag_20230725.js"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() { dataLayer.push(arguments); }
+	gtag('js', new Date());
+
+	gtag('config', 'G-6DD6KYXZWM');
+</script>
+-->
+</head>
+
+<body onload="onBodyLoad()" style="background-color:black">
+
+	<!-- Footer Menu 2022.06.07 -->
+	<div id="Footer">
+		<!-- <div id="FooterNews" class="FooterMenu MSide News" onclick="LoadTopics()"><div class="En">Game Assurdi</div></div> -->
+		<div class="FooterMenu MSide Cards" onclick="jQT.goTo('#Tutorial_Card')"><div class="En">Cards</div></div>
+		<div class="FooterMenu MCenter Game" onclick="UnloadYoutube();ShowExternalPage();jQT.goTo('#Top')"><div class="En">Game</div></div>
+		<div class="FooterMenu MSide Rule" onclick="jQT.goTo('#RuleMenu')"><div class="En">Rule</div></div>
+		<!-- <div class="FooterMenu MSide Other" onclick="jQT.goTo('#About')"><div class="En">Other</div></div> -->
+		<!-- <div class="FooterMenu MSide Account" onclick="jQT.goTo('#Account')"><div class="En">Account</div></div> -->
+	</div>
+
+
+	<div id="jqt">
+		<!-- Top Page **************************************************** -->
+		<div id="Top">
+			<div id="ReloadButton" onclick="onBodyLoad()">
+				<div class="En">Please restart this app.</div>
+			</div>
+
+
+			<!--	    	<div class="BannerArea"></div> -->
+
+			<!-- ロードとともに表示される -->
+			<div id="Top_wolf" style="display:none">
+				<div style="padding:12px"><img src="#" id="TitleLogo" style="width:165px"></div>
+				<!-- 上下センター配置用Tableタグ -->
+				<div id="MainMenu" style="margin-top:12px">
+					<!-- div onclick="NewGame()" class="center" -->
+					<div onclick="MakeOfflineGame()" class="center">
+						<span class="En"><img src="img/MenuButton_NewGame_En.png" width="280" /></span>
+					</div>
+					<div onclick="ContinueGame()" id="TopContinue" class="center">
+						<span class="En"><img src="img/MenuButton_Continue_En.png" width="240" /></span>
+					</div>
+					<div onclick="MakeOnlineGame()" id="TopRecoverGameRoom" class="center">
+						<span class="En"><img src="img/MenuButton_RecoverGameRoom_En.png" width="240" /></span>
+					</div>
+					<div onclick="RecoverRemotePlayer()" id="TopRecoverRemotePlayer" class="center">
+						<span class="En"><img src="img/MenuButton_RecoverRemotePlayer_En.png" width="240" /></span>
+					</div>
+
+				<div class="Height iPhone5Margin" style="height:20px">&nbsp;</div>
+			</div>
+				<!-- div class="account-stats">
+					<div class="stats-contents">
+						<div id="statsAccountInfo">
+							<div class="stats-avatar">
+								<div class="stats-avatar-around">
+									<img id="statsAvatar" class="stats-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar">
+								</div>
+							</div>
+							<div id="statsAccountName" class="stats-account-name FontWhite"><span class="En">Game Score</span></div>
+						</div>
+						<div id="statsInfo">
+							<p class="FontWhite Font12"><span class="En">This Month's WR:</span><span id="monthWinRatio">??%（???</span><span class="En"> Games)</span></p>
+							<p class="FontWhite Font12"><span class="En">Last Month's WR:</span><span id="prevMonthWinRatio">??%（???</span><span class="En"> Games)</span></p>
+							<p class="FontWhite Font12"><span class="En">Overall WR:</span><span id="totalWinRatio">??%（???</span><span class="En"> Games)</span></p>
+							<div id="isNotAccountInfo">
+								<div class="En"><img src="img/AccountCreateButtonEn.png" alt="" height="70" onclick="jQT.goTo('#Account')"></div>
+							</div>
+							
+						</div>
+					</div>
+				</div -->
+
+			</div>
+			<!-- #Top_wolf end -->
+		</div>
+		<!-- #Top end -->
+
+			
+
+		<!-- About Page ****************************************************-->
+		<div id="About">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:history.back();"></a>
+				<h1 class="En">Contact</h1>
+			</div>
+		
+			<div class="Height x24">&nbsp;</div>
+			<div class="Trajan" style="font-size:20px">
+				<div ><img src="img/TitleLogo_FREE_En@2x.png" style="width:200px"></div>
+			</div>
+			<div class="Height x20">&nbsp;</div>
+			<div class="BodyText">
+
+				<span class="SubTitle">Contact</span><br>
+				<span class="MailText">geographydash@gmail.com</span><br>
+				<div class="Height x20">&nbsp;</div>
+
+			</div>
+			<div class="Height x40"></div>
+			<div class="Height x40"></div>
+
+		</div>
+
+		<!-- Account Page ****************************************************-->
+		<div id="Account" class="Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Top','slideright')"></a>
+				<h1 class="En">Account</h1>
+			</div>
+			
+			<div class="BodyText">
+
+				<div class="account-avatar">
+					<div class="avater-change-button">
+						<span onclick="LoopDisplayAvatar($('#avatar').attr('src'),-1)"><img src="img/AvaterChangeButton_Left.png" style="width:59px">
+					</div>
+					<div class="avatar-image-around">
+						<img id="avatar" class="account-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar">
+					</div>
+					<div class="avater-change-button">
+						<span onclick="LoopDisplayAvatar($('#avatar').attr('src'),1)"><img src="img/AvaterChangeButton_Right.png" style="width:59px">
+					</div>
+				</div>
+				<div id="avatarChangeBar">
+					<div id="avatarActions" style="width: 320px;">
+						<div class="Mplus1 Font14 FontWhite En">Avater Image：</div>
+						<span onclick="LoopDisplayAvatar($('#avatar').attr('src'),1)"><img src="img/AccountImageAvatar.png" alt="" width="25px" height="25px"></span>
+<!--						<span onclick="setAccountImage(PictureSourceType.CAMERA)"><img src="img/AccountImageCamera.png" alt="" width="25px" height="20px"></span>
+						<span onclick="setAccountImage(PictureSourceType.PHOTO_LIBRARY)"><img src="img/AccountImageFolder.png" alt="" width="25px" height="20px"></span>
+-->						<span onclick="getPicture(PictureSourceType.CAMERA, '#avatar', 'Account')"><img src="img/AccountImageCamera.png" alt="" width="25px" height="20px"></span>
+						<span onclick="getPicture(PictureSourceType.PHOTO_LIBRARY, '#avatar', 'Account')"><img src="img/AccountImageFolder.png" alt="" width="25px" height="20px"></span>
+					</div>
+				</div>
+
+				<div id="inputNickNameBox">
+					<div class="Mplus1 FontWhite En">Nickname (*Required)</div>
+					<input id="nickname" type="text" placeholder="Nickname (10 Characters max)" class="Mplus1 Font16">
+					<button id="twitterConnectButton" onclick="twitterConnection()" class="Mplus1 Font14 FontWhite En">Link X (Twitter) to save your data</button>
+				</div>
+
+				<div class="En" id="accountSaveButtonContainer">
+					<div onclick="UserOperations($('#nickname').val())"><img src="img/Button_Save_En_1.png" alt="" height="44" width="163"></div>
+				</div>
+			</div>
+			<div class="Height x40"></div>
+			<div class="Height x40"></div>
+		</div>
+		<!-- <script>
+			$(function() {
+				DisplayRandomAvatar()
+			})
+		</script> -->
+
+		<!-- News ****************************************************-->
+		<div id="News" class="Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Top','slideright')"></a>
+				<h1 class="En">Game Assurdi</h1>
+			</div>
+			<!-- <div id="Topics_OUTPUT_En" class="En"></div> -->
+			<div class="Topics_TEMPLATE_En">
+				<div class="ImgBox" style="line-height: 0"><img class="img" style="width:100%" src="https://i.imgur.com/D8A5qrE.jpeg"></div>
+				<div class="TitleBox" style="background-color:rgba(0,0,0,0.5);color:white">
+					<div class="Category trapezoid">GAME UP</div>
+					<div class="Margin12px Mplus1 TitleTextEn">TITLE</div>
+					<div class="Margin12px BodyHtml Mplus1 BodyTextEn">SAIKYO NO GEMU</div>
+					<div class="Margin12px BodyHtml Mplus1b"><a href="javascript:window.open('https://imgur.com/a/y8PINZx','_system')" style="color:white" class="MoreDetail">More detail</a></div>
+					<div class="Height x24">&nbsp;</div>
+				</div>
+				<div class="Height x40">&nbsp;</div>
+			</div>
+
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+		</div>
+
+		<!-- Tutorial Card ****************************************************-->
+		<div id="Tutorial_Card" class="Tutorial">
+				<div class="CommonToolbar">
+					<a class="backbg" href="javascript:jQT.goTo('#Top','slideright')"></a>
+					<h1 class="En">Role Cards</h1>
+				</div>
+				<div id="TutorialCardOutput" class="CardExplainArea"></div>
+				<div class="Height x40">&nbsp;</div>
+			</div>
+	
+		<!-- Tutorial Menu ****************************************************-->
+		<div id="RuleMenu" class="Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Top','slideright')"></a>
+				<h1 class="En">Tutorial</h1>
+			</div>
+			<div onclick="UnloadYoutube();jQT.goTo('#TutorialMovie','slideleft')" class="TutorialMenuButton"><span class="En">Tutorial Movie</span></span></div>
+			<div onclick="jQT.goTo('#Tutorial_Rule','slideleft')" class="TutorialMenuButton"><span class="En">How to Play</span></div>
+			<div onclick="jQT.goTo('#Tutorial_Options','slideleft')" class="TutorialMenuButton"><span class="En">Options</span></div>
+			<div onclick="jQT.goTo('#Tutorial_FAQ','slideleft')" class="TutorialMenuButton"><span class="En">More Details</span></div>
+			<div onclick="jQT.goTo('#Tutorial_Story','slideleft')" class="TutorialMenuButton"><span class="En">Story of "Nightmare in Prison"</span></div>
+			<div onclick="jQT.goTo('#About','slideleft')" class="TutorialMenuButton"><span class="En">Contact</span></div>
+
+
+			<div class="Height x40">&nbsp;</div>
+		</div>
+	
+		<!-- Tutorial Movie ****************************************************-->
+		<div id="TutorialMovie" class="Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+				<h1 class="En">Tutorial</h1>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed Jp">チュートリアル動画</div>
+				<div class="TitleBgRed En">Tutorial Movie</div>
+
+				<div id="Jtj8w7JS2O0" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="FtdlKBX9oco" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="J0NL4gA3QSY" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="pfn5dEzWblA" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>	
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed Jp">プレイ動画</div>
+				<div class="TitleBgRed En">Play Movie</div>
+				
+				<div id="n3fRpqaLufY" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="GUKxZLyPGQo" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="txM9T2tbsSw" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="guqjsKHRNoU" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="DW7GjMaO020" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="K8uIGgn0DRk" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="z7ezPUrzWjw" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="h0jZHNgiXyU" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="EkFybQ3yvYM" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="uGfGWLHNSVs" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="nj3bFcQtTGQ" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				<div id="B_jvHv633Vo" class="YoutubeBox" onclick="LoadYoutube(this.id,true)"></div>
+				
+			</div>
+
+			<p><a href="javascript:jQT.goTo('#RuleMenu','slideright')" class="grayButton">Back to Menu</a></p>
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+
+		</div>
+
+
+		<!-- Tutorial ****************************************************-->
+		<div id="Tutorial_Story" class="BaseBg Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+				<h1 class="En">Story</h1>
+			</div>
+	
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Nightmare in Prison</div>
+				<div class="En">
+					<div style="text-align:center"><img alt='' src="img/Story01.png" width="280" height="120" /></div>
+					<br />
+					This is an American town of 40,000 people up north.<br><br>
+					One day in the early morning, a cardboard box was found in front of Mr. F's house.<br>
+					In that box, there were pieces of human flesh...<br>
+					A series of murders had started after this.<br><br>
+					A cleaner found two bodies in a municipal pool two days later.<br>
+					The stomachs of the bodies were ripped to shreds with something incisive like a bear claw.<br>
+					<br /><br>
+					<div style="text-align:center"><img src="img/Story02.png" width="280" height="162" alt="" /></div>
+					<br />
+					The serial killings took place three days later and then again four days later. Two policemen on night duty were killed on the sixth day.<br>
+					In response to this horrible situation, a curfew was imposed in the city, but the number of victims increased one by one every day. The whole city was plunged into a state of fear.<br>
+					<br>
+					The legend of the werewolf had been told for a long time in this region, so people began to wonder if these horrible killings weren't the work of a werewolf.<br>
+					<br>
+					After 3 weeks, the police tracked down a few human suspects and took them into an abandoned prison.<br>
+					In this isolated prison, the suspects were given a mission that they find and execute the werewolves.<br>
+					<br />
+					<div style="text-align:center"><img src="img/Story03.png" width="217" height="134" alt="" /></div>
+					<br />
+					What was given to them was one pistol, supernatural power, and the judgment to see the truth.<br>
+					Now the battle of humans and werewolves has started in this prison to survive the nightmare.<br>
+					<br />
+				</div>
+
+			</div>
+
+			<p><a href="javascript:jQT.goTo('#RuleMenu','slideright')" class="grayButton">Back to Menu</a></p>
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+		</div>
+
+
+		<!-- Tutorial Rule ****************************************************-->
+		<div id="Tutorial_Rule" class="BaseBg Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+				<h1 class="En">How to Play</h1>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">About Werewolf Game</div>
+				<div class="En">
+					In this game, the players work together to find out which of them is the Werewolf. At the end, the players take a vote to decide who they all think the Werewolf is.<br>
+					All the players are divided into two teams, Citizens and Werewolves. Each team tries to destroy the other.
+				</div>
+			</div>
+
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">How to Win</div>
+				<div class="En">
+					<b>Citizens:</b><br />Citizens win when they execute all of the werewolves.<br /><br />
+					<b>Werewolves:</b><br />Warewolves win when the number of werewolves and citizens becomes the same.<br /><br />
+					<b>Vampires:</b><br />Vampires win when they survive until the game is over. Vampires do not count as either Citizen or Werewolf.
+				</div>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">How to start the game</div>
+				<div class="En">
+					<b>1. Choose a Game Master</b><br />
+					First of all, choose a Game Master who rules the game.<br>
+					The Game Master reads the rules of the game shown on the display screen for other players.
+					<br><br>
+					
+					<b>2. Player Setting</b><br>
+					All the players sit and make a circle.<br>
+					Firstly, the Game Master entries his or her profile. After the Game Master, all the players entry their profile.
+					<br /><br />
+					
+					<b>3. Night stage</b><br />
+					Each player confirms his or her own role after the device is handed to them. The player then hands the device to the next person. The role assigned to that person will determine what night action he or she will take.<br />
+					<br />
+					
+					<b>4. Morning stage</b><br />
+					The Game Master announces to everyone which player was attacked by the Werewolf at night.<br>
+					The rest of the players talk to each other to find out who the Werewolf could be.
+					<br><br>
+					
+					<b>5. Judgment</b><br />
+					Each player announces the name of a player who is thought to be a werewolf.<br>
+					The player who is voted the most likely to be the Werewolf will be executed.<br>
+					<br />
+					
+					<b>6. Game Over</b><br />
+					By repeating the night, morning, and judgment loop as described above, you try to kill the players who are on the other team.<br>
+					Then game is over when either the Citizens or Werewolves meet the criteria for winning.
+				</div>
+			</div>
+
+			<p><a href="javascript:jQT.goTo('#RuleMenu','slideright')" class="grayButton">Back to Menu</a></p>
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+		</div>
+
+
+
+
+		<!-- Tutorial Options    ****************************************************-->
+		<div id="Tutorial_Options" class="BaseBg Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+				<h1 class="En">Option Rule</h1>
+			</div>
+	
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">No killing on the 1st night</div>
+				<div class="En">
+					We recommend the "No killing on the 1st night" mode is available.
+					No one is killed on the 1st night, all players can enjoy the 1st morning meeting.<br>
+					If this mode is on, players involved with the psycho killer on the 1st night do not die.<br>
+					If this mode is on, Vampire Bat does not die when the fortune teller reads the "Vampire Bat" on the 1st night.
+					Even if this mode is on, if there are two or more Werewolves and Magician replaces a Werewolf card, the Werewolf whose werewolf card is stolen dies.<br>
+				</div>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Foretelling on the 1st night</div>
+				<div class="En">
+					"Foretelling on the 1st night" can be adjusted to balance the power with the Werewolf team.<br>
+					If the number of participants is small, "No Foretelling" is recommended.<br>
+					If the number of people is around 10, "Knowing a human" is recommended.
+				</div>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Reducing a role randomly</div>
+				<div class="En">
+					One of roles (except "Werewolf", "Vampire", "Vampire Bat", "Lovers", "Destined Lovers") maybe changes to Citizen. However, if a Citizen may be changed to a Citizen, nothing changes.
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">The voting style</div>
+				<div class="En">
+					You select the voting style.<br>
+					- Seat order voting<br>
+					　The players will vote in the seat order starting from the player who died last.<br>
+					<br>
+					- Free voting<br>
+					The order of voting is not decided. Whoever wants to vote should rasie his or her hand.<br>
+					<br>
+					- Anonymous voting<br>
+					The players hand over the device and vote in turn so as not to know who voted on whom.
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Judgement when there is a tie</div>
+				<div class="En">
+					You can select the judgement rule after two consecutive ties.<br>
+					<br>
+					- Kill at random<br>
+					　Only one player is chosen to be killed at random.<br>
+					<br>
+					- No killing<br>
+					None of the players will be killed in this stage.<br>
+					<br>
+					- Selectable<br>
+					The players vote to decide the judgement rule, random killing or no killing. If the number of votes for "Random Killing" is ties to "No Kill", the judgement will be "Random Killing".
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Skip checking answers</div>
+				<div class="En">
+					The deceased player will automatically skip checking the answer. Use this if you want the deceased player to continue guessing until the end of the game.
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Player Points</div>
+				<div class="En">
+					Players earn player points based on the game results and can compete for points.<br>
+					<br />
+					<b>1. Winning points</b><br />
+					When Citizens win, all of the players on the Citizens' team get 10 points.<br />
+					When Werewolves win, all of the players on the Werewolves' team get 15 points.<br />
+					(When Vampires win, all of the players on the Vampires' team get 20 points.)<br />
+					<br />
+					<b>2. Survival points</b><br />
+					Every morning, the players who survived get 1 point.<br />
+					<br />
+					<b>3. Fast target bonus points</b><br />
+					The first player to be killed by a werewolf gets a bonus 3 points for being a threat to the werewolf.
+					<br />
+					- You can change the setting of the each points.
+				</div>
+			</div>
+
+
+			<p><a href="javascript:jQT.goTo('#RuleMenu','slideright')" class="grayButton">Back to Menu</a></p>
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+		</div>
+
+
+		<!-- Tutorial FAQ    ****************************************************-->
+		<div id="Tutorial_FAQ" class="BaseBg Tutorial">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+				<h1 class="En">More Details</h1>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Faul play</div>
+				<div class="En">
+					To enjoy this game, we explain the unfair actions.<br>
+					<br>
+					<b>1. Asking about the content of the night action screens and the visuals on the cards.</b><br>
+					Night actions differ by player. So you can know the liar by asking about the visual of the game screen.<br>
+					<br>
+					<b>2. Announcing the result of the night actions the next morning.</b><br>
+					In this game you can freely chat during the night. However, superpower players (ex: Fortune Teller, Shaman) can't tell the results of the night actions until the next morning.
+					<br><br>
+					<b>3. Checking the player whom other players suspect.</b><br>
+					In the morning, the most suspicious player is called. If you check the various suspects from different players, you can narrow down the liar to a few players.<br>
+				</div>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">About the night actions</div>
+				<div class="En">
+					<span class="Bold">Q. If Werewolves select different players, does this mean that several players are killed?</span><br>
+					No. Only one citizen will be killed by voting.
+					Of the top-voted citizens, one of them will be killed at random.
+					<br /><br>
+					
+					<span class="Bold">Q. When the Fortune Teller checks the player in special positions, can the Fortune Teller know the role of the player?</span><br>
+					No. The Fortune Teller can know only if the player is Werewolf or human.
+					<br /><br>
+					
+					<span class="Bold">Q. When two Knights select the different players, are the several players protected?</span><br>
+					No. Only one player will be protected at random.
+					<br /><br>
+					
+					<span class="Bold">Q. When two Werewolves select the psycho killer, are both of the Werewolves killed?</span><br>
+					Yes. The werewolf who selects the psycho killer will be killed at that time.
+					<br><br>
+					
+					<span class="Bold">Q. Why didn't the Fortune Teller die despite having checked the psycho killer?</span><br>
+					When you set the option "No killing in the 1st night", the Fortune Teller doesn't die despite checking the psycho killer in the 1st night.
+					The Werewolf and the Knight who come into contact with the psycho killer don't die either.
+					<br><br>
+					
+					<span class="Bold">Q. Will the Magician die, when he comes into contact with the psycho killer?</span><br>
+					No. The Magician can change his card for the psycho killer card. From the next morning the Magician player transforms to the psycho killer.
+					<br><br>
+					
+					<span class="Bold">Q. When the Magician and the Werewolf attack each other, what will be the result of the night action?</span><br>
+					When the Werewolf attacks the Magician, the Magician will die and doesn't change the cards.<br>
+					The replacement of cards by the magician occurs only if the werewolf attacks someone other than the magician.<br>
+					<br>
+					When over 2 werewolves are alive, the werewolf (or Mentalist) changed by magician will be killed by the other werewolf and the magician will transform to a werewolf (or Mentalist) from the next morning.<br>
+					So in any case, only one player will die.
+					<br><br>
+					
+					<span class="Bold">Q. Can the Great Shaman transform to "Vampire"?</span><br>
+					No. the great shaman select the "Necromancy" button for "Vampire", you will transform to "Citizen".
+					If the Vampire=>Human" Mode mode is turned on, the "Necromancy" button will appear on the vampire as well.
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Online Mode</div>
+				<div class="En">
+					<b>Q. Must all players install this app?</b><br>
+					Yes. Players must install "Werewolf Nightmare in Prison" App.<br>
+					<br /><br>
+					<b>Q. Must all players buy the paid cards which are used in the game?</b><br>
+					No. The paid cards which the Game Master bought are available for all players.
+					<br><br>
+					<b>Q. Can we play remotely with video chat?</b><br>
+					Yes, you can enjoy werewolf game remotely using a variety of online chat rooms such as ZOOM or Discord.
+					For specific instructions on how to play, please refer to this manual.
+					<div onclick="ShowExternalPage('https://werewolf.network/site/2020/05/29/howtoremote-en/', 'オンライン人狼チュートリアル', 'Online Mode Tutorial')" class="TutorialMenuButton">How to play online</div>
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Game Master Tool</div>
+				<div class="En">
+					<b>Q. How can I use the "Game Master Tool"?</b><br>
+					The Game Master can kill the player who want sto retire from the game with the Game Master Tool.<br>
+					Also the Game Master can make the various roles with the "Original" role. Please check the examples of the Original role on this page.
+				</div>
+			</div>
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Changing The Role Name</div>
+				<div class="En">
+					<b>Q. Can I change the role name?</b><br>
+					Yes. Tap the role name in the card settings page, you can change the role name. However, the Werewolf and Citizen can not change the role name.
+				</div>
+			</div>
+
+			<div class="FrameBorder">
+				<div class="TitleBgRed En">Example of Original Role</div>
+				<div class="En">
+					<b>Preset: Change the original role's name.</b><br>
+					You have to change the name of the "Original" role in the card settings page by tapping the name.
+					<br /><br>
+					<b>Ex: "Detective"</b><br>
+					The "Detective" wins by guessing right about all the special skill role's players (Werewolf, Fortune Teller, etc).<br>
+					After the second day, the "Detective" can confess that he or she is the "Detective." This stops the discussion in the day stage.<br>
+					Then "Detective" says "I got it!" and explains all the special skill roles.<br>
+					When the reasoning is prefectly correct, only the "Detective" becomes the winner.<br>
+					But when the reasoning has something wrong, the "Detective" will die.<br>
+					Please kill the "Detective" with Game Master Tool.<br>
+					<span class="redText Bold">Caution :</span><br>
+					The Game Master needs to know the answer of special roles to judge the "Detective's reasoning.<br>
+					The first dead player can be Game Master and memorize the answer by checking the roles in the night stage.
+					</span>
+					
+					<br><br>
+					<b>Ex: "Heroine"</b><br>
+					The "Heroine" is a citizen who has supernatural power.<br />
+					After the second day, the "Heroine" can confess that the "Heroine" is herself and stop the discussion in the day stage.<br>
+					Then "Heroine" can revive the dead player in exchange for her life.<br>
+					Please kill the "Heroine" and revive the target dead player with the Game Master Tool.<br>
+					<br>
+					<span class="redText Bold">Caution :</span><br>
+					When using "Heroine", please set the "Skip Checking Answers" function on. This is so that the dead players don't find out the answers.</span>
+					
+					<br><br>
+					<b>Let's make the your original role!</b><br>
+					The above roles are examples.<br>
+					Please think the your own role and enjoy it!<br>
+				</div>
+			</div>
+
+
+			<p><a href="javascript:jQT.goTo('#RuleMenu','slideright')" class="grayButton">Back to Menu</a></p>
+			<div class="Height x40">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+		</div>
+
+
+		<div id="TutorialRemote" class="Tutorial">
+			<div class="FlexColumn">
+				<div class="CommonToolbar">
+					<a class="backbg" href="javascript:jQT.goTo('#RuleMenu','slideright')"></a>
+					<h1 class="En">Online Mode Tutorial</h1>
+				</div>
+				
+				<div class="FlexGrow"></div>
+
+			</div>
+		</div>
+		<div id="ExternalPage" class="Tutorial">
+			<div class="FlexColumn">
+				<div class="CommonToolbar">
+					<a class="backbg" href="javascript:history.back()"></a>
+					<h1 class="En">Title</h1>
+				</div>
+		
+				<div class="FlexGrow"></div>
+		
+			</div>
+		
+		</div>
+
+		<!-- Title New Game ****************************************************-->
+		<div id="Title_NewGame" class="TitleRoom">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Top','slide')"></a>
+				<h1 class="En">Game Mode Select</h1>
+			</div>
+	
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%" summary="">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="En">
+								Welcome to the Werewolf Game: "Nightmare in the Prison."<br>
+								<br>
+								Select one person to act as the Game Master, then register the players.
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<div class="ModeMenuBox Offline" onclick="MakeOfflineGame()">
+				<div class="ModeMenuSubtitle En Mplus1">Pass-and-Play Mode</div>
+				<div class="ModeMenuBody En Mplus1">This is an offline mode where you play using only the Game Master's smartphone.</div>
+			</div>
+			<div class="ModeMenuBox Online" onclick="MakeOnlineGame()">
+				<div class="ModeMenuSubtitle En Mplus1">Join via QR Code</div>
+				<div class="ModeMenuBody En Mplus1">All players join with their avatars and control the game on their smartphones. Win-loss records are saved.</div>
+			</div>
+
+		</div>
+
+		<!-- ver.12.1.0 ゲームルーム ****************************************************-->
+		<div id="GameRoom" class="TitleRoom GameRoomClass">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Title_NewGame')"></a>
+				<h1 class="En">Game Room</h1>
+			</div>
+		
+			<div class="Height x12"></div>
+
+			<!-- ユーザー募集中表示エリア-->
+			<div class="Center">
+				<div id="QRCanvasRoom" class="Center"></div>
+			</div>
+			
+			<div class="Height x12"></div>
+			<div>
+				<div><input type="text" id="RoomUrlForCopy" class="InputTextCopyRoom Mplus1" value="https://"></div>
+			</div>
+			
+			<div class="Height x12"></div>
+			<div class="En"><a href="javascript:CopyRemoteUrl('GameRoom')"><img src="img/Button_CopyUrl_En.png" style="width:250px"></a></div>
+			
+			<div class="Height x12"></div>
+			<div class="TextBoxBlack Mplus1">
+				<div class="En">Share the QR code or URL with the participants to let them join the game. Please scan the QR code using your smartphone's default camera app.</div>
+			</div>
+
+			<!-- プレイヤーリスト -->
+			<div class="Height x12"></div>
+			<div class="RoomPlayerList"></div>
+			<div class="PlayerList RoomPlayerList_TEMPLATE" style="display:none">
+				
+				<div class="stats-avatar ">
+					<div class="stats-avatar-around"><img class="stats-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar"></div>
+				</div>
+				<div class="PlayerNameBox ">
+					<div class="PlayerName Mplus1b">Network Error</div>
+					<div class="GmLabel" style="display: none;"><span class="En">You（Game Master）</span></div>
+				</div>
+			</div>
+
+			<!-- 募集中メニュー -->
+			<div class="Height x24"></div>
+			<div class="flexbox" style="width:320px;margin:0 auto;text-align:left">
+				<div class="toggleNew" style="margin-right: 6px;"><input value="1" onclick="SetOptionToggle(this, 'GmIsNotPlayer');" type="checkbox" id="InputGmIsNotPlayer" /><label for="InputGmIsNotPlayer"></label></div>
+				<div class="Mplus1b Font14 FontWhite Jp"><label for="InputGmIsNotPlayer">ゲームマスターはゲームに参加しない</label></div>
+				<div class="Mplus1b Font14 FontWhite En"><label for="InputGmIsNotPlayer">Game Master does not participate in the game.</label></div>
+			</div>
+			<div class="Height x24"></div>
+			<div class="En" onclick="StopJoinPlayer()"><img src="img/Button_CloseEntry_En.png" style="width:303px"></div>
+			<div class="RoomId"></div>
+			<div class="Height x24"></div>
+			<div class="En"><a href="javascript:DeleteGameRoom()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="Height x40"></div>
+
+		</div>
+
+
+		<!-- プレイヤーの並び順変更 ****************************************************-->
+		<div id="GameRoomEdit" class="TitleRoom GameRoomClass">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:SaveMemberAndBack()"></a>
+				<h1 class="En">Edit Player Order</h1>
+			</div>
+		
+			<div class="Height x12"></div>
+		
+			<!-- プレイヤーリスト -->
+			<div class="Height x12"></div>
+			<div class="RoomPlayerList" id="GameRootEditSortable"></div>
+			<div class="PlayerList RoomPlayerList_TEMPLATE" style="display:none">
+				<div class="stats-avatar ">
+					<div class="stats-avatar-around"><img class="stats-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar"></div>
+				</div>
+				<div class="PlayerNameBox ">
+					<div class="PlayerName Mplus1b">Network Error</div>
+					<div class="GmLabel" style="display: none;"><span class="En">You（Game Master）</span></div>
+				</div>
+				<div class="DragButton"><img src="img/Icon_DragMember.png" style="width:25px"></div>
+				<div class="DeleteButton"><img src="img/Icon_DeleteMember.png" style="width:30px"></div>
+			</div>
+				
+			<!-- メンバー編集中メニュー -->
+			<div class="Height x24"></div>
+			<div class="TextBoxBlack">
+				<div class="IconDrag">
+					<div class="En">You can change the player order by dragging the finger icon.</div>
+				</div>
+			</div>
+			<div class="Height x24"></div>
+			<!--ランダムに並び替え-->
+			<div class="En" onclick="ChangeOrderRandom('GameRoomEdit')"><img src="img/Button_ShufflePlayers_En.png" style="width:250px"></div>
+			<div class="Height x6"></div>
+			<div class="En" onclick="DeletePlayerAll();AddPlayerFromJson('GameRoomEdit');"><img src="img/Button_RemoveAll_En.png" style="width:250px"></div>
+			<div class="Height x6"></div>
+			<div class="En" onclick="SaveMemberAndBack()"><img src="img/Button_AddMember_En.png" style="width:250px"></div>
+			<div class="Height x12"></div>
+			<div class="En" onclick="return GoToCheckRoleNumOnlineMode()"><img src="img/Button_ConfirmMembers_En.png" style="width:303px"></div>
+			<div class="Height x48"></div>
+			<div class="En"><a href="javascript:DeleteGameRoom()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="Height x40"></div>
+	
+		</div>
+
+
+
+		<!-- ゲームプレイヤーの参加画面 ****** -->
+		<div id="JoinRoom" class="TitleRoom GameRoomClass">
+			<div class="CommonToolbar">
+				<a class="backbg" href="javascript:jQT.goTo('#Top')"></a>
+				<h1 class="En">Join Game</h1>
+			</div>
+		
+			<div class="Height x48"></div>
+		
+			<!-- ユーザー募集中表示エリア-->
+				<!--自分-->
+				<div class="PlayerList MyAccount">
+					<div class="stats-avatar">
+						<div class="stats-avatar-around"><img class="stats-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar"></div>
+					</div>
+					<div class="PlayerNameBox ">
+						<div class="PlayerName Mplus1b">Network Error</div>
+						<div class="GmLabel"><span class="En">You</span></div>
+					</div>
+				</div>
+				<div><img src="img/Icon_DownArrow.png" style="width:30px"></div>
+				<!--ゲームマスター-->
+				<div class="PlayerList GameMaster">
+					<div class="stats-avatar ">
+						<div class="stats-avatar-around"><img class="stats-avatar-image" src="./img/avatars/Avatar_1.jpg" alt="avatar"></div>
+					</div>
+					<div class="PlayerNameBox ">
+						<div class="PlayerName Mplus1b">Network Error</div>
+						<div class="GmLabel"><span class="En">Game Master</span></div>
+					</div>
+				</div>
+		
+				
+			<!-- メンバー編集中メニュー -->
+			<div class="Height x24"></div>
+			<div class="TextBoxBlack En">Would you like to join the game?</div>
+			<div class="Height x24"></div>
+			<div class="En" onclick="JoinGame()"><img src="img/Button_JoinGame_En.png" style="width:303px"></div>
+			<div class="RoomId">Room Id:</div>
+		</div>
+
+		<!-- ゲームプレイヤーの参加画面 ****** -->
+		<div id="JoinRoom_1" class="TitleRoom GameRoomClass ">
+			<div class="FlexCenter"><div>
+				<!-- メンバー編集中メニュー -->
+				<div class="TextBoxBlack En" style="text-align: center">Waiting for members to join.<br>Please wait a moment.</div>
+				<div class="Height x24"></div>
+				<div class="Center"><img src="img/RoomStatus_1.png" style="width:200px"></div>
+			</div></div>
+			<div class="En ExitArea"><a href="javascript:ExitGameRoom()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="RoomId">Room Id:</div>
+		</div>
+		<!-- ゲームプレイヤーの参加画面 ****** -->
+		<div id="JoinRoom_2" class="TitleRoom GameRoomClass ">
+			<div class="FlexCenter">
+				<div>
+					<!-- メンバー編集中メニュー -->
+					<div class="TextBoxBlack En" style="text-align: center">Setting up the game rules.<br>Please wait a moment.</div>
+					<div class="Height x24"></div>
+					<div class="Center"><img src="img/RoomStatus_2.png" style="width:200px"></div>
+				</div>
+			</div>
+			<div class="En ExitArea"><a href="javascript:ExitGameRoom()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="RoomId">Room Id:</div>
+		</div>
+		<!-- ゲームプレイヤーの参加画面 ****** -->
+		<div id="JoinRoom_3" class="TitleRoom GameRoomClass ">
+			<div class="FlexCenter">
+				<div>
+					<!-- メンバー編集中メニュー -->
+					<div class="TextBoxBlack En" style="text-align: center">The game is ready.<br>Tap the start button to begin.</div>
+					<div class="Height x24"></div>
+					<div class="Center"><img src="img/RoomStatus_3.png" style="width:200px"></div>
+					<div class="Height x48"></div>
+					<div class="En" onclick="gsRemoteMode='PLAYER';SelectPlayer()"><img src="img/Button_StartGame_En.png" style="width:303px"></div>
+				</div>
+			</div>
+			<div class="En ExitArea"><a href="javascript:ExitGameRoom()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="RoomId">Room Id:</div>
+		</div>
+
+
+		<!-- Player Setting **************************************************** -->
+		<div id="PlayerSetting" class="TitlePageNoPadding">
+
+			<div class="CommonToolbar">
+				<a class="back" href="javascript:BackToTitle();"></a>
+				<h1 class="En">Player's Entry</h1>
+			</div>
+
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%" summary=" ">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="En">
+								Enter the names and photos of all players in order of seating.
+								Start to add a player from the Game Master.
+								(If the Game Master doesn't join as a player, don't add the Game Master's data).
+								Tap <span class="importantText">"Add Player"</span> to make the player's data.<br>
+								When you are done, hand the device to the person next to you.<br>
+								<span class="importantText">When all the players finish entering their names and photo, the Game Master taps "All Done".</span><br>
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<hr />
+			<div class="BottomButtonBg">
+				<table style="width:320px;margin:0 auto">
+					<tr>
+						<td style="width:180px">
+							<div class="En">
+								<span style="width:120px;font-size:16px" onclick="return GoToInputPlayer()" class="blueButton">Add Player</span>
+							</div>
+						</td>
+						<td align="right" style="width:140px">
+							<div class="En">
+								<span style="width:100px;font-size:16px" onclick="return GoToCheckRoleNum()" class="redButton">All Done</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- Playerの全体表示 { **************************************************** -->
+			<div id="PlayerSettingFaceBox">
+			</div>
+			<hr />
+			<div class="Height x10"> </div>
+			<div class="En">
+				<div><span class="blueButton StartChangeOrder" style="width:180px" onclick="ChangeOrderMode(true)">Change order</span></div>
+				<div><span class="blueButton RandomChangeOrder" style="width:180px" onclick="ChangeOrderRandom()">At random</span></div>
+				<div class="Height x10">&nbsp;</div>
+				<div><span class="blueButton RandomChangeOrder" style="width:180px" onclick="DeletePlayerAll()">Delete All</span></div>
+				<div><span class="redButton EndChangeOrder" style="width:180px;display:none" onclick="ChangeOrderMode(false)">Fix order</span></div>
+			</div>
+			<div class="Height x20">&nbsp;</div>
+			<div class="Height x40">&nbsp;</div>
+			<!-- Playerの全体表示 } **************************************************** -->
+		</div>
+
+		<!-- Input Player **************************************************** -->
+		<div id="InputPlayer" class="TitlePage">
+			<div class="CommonToolbar">
+				<a class="backbg slideright" href="javascript:jQT.goTo('#PlayerSetting','slideright')"></a>
+				<h1 class="En">Add Player</h1>
+			</div>
+
+			<div class="Height x20">&nbsp;</div>
+
+			<div style="margin:0 auto;width:310px">
+				<div class="LeftCol">
+					<div class="FaceArea">
+						<p><img alt="" onerror="this.src = 'img/FaceIcon.jpg';" class="FaceImg" src="img/FaceIcon.jpg" /></p>
+						<p class="FaceName"> </p>
+						<div id="InputPlayerCpuMark"><img alt="" src="img/IconCPU.png" /></div>
+					</div>
+				</div>
+
+				<div class="RightCol">
+					<div class="SubTitle">Your Face Icon</div>
+					<div class="BottomMargin">
+						<table class="GradButtonBackground" summary=" ">
+							<tr>
+								<td width="50%" style="border-right:1px ridge #999">
+									<div class="BarButton" onclick="getPicture(PictureSourceType.CAMERA, '#InputPlayer .FaceImg')"><img alt="" src="img/ButtonCamera.png" /><br>CAMERA</div>
+								</td>
+								<td width="50%">
+									<div class="BarButton" onclick="getPicture(PictureSourceType.PHOTO_LIBRARY, '#InputPlayer .FaceImg')"><img alt="" src="img/ButtonPhotos.png" /><br />LIBRARY</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<ul class="edgetoedge">
+						<li><input id="InputPlayerName" autocorrect="off" autocomplete="off" autocapitalize="off" placeholder="Your Name" name="" type="text" maxlength="10" value="" onBlur="SetName(this.value)" /></li>
+					</ul>
+
+					<div class="Height x10">&nbsp;</div>
+
+				</div>
+				<hr />
+
+			</div>
+			<div class="Height x20">&nbsp;</div>
+
+			<div><span class="blueButton" onclick="AddPlayer()">O K</span></div>
+			<div class="Height x20">&nbsp;</div>
+		</div>
+
+		<!-- Check Role Number **************************************************** -->
+		<div id="CheckRoleNum" class="TitlePage">
+
+			<div class="CommonToolbar">
+				<a href="javascript:BackToPlayerSetting()" class="backbg slideright"></a>
+				<h1 class="En">Game Setting</h1>
+			</div>
+	
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="En">
+								<span class="importantText">Decide the number of each role card.</span><br />
+								The recommended number of each card is already set, but you can change if you want.<br><br>
+								<div>Card Setting:
+									<select class="DefaultCardSet" style="font-size:18px" onChange="SetCardNum(this.options[this.selectedIndex].value)">
+										<option value="Default">Default</option>
+										<option value="Beginner">Beginner</option>
+										<option value="Advanced">Advanced</option>
+										<option value="Special">Special</option>
+										<option value="Random">Random</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<hr />
+
+
+			<div class="SubTitle">&nbsp;</div>
+			<div class="Height x20">&nbsp;</div>
+
+
+			<!-- 新カード選択エリア -->
+			<div class="Title Jp">配役カード設定</div>
+			<div class="Title En">Card Settings</div>
+			<!-- カード選択エリア -->
+			<div id="CardSlider" class="CardExplainArea"></div>
+			<div class="GoldBorder"></div>
+			<div id="CardSliderNavi"></div>
+			<div class="GoldBorder"></div>
+			<!-- カード選択一覧エリア -->
+			<div id="CardNumList">
+				<div class="flexbox" style="justify-content: center">
+					<div class="Team Werewolf">
+						<div class="CardListTitle Jp">人狼チーム</div>
+						<div class="CardListTitle En">Werewolves</div>
+						<div class="Roles">人狼 x1</div>
+					</div>
+					<div class="Team Citizen">
+						<div class="CardListTitle Jp">市民チーム</div>
+						<div class="CardListTitle En">Citizens</div>
+						<div class="Roles">市民 x1<br>偉大な霊媒師 x1</div>
+					</div>
+					<div class="Team Vampire">
+						<div class="CardListTitle Jp">吸血鬼</div>
+						<div class="CardListTitle En">Vampire</div>
+						<div class="Roles">変身した吸血鬼 x1</div>
+					</div>
+				</div>
+			</div>
+			<div class="RedBorder"></div>
+			<div class="Height x24"></div>
+
+			<div class="SlideButtons_TEMPLATE" style="display:none">
+				<div class="SliderButton LeftButton"><a href="javascript:$CardSlider.flickity('previous');$CardSliderNavi.flickity('previous')"><img src="img/SlideButtonLeft.png" style="zoom:0.5"></a></div>
+				<div class="SliderButton RightButton"><a href="javascript:$CardSlider.flickity('next');$CardSliderNavi.flickity('next')"><img src="img/SlideButtonRight.png" style="zoom:0.5"></a></div>
+			</div>
+			<div class="CardSliderNavi_TEMPLATE" style="display:none">
+				<div style="position:absolute;z-index:2"><img src="img/NaviLock.png" class="Lock" style="width:56px"></div>
+				<div style="position:absolute;z-index:1"><img src="img/Card_Werewolf.png" class="NaviCard" style="width:56px"></div>
+			</div>
+
+			<div class="CardSlider_TEMPLATE CardSliderArea" style="display:none">
+				<div class="CardInfoArea">
+					<div class="flexbox CardInfoFlexbox" style="margin-bottom:12px">
+						<div class="CardImage">
+							<div class="CardRole" ><img src="img/Card_Werewolf.png" class="CardWidth"></div>
+							<div class="NewFlg" style="display:none"><img src="img/NewCardIcon.png" style="width:81px"></div>
+						</div>
+
+						<div class="CardData" style="color:white">
+							<div class="En"><input class="InputCardName" autocorrect="off" autocomplete="off" autocapitalize="off" placeholder="Card Name" maxlength=15 type=text value=""></div>
+							<div class="CardDataBorder"> </div>
+							<div class="flexbox">
+								<div class="CardDetails">
+									<div class="SmallerTitle Trajan En">Team</div>
+									<div class="SmallText Team">人狼チーム</div>
+								</div>
+								<div>
+									<div class="SmallerTitle Trajan En">Count as</div>
+									<div class="SmallText Count">人狼</div>
+								</div>
+							</div>
+							<div class="flexbox">
+								<div class="CardDetails">
+									<div class="SmallerTitle Trajan En">Foretold as</div>
+									<div class="SmallText Foretell">人狼</div>
+								</div>
+								<div>
+									<div class="SmallerTitle Trajan En">Excitement</div>
+									<div><img src="img/Stars1.png" class="Level" style="zoom:0.5"></div>
+								</div>
+							</div>
+							<div>
+								<div class="SmallerTitle Trajan En">Victory Condition</div>
+								<div class="SmallText WinRule">　</div>
+							</div>
+							<div style="height:6px;font-size:0;line-height:0"> </div>
+							<div class="CardNumFormBox GotCard">
+								<div class="CardNumButton"><span class="MinusCard"><img src="img/ButtonMinusNum.png" style="zoom:0.5"></span></div>
+								<div class="CardNum Trajan"></div>
+								<div class="CardNumButton"><span class="PlusCard"><img src="img/ButtonPlusNum.png" style="zoom:0.5"></span></div>
+							</div>
+							<div class="BuyCard" onclick="ShowCardPurchase(this)"><span class="En Trajan CardPrice">Buy this card</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- そのほかの設定 ****************************************************-->
+			<div class="Height x24"> </div>
+			<div class="Title En">Rule Settings</div>
+
+			<!-- 第1夜の殺害なしモード ****************************************************-->
+			<div align=center class="CardBox">
+
+				<!-- 第1夜の占いなしモード ****************************************************-->
+				<table>
+					<tr>
+						<td>
+							<div class="SubTitle En">Foretelling <br>on the 1st night&nbsp;:&nbsp;</div>
+						</td>
+						<td>
+							<div class="En">
+								<select onchange="SetInputFirstNightForetell(this)" id="InputFirstNightForetellSelectEn">
+									<option value="0">Available</option>
+									<option value="1">Unavailable</option>
+									<option value="2">Knowing a human</option>
+								</select>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="Height x10"> </div>
+				<div class="RoleBodyText En">When "Available" is selected,<br>the fortune teller will foretell something on the first night. When "Unavailable" is selected, the fortune teller will not foretell anything on the first night. When "Knowing a human" is selected, the fortune teller knows one human at random on the first night.</div>
+				<div class="WhiteBorder"></div>
+
+
+				<!-- 騎士の連続ガード禁止モード ****************************************************-->
+				<table>
+					<tr>
+						<td>
+							<div class="SubTitle En">No same guards&nbsp;:&nbsp;</div>
+						</td>
+						<!--<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'NoGuard');" id="InputNoGuard" type="checkbox" /></span></div></td>-->
+						<td>
+							<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'NoGuard');" type="checkbox" id="InputNoGuard" /><label for="InputNoGuard"></label></div>
+						</td>
+					</tr>
+				</table>
+				<div class="Height x10"> </div>
+				<div class="RoleBodyText En">When this mode is on,<br>Knight and Cosplayer cannot choose the same person to guard two consecutive nights.</div>
+				<div class="WhiteBorder"></div>
+
+				<!-- ランダムに役職を減らすモード ****************************************************-->
+				<table>
+					<tr>
+						<td>
+							<div class="SubTitle En">Reducing a role randomly&nbsp;:&nbsp;</div>
+						</td>
+						<!--<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'ReducingRole')" id="InputReducingRole" type="checkbox" /></span></div></td>-->
+						<td>
+							<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'ReducingRole');" type="checkbox" id="InputReducingRole" /><label for="InputReducingRole"></label></div>
+						</td>
+					</tr>
+				</table>
+				<div class="Height x10"> </div>
+				<div class="RoleBodyText En">One of roles (except "Werewolf", "Vampire", "Vampire Bat", "Lovers", "Destined Lovers") maybe changes to Citizen. However, if a Citizen may be changed to a Citizen, nothing changes.</div>
+				<div class="WhiteBorder"></div>
+				<!-- 答えスキップモード ****************************************************-->
+				<table>
+					<tr>
+						<td>
+							<div class="SubTitle En">Skip checking answers&nbsp;:&nbsp;</div>
+						</td>
+						<!--<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'PassAnswer')" id="InputPassAnswer" type="checkbox" /></span></div></td>-->
+						<td>
+							<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'PassAnswer');" type="checkbox" id="InputPassAnswer" /><label for="InputPassAnswer"></label></div>
+						</td>
+					</tr>
+				</table>
+				<div class="Height x10"> </div>
+				<div class="RoleBodyText En">
+					Answers for dead players to check will be skipped automatically.
+					Use this option if players would like to guess the other roles after they die.
+				</div>
+				<div class="WhiteBorder"></div>
+
+				<!-- BGMモード ****************************************************-->
+				<table>
+					<tr>
+						<td>
+							<div class="SubTitle En">BGM & SE&nbsp;:&nbsp;</div>
+						</td>
+						<td>
+							<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'BGM');" type="checkbox" id="InputBGM" /><label for="InputBGM"></label></div>
+						</td>
+					</tr>
+				</table>
+				<div class="Android">
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">If your Android's "Touch sounds" is on, the player's role will be clear by touch sounds. So turn off the check box of "Settings > Sound > Touch sounds".</div>
+				</div>
+
+				<div class="Height x24"></div>
+
+				<!-- オプション設定 ****************************************************-->
+				<a name="OptionRules"> </a>
+				<div class="Title En">Option Rules</div>
+				<div id="SettingMore" style="display:none;padding-top:24px">
+
+					<!-- 投票スタイル ****************************************************-->
+					<div class="SubTitle En">The voting style</div>
+					<div class="Height x10"> </div>
+
+					<table style="width:315px;margin:0 auto">
+						<tr>
+							<td style="width:105px">
+								<div class="VotingStyle VotingStyleSeat" onclick="gsVotingStyle = ChangeSelectMode('VotingStyle', 'VotingStyleSeat')">
+									<div class="En VotingStyleText">Seat Order</div>
+								</div>
+							</td>
+							<td style="width:105px">
+								<div class="VotingStyle VotingStyleFree" onclick="gsVotingStyle = ChangeSelectMode('VotingStyle', 'VotingStyleFree')">
+									<div class="En VotingStyleText">Free Order</div>
+								</div>
+							</td>
+							<td style="width:105px">
+								<div class="VotingStyle VotingStyleAnonymous" onclick="gsVotingStyle = ChangeSelectMode('VotingStyle', 'VotingStyleAnonymous');AlertVoteAnonymous()">
+									<div class="En VotingStyleText">Anonymous</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">
+						<div class="VotingStyleSeatText VotingStyleExplain">
+							The players will vote in the seat order starting from the player who died last.
+							The Game Master input the all voting.
+						</div>
+						<div class="VotingStyleFreeText VotingStyleExplain">
+							　The order of voting is not decided. Raise your hand from the person who wants to vote and vote.
+							The Game Master input the all voting.
+						</div>
+						<div class="VotingStyleAnonymousText VotingStyleExplain">
+							The players hand over the device and vote in turn so as not to know who voted on whom.
+						</div>
+					</div>
+					<div class="WhiteBorder"></div>
+
+
+
+					<!-- 票割れ時の判決ルール ****************************************************-->
+					<div class="SubTitle En">How to make a judgement<br>when there is a tie</div>
+					<div class="Height x10"> </div>
+
+					<table style="width:315px;margin:0 auto">
+						<tr>
+							<td style="width:105px">
+								<div class="SameVote SameVoteRandom" onclick="gsSameVote = ChangeSelectMode('SameVote', 'SameVoteRandom')">
+									<div class="En SameVoteText">Kill at random</div>
+								</div>
+							</td>
+							<td style="width:105px">
+								<div class="SameVote SameVoteNoKilling" onclick="gsSameVote = ChangeSelectMode('SameVote', 'SameVoteNoKilling')">
+									<div class="En SameVoteText">No killing</div>
+								</div>
+							</td>
+							<td style="width:105px">
+								<div class="SameVote SameVoteSelectable" onclick="gsSameVote = ChangeSelectMode('SameVote','SameVoteSelectable')">
+									<div class="En SameVoteText">Selectable</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">
+						<div class="SameVoteRandomText SameVoteExplain">
+								If the decision can not be resolved by a majority vote, only one player is chosen to be executed at random.
+						</div>
+						<div class="SameVoteNoKillingText SameVoteExplain">
+							If the decision can not be resolved by a majority vote, none of the players will be executed in the stage.
+						</div>
+						<div class="SameVoteSelectableText SameVoteExplain">
+								If the decision can not be resolved by a majority vote, players need to discuss whether to execute or not. If this can not be decided either, "Random excecution" ensues.
+						</div>
+					</div>
+					<div class="WhiteBorder"></div>
+
+
+
+
+					<!-- 吸血鬼の占い結果を「人間」にするモード ****************************************************-->
+					<table>
+						<tr>
+							<td>
+								<div class="SubTitle En">"Vampire=>Human" Mode&nbsp;:&nbsp;</div>
+							</td>
+							<!--<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'VampireHuman')" id="InputVampireHuman" type="checkbox" /></span></div></td>-->
+							<td>
+								<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'VampireHuman');" type="checkbox" id="InputVampireHuman" /><label for="InputVampireHuman"></label></div>
+							</td>
+						</tr>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">This mode change the result of Fortune Teller's foretelling and Shaman's viewing "Vampire". If this mode is off, display shows "Vampire". If this mode is on, display shows "Human".</div>
+					<div class="WhiteBorder"></div>
+
+
+
+
+					<!-- 第１夜の殺害なし設定 （変更しないのでここに移動）-->
+					<div class="Height x10"> </div>
+					<table>
+						<tr>
+							<td>
+								<div class="SubTitle En">No killing <br>on the 1st night&nbsp;:&nbsp;</div>
+							</td>
+							<!--
+							<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'kill');" id="InputFirstNightNoKill" type="checkbox" /></span></div></td>
+							-->
+							<td>
+								<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'kill');" type="checkbox" id="InputFirstNightNoKill" /><label for="InputFirstNightNoKill"></label></div>
+							</td>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">When this mode is on,<br>nobody dies in the first night. The player who contacts the "Psycho Killer" and "Bomber" doesn't die. "Vampire Bat" doesn't die. But when two or more Werewolves are alive, if the "Magician" changes the card of "Werewolf", the target Werewolf will die.</div>
+					<div class="WhiteBorder"></div>
+
+					<!-- 裁判タイマー表示モード ****************************************************-->
+					<table>
+						<tr>
+							<td>
+								<div class="SubTitle En">Voting Timer&nbsp;:&nbsp;</div>
+							</td>
+							<td>
+								<select id="InputJudgementTimer">
+									<option value="0" selected>OFF</option>
+									<option value="30">30sec</option>
+									<option value="60">60sec</option>
+									<option value="90">90sec</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En">
+						At voting, this mode shows the limit timer.
+					</div>
+					<div class="WhiteBorder"></div>
+
+					<!-- GMツールモード ****************************************************-->
+					<table>
+						<tr>
+							<td>
+								<div class="SubTitle En">Game Master Tool&nbsp;:&nbsp;</div>
+							</td>
+							<!--<td><div><span class="toggle" style="text-align:left;"><input value="1" onclick="SetOptionToggle(this, 'GmTool')" id="InputGmTool" type="checkbox" /></span></div></td>-->
+							<td>
+								<div class="toggleNew"><input value="1" onclick="SetOptionToggle(this, 'GmTool');" type="checkbox" id="InputGmTool" /><label for="InputGmTool"></label></div>
+							</td>
+						</tr>
+					</table>
+					<div class="Height x10"> </div>
+					<div class="RoleBodyText En"><div class="RoleBodyText En">In the day stage, this mode shows the game master tool. Game Master can change the status of players' life.</div></div>
+					<div class="WhiteBorder"></div>
+
+
+
+					<!-- プレイヤーポイント ****************************************************-->
+					<div class="SubTitle En">Player Point Seting</div>
+					<div class="Height x10"> </div>
+					<table>
+						<tr>
+							<td>
+								<div class="PointText"><span class="En">Citizen Winning Points</span>:</div>
+							</td>
+							<td>
+								<select id="CitizenWinningPoint" class="SelectBox">
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="10" selected>10</option>
+									<option value="15">15</option>
+									<option value="20">20</option>
+									<option value="25">25</option>
+									<option value="30">30</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="PointText"><span class="En">Werewolf Winning Points</span>:</div>
+							</td>
+							<td>
+								<select id="WerewolfWinningPoint">
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="10">10</option>
+									<option value="15" selected>15</option>
+									<option value="20">20</option>
+									<option value="25">25</option>
+									<option value="30">30</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="PointText"><span class="En">Vampire Winning Points</span>:</div>
+							</td>
+							<td>
+								<select id="VampireWinningPoint">
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="10">10</option>
+									<option value="15">15</option>
+									<option value="20" selected>20</option>
+									<option value="25">25</option>
+									<option value="30">30</option>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="PointText"><span class="En">Surivival Points</span>:</div>
+							</td>
+							<td>
+								<select id="SurvivalPoint">
+									<option value="0">0</option>
+									<option value="1" selected>1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="PointText"><span class="En">First Target Bonus Points</span>:</div>
+							</td>
+							<td>
+								<select id="FirstTargetPoint">
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3" selected>3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="PointText">
+									<span class="En">Reset Points</span>:
+								</div>
+							</td>
+							<td>
+								<div><span onclick="ResetPointsSetting()" class="whiteButton" style="width:60px">Reset</span></div>
+							</td>
+						</tr>
+					</table>
+
+					<!-- オプション設定はここまで *************** -->
+					<div class="Height x24"></div>
+
+				</div>
+				<!-- End Of More Setting -->
+
+			</div>
+			<div class="GoldBorderVertical"></div>
+			<div id="SettingButtonMore" class="ShowOptionBg Down" onclick="ShowSettingMore(1)">
+				<span class="En Trajan">Show Option Rules</span>
+			</div>
+			<div id="SettingButtonClose" class="ShowOptionBg Up" style="display:none" onclick="ShowSettingMore(0)">
+				<span class="En Trajan">Hide Option Rules</span>
+			</div>
+
+			<!-- OK ボタン -->
+			<div class="Height x48"> </div>
+
+			<div class="Jp"><span onclick="SetRole()"><img src="img/ButtonDoneSettingJp.png" style="width:280px" /></span></div>
+			<div class="En"><span onclick="SetRole()"><img src="img/ButtonDoneSettingEn.png" style="width:280px" /></span></div>
+			<div class="Height x40"> </div>
+			<div class="Height x20"> </div>
+
+		</div>
+
+
+		<!-- Purchased Page ****************************************************-->
+		<div id="Purchased" class="BaseBg">
+			<input type=hidden id="domGotCard" value="" />
+			<input type=hidden id="domCampCard" value="" />
+
+			<div class="Height x20"> </div>
+			<div class="CardBg">
+				<div class="Lock"><img src="img/LockCardOverflow.png" style="width:260px" /></div>
+			</div>
+			<div class="Height x5"></div>
+			<div class="YouGotTheCard">
+				<div><img src="img/YouGotTheCard.png" /></div>
+				<div class="En">This card is unlocked <span class="UnlockTime">for only 1 hour</span><span class="Forever">forever</span>.</div>
+				<div class="Height x5"></div>
+			</div>
+			<div><a href="#" class="goback grayButton">Back</a></div>
+			<div class="Height x10"> </div>
+			<div class="Key"><img src="img/Key.png" style="width:76px;" /></div>
+			<div class="WhiteBoard"></div>
+		</div>
+
+
+
+		<!-- Restored Page ****************************************************-->
+		<div id="Restored" class="BaseBg">
+			<input type="hidden" id="domRestoredData" value="">
+			<div class="Height x20"></div>
+			<div class="CardGroupTitleBasic En"><span class="Mincho">Now restoring</span></div>
+			<div class="Height x20"></div>
+			<div class="whiteText Bold En">Restored Card</div>
+			<div class="whiteText RestoreList"></div>
+			<div class="Height x100"></div>
+			<div><a href="#" class="grayButton goback">Back</a></div>
+		</div>
+
+
+		<!-- Check Setting ****************************************************-->
+		<div id="CheckSetting" class="TitlePage">
+
+			<div class="CommonToolbar">
+				<a href="javascript:jQT.goTo('#CheckRoleNum')" class="backbg slideright"></a>
+				<h1 class="En">Settings</h1>
+			</div>
+	
+			<div class="TextBox Setting">
+				<div class="En">
+					<div>Role:<br><span class="Role Bold"></span></div>
+					<div class="ReduceRoleRandom" style="display:none">
+						<div class="blueText">One of roles (except "Werewolf", "Vampire", "Vampire Bat", "Lovers", "Destined Lovers") maybe changes to Citizen. However, if a Citizen may be changed to a Citizen, nothing changes.</div>
+					</div>
+					<div class="Height x20"></div>
+					<div>Foretelling In The 1st Night:<span class="GameSettingFirstNightForetell">
+						<span class="Setting0 Setting">Available</span>
+						<span class="Setting1 Setting">Unavailable</span>
+						<span class="Setting2 Setting">Knowing a human</span>
+					</span></div>
+					<div>No Same Guards:<span class="bDoubleGuardFlg"></span></div>
+					<div>Skip Checking Answers:<span class="gbPassAnswerFlg"></span></div>
+					<div>Reducing a role randomly:<span class="gbReducingRoleFlg"></span></div>
+					<div>BGM & SE:<span class="gbBGMFlg"></span></div>
+
+					<div class="Height x12"></div>
+
+					<div>Voting Style:<span class="gsVotingStyle">
+						<span class="VotingStyleSeat Setting">Seat Order Voting</span>
+						<span class="VotingStyleFree Setting">Free Order Voting</span>
+						<span class="VotingStyleAnonymous Setting">Anonymous Voting</span>
+					</span></div>
+					<div>How to make a judgement when there is a tie:<span class="gsSameVote">
+							<span class="SameVoteRandom Setting">Kill at random</span>
+							<span class="SameVoteNoKilling Setting">No Killing</span>
+							<span class="SameVoteSelectable Setting">Selectable</span>
+						</span></div>
+					<div>No Killing In The 1st Night:<span class="gbFirstNightNoKillFlg"></span></div>
+					<div>"Vampire=>Human" Mode:<span class="gbVampireHumanFlg"></span></div>
+					<div>Voting Timer:<span class="giJudgementTimer"></span></div>
+					<div>Game Master Tool：<span class="gbGmToolFlg"></span></div>
+				</div>
+
+			</div>
+			<div class="En">
+				<div class="NO_REMOTE"><a href="javascript:jQT.goTo('#Title_Tutorial')" class="slideleft"><img src="img/ButtonStartHandingEn.png" style="width:280px"></a></div>
+				<div class="REMOTE"><a href="javascript:MakeRemoteGame()" class="slideleft"><img src="img/Button_StartGame_En.png" style="zoom:0.5"></a></div>
+			</div>
+
+			<table style="margin:0 auto">
+				<tr>
+					<td><a href="javascript:ShowAnswer('A')"><img src="./img/spacer.gif" style="width:150px;height:40px"></a></td>
+					<td><a href="javascript:ShowAnswer('B')"><img src="./img/spacer.gif" style="width:150px;height:40px"></a></td>
+				</tr>
+
+			</table>
+
+
+			<div id="SecretAnswerBox" style="display:none">
+				<div class="Height" style="height:200px"> </div>
+				<div class="TextBox" id="SecretAnswer"></div>
+			</div>
+
+		</div>
+
+		<!-- Title_Tutorial **************************************************** -->
+		<div id="Title_Tutorial" class="TitlePage">
+			<div class="CommonToolbar">
+				<a class="back" href="javascript:jQT.goTo('#CheckSetting')"></a>
+				<h1 class="En">4. Tutorial</h1>
+			</div>
+	
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<span class="importantText">手渡しモードで、ゲームの設定が完了しました。</span><br />
+								<br />
+								それでは、ゲームの遊び方を説明をします。<br />
+								（不要な方は、読み飛ばしてください）<br />
+								<br />
+								<br />
+								<b>【役職カードの確認について】</b><br>
+								プレイヤーのみなさんは、これから役職カードが配られ、市民チーム、もしくは、人狼チームに分かれます。<br />
+								端末を受け取った人は、他のプレイヤーに見られないように気をつけながら、カードの確認を行ってください。<br />
+								<br />
+								<br>
+								<b>【ゲームの勝敗について】</b><br>
+								市民チームは、すべての人狼を「裁判」によって処刑すると勝利となります。<br>
+								一方、人狼チームは、市民を残った人狼の人数以下に減らした時点で勝利となります。<br>
+								<br>
+								<br>
+								<b>【ゲームの流れについて】</b><br>
+								ゲームは、「夜」「昼」「裁判」の３つのステージを１つのターンとして、勝敗がつくまで繰り返されます。<br />
+								<br>
+								「夜」ステージでは、人狼が殺害するプレイヤーを１人決定します。また、超能力者は特殊能力を使うことができます。<br><br>
+								「昼」ステージでは、プレイヤーは自由に会話ができます。その会話を通して、処刑する人を決めてください。<br><br>
+								「裁判」ステージでは、プレイヤーの多数決によって、処刑する人を１人決定します。<br>
+								<br>
+								<br>
+								<span class="importantText">その都度、ゲームマスターが説明しますので、実際にゲームを進めながら遊び方を覚えていきましょう。</span><br />
+							</div>
+
+
+							<div class="En">
+								<span class="importantText">Now you are ready to play the game in "Handing Mode".</span><br />
+								<br />
+								How to play the game (skip this part if you already know)
+								<br />
+								<br />
+								<b>&lt;Confirmation of the role card&gt;</b><br>
+								Each player will have a role card and you will be in either the citizen team or the werewolf team.<br>
+								Confirm your card on the display while you do not let the other players see your card.<br>
+								<br />
+								<br>
+								<b>&lt;How to win the game&gt;</b><br>
+								Citizens: You win when you execute all the werewolves.<br>
+								Werewolves: You win when the number of werewolves and civilians becomes the same.<br>
+								<br>
+								<br>
+								<b>&lt;Game flow&gt;</b><br>
+								In this game, the night, the day, and the judgment circulate until either team wins.<br>
+								<br>
+								At night stage, the werewolves decide which player to kill. The citizens with supernatural power can use their power.<br>
+								At day stage, the players can talk to each other. The citizens discuss in order to guess who the werewolves are.<br>
+								At the judgment stage, the players vote for a person to execute.<br>
+								<br>
+								<br>
+								<span class="importantText">The Game Master will explain each time, so let's learn how to play while actually proceeding with the game.</span><br />
+							</div>
+
+
+
+							<br>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<p><a href="javascript:jQT.goTo('#Title_AboutNight')" class="whiteButton slideleft">O K</a></p>
+			<div class="Height x40"> </div>
+		</div>
+
+
+		<!-- Title_Tutorial Remote **************************************************** -->
+		<div id="Title_Tutorial_Remote" class="TitlePage">
+
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="En">Invite Players</h1>
+			</div>
+	
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="En">
+								<span class="importantText">Now you are ready to play the game in "Online Mode".</span><br />
+								<br />
+								<span class="Bold">About Online Mode</span><br />
+								- Players do "Night action" with their own smartphones.<br />
+								- You can play remotely with other people with Video Chat.<br />
+								- Players can use both the FREE version and the Special Package version.<br>
+								- All players can use the paid card which is unlocked by the Game Master.
+								<br />
+								<span class="Bold">Share the invitation URL</span><br />
+								Please share the QR code of invitation URL by Messenger or Video chat screen. Player scan the QR code with default camera app of smartphone.<br />
+								<span class="importantText" style="font-style:italic">CAUTION: Don't scan by the QR cord reader app made by third-party.</span>
+
+							</div>
+
+							<div class="Center">
+								<!--<canvas id="QRCanvas"></canvas>-->
+								<div id="QRCanvas"></div>
+							</div>
+
+							<div>
+								<div style="border:1px #777 solid; padding:10px; border-radius: 5px;margin:10px"><input type="text" id="RemoteUrlForCopy" class="InputTextCopy"></div>
+								<div class="En"><a href="javascript:CopyRemoteUrl()" style="font-size:14px" class="whiteButton needsclick">Copy URL</a></div>
+
+							</div>
+							<br>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<div class="En"><a href="javascript:InitSelectPlayer()" style="width:240px" class="redButton slideleft">Done Inviting</a></div>
+			<div class="Height x40"> </div>
+		</div>
+		<!-- Title_Tutorial Remote **************************************************** -->
+
+
+		<!-- Remote Waiting **************************************************** -->
+		<div id="RemoteWaitingGM" class="TitlePage">
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="En">Now Waiting</h1>
+			</div>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<div><span class="importantText">すべてのプレイヤーが選択を完了するまで、今しばらくお待ちください。</span></div>
+								<div class="Height x20"></div>
+								<div><a href="javascript:GetRemoteStatus(true)" style="font-size:14px" class="redButton slideleft">全員完了しました</a></div>
+							</div>
+							<div class="En">
+								<div><span class="importantText">Please wait for a while until all the players finish their action.</span></div>
+								<div class="Height x20"></div>
+								<div class="En"><a href="javascript:GetRemoteStatus(true)" style="font-size:14px" class="redButton slideleft">All done</a></div>
+							</div>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+
+			<!-- PLAYER LIST { -->
+			<div style="background-color:rgba(0,0,0,0.5);padding:12px">
+				<div style="font-family:'Trajan Pro';color:#FFF;font-size:18px;font-weight:bold;text-align:center;">Waiting for Players</div>
+				<div class="Height x6"></div>
+				<!-- PLAYER WAITING BAR -->
+				<div class="WaitingBar">
+					<div class="DoneBar"><img src="img/IconDoneWhite.png" style="width:26px;vertical-align: middle"><span class="DoneStatus"> </span></div>
+				</div>
+				<div class="Height x6"></div>
+				<!-- PlayerListBox の表示を行うボタン-->
+				<div class="Jp"><a href="javascript:$('#RemoteWaitingGM .PlayerListBox').show()" style="font-size:10px" class="whiteButton">各プレイヤーの行動状態を表示する</a></div>
+				<div class="En"><a href="javascript:$('#RemoteWaitingGM .PlayerListBox').show()" style="font-size:10px" class="whiteButton">Show each player's status</a></div>
+				<!--PlayerListBox { ****************************************************-->
+				<div class="PlayerListBox" style="width:280px;margin:0 auto 12px auto;display:none"></div>
+			</div>
+			<div class="Height x24"></div>
+
+
+			<!-- PlayerBox Templete { *********** -->
+			<div class="PlayerBox" style="display:none">
+				<table class="PlayerList" style="line-height: 0">
+					<tr>
+						<td><img src="img/spacer.gif" style="width:40px;height:1px"></td>
+						<td><img src="img/spacer.gif" style="width:12px;height:1px"></td>
+						<td><img src="img/spacer.gif" style="width:204px;height:1px"></td>
+						<td><img src="img/spacer.gif" style="width:24px;height:1px"></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="FaceImgBoxWait">
+								<img alt='' onerror="this.src = 'img/FaceIcon.jpg';" src="img/FaceIcon.jpg" class="WaitFaceImg">
+							</div>
+						</td>
+						<td><img src="img/spacer.gif" style="width:1px;height:1px"></td>
+						<td style="text-align:left">
+							<span class="PlayerName Mincho">PlayerName</span>
+						</td>
+						<td>
+							<div><img src="img/IconCheckOff.png" class="WaitIcon" style="width:20px; height:20px; margin-top:2px"></div>
+						</td>
+					</tr>
+					<tr>
+						<td><img src="img/spacer.gif" style="width:1px;height:6px"></td>
+						<td><img src="img/spacer.gif" style="width:1px;height:1px"></td>
+						<td style="border-bottom:#A2AEBF 1px solid"><img src="img/spacer.gif" style="width:1px;height:1px;"></td>
+						<td style="border-bottom:#A2AEBF 1px solid"><img src="img/spacer.gif" style="width:1px;height:1px"></td>
+					</tr>
+				</table>
+			</div>
+			<!-- PlayerBox Templete } *********** -->
+
+			<!-- PLAYER LIST } -->
+
+			<div class="Height x12"> </div>
+			<div class="Jp"><a href="javascript:$('#ShowShareURL').show()" style="font-size:10px" class="whiteButton">プレイヤー招待URLを再度確認する</a></div>
+			<div class="En"><a href="javascript:$('#ShowShareURL').show()" style="font-size:10px" class="whiteButton">Show the intivation URL</a></div>
+			<div class="Height x10"> </div>
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="TextBox" id="ShowShareURL" style="display:none">
+				<div class="Jp">
+					<span class="Bold">ご注意ください</span><br />
+					下記の<span class="Bold" style="font-style: italic">「プレイヤー招待URL」は、ゲームマスターであるあなた自身はアクセスする必要はありません。</span>他のプレイヤーが、ゲーム中にアプリを再起動してしまい、オンラインゲームに再接続できない場合に、下記のURLを再度教えてください。<br>
+					<br />
+					<span class="Bold">【招待URL】</span><br />
+					下記のQRコード、または、招待URLを、メッセンジャーやビデオチャットでお伝えください。プレイヤーは起動用URLから、本ゲームへ再接続できます。
+				</div>
+				<div class="En">
+					<span class="Bold">CAUTION</span><br />
+					This URL is for players only. You as the game master don't have to access the URL.
+					If the other player reboots this app, you should tell the player the invitation URL.
+					<br />
+					<br />
+					<span class="Bold">invitation URL</span><br />
+					Please share the invitation URL by Messenger or Video chat.<br />
+				</div>
+				<div class="Height x20"></div>
+
+				<div class="Center">
+					<!--<canvas id="QRCanvas_Waiting"></canvas>-->
+					<div id="QRCanvas_Waiting"></div>
+				</div>
+
+				<div>
+					<div style="border:1px #777 solid; padding:10px; border-radius: 5px;margin:10px"><input type="text" id="RemoteUrlForCopy2" style="color:#FFF" class="InputTextCopy"></div>
+					<div class="Jp"><a href="javascript:CopyRemoteUrl()" style="font-size:14px" class="blueButton needsclick">URLをコピーする</a></div>
+					<div class="En"><a href="javascript:CopyRemoteUrl()" style="font-size:14px" class="blueButton needsclick">Copy URL</a></div>
+
+				</div>
+			</div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<div class="Height x24"> </div>
+			<div class="Jp"><a href="javascript:QuitRemoteGame()" class="slideleft"><img src="img/ButtonQuitRemoteGameJp.png" style="width:185px"></a></div>
+			<div class="En"><a href="javascript:QuitRemoteGame()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+			<div class="Height x40"> </div>
+
+
+
+
+		</div>
+		<!-- RemoteWaitingGM **************************************************** -->
+
+		<!-- Remote Waiting プレイヤー用 **************************************************** -->
+		<div id="RemoteWaitingPlayer" class="TitlePage">
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="Jp">待機画面</h1>
+				<h1 class="En">Waiting</h1>
+			</div>
+
+			<div style="text-align:right;display:none" id="IncrementPlayerId"><a style="background-color:white" href="javascript:IncrementPlayerId()"><img src="img/spacer.gif" style="width:10px"></a></div>
+
+			<div class="Height x20"></div>
+			<p class="ImageTitle">The 1st Night</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Online Mode</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<div>
+									<span class="importantText">ゲームマスターから指示を受けるまで、この画面でお待ちください。</span><br>
+									「夜ステージ時」もしくは「ゲーム終了時」に、下記のボタンをタップします。
+								</div>
+								<div class="Height x20"></div>
+								<div><a href="javascript:GetRemoteStatus(true)" style="font-size:14px; width:200px" class="redButton slideleft">次のアクション</a></div>
+							</div>
+							<div class="En">
+								<div>
+									<span class="importantText">Please wait at this screen until the Game Master asks you to tap "Next Action" button.</span><br>
+									You can tap "Next Action" button, when the game is in "Night Stage" or "Game is over".
+								</div>
+								<div class="Height x20"></div>
+								<div><a href="javascript:GetRemoteStatus(true)" style="font-size:14px; width:200px" class="redButton slideleft">Next Action</a></div>
+							</div>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<div class="Height x40"> </div>
+			<div class="Jp"><a href="javascript:ExitRemoteGame()" class="slideleft"><img src="img/ButtonQuitRemoteGameJp.png" style="width:185px"></a></div>
+			<div class="En"><a href="javascript:ExitRemoteGame()" class="slideleft"><img src="img/ButtonQuitRemoteGameEn.png" style="width:185px"></a></div>
+		</div>
+		<!-- Waiting Remote for Player **************************************************** -->
+
+
+		<!-- SelectPlayer ****************************************************-->
+		<div id="SelectPlayer" class="TitlePage">
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="Jp">プレイヤー選択</h1>
+				<h1 class="En">Select Player</h1>
+			</div>
+
+			<div class="Height x20"> </div>
+
+			<!-- UserMessageBox { ****************************************************-->
+			<!--Werewolf-->
+			<div class="TextBox Werewolf">
+				<div class="Jp">
+					<div>
+						下記のプレイヤーから、あなた自身を選んでください。
+						（注意：この操作を間違えると、最初からやり直しになります）
+					</div>
+					<div class="Height x20"> </div>
+					<div class="GM">
+						<div>ゲームマスターが司会のみを行う場合（プレイヤーにならない場合）、「GMはプレイヤーではない」をタップしてください。</div>
+						<div class="Height x10"> </div>
+						<div><a href="javascript:giRemotePlayerId=-1;jQT.goTo('#RemoteWaitingGM')" class="redButton slideleft" style="font-size:14px;width:200px">GMはプレイヤーではない</a></div>
+						<div class="Height x10"> </div>
+					</div>
+				</div>
+
+				<div class="En">
+					<div>
+						Please select your name.<br>
+						CAUTION: If you mistakenly select this, you have to start again from the beginning.
+					</div>
+					<div class="Height x20"> </div>
+					<div class="GM">
+						<div>If the Game Master doesn't play as player, please tap "Game Master isn't a player" button.</div>
+						<div class="Height x10"> </div>
+						<div><a href="javascript:giRemotePlayerId=-1;jQT.goTo('#RemoteWaitingGM')" class="redButton slideleft" style="font-size:14px;width:200px">Game Master isn't a player</a></div>
+						<div class="Height x10"> </div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="Height x20"> </div>
+			<!--UserMessageBox } ****************************************************-->
+
+			<!--PlayerListBox { ****************************************************-->
+			<div class="PlayerListBox">
+			</div>
+
+			<!-- PlayerBox Templete { *********** -->
+			<div class="PlayerBox PlayerBoxBg" style="display:none">
+				<table class="PlayerList">
+					<tr>
+						<td class="LeftCol">
+							<div class="FaceImgBox">
+								<img alt='' onerror="this.src = 'img/FaceIcon.jpg';" src="img/FaceIcon.jpg" class="DreamFaceImg">
+							</div>
+						</td>
+
+						<td class="RightCol">
+							<div class="PlayerName">Player Name</div>
+							<div class="ActionButton"><a href="#" class="redButton Action">This is me</a></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- PlayerBox Templete } *********** -->
+			<!--PlayerListBox } ****************************************************-->
+			<div class="Height x10"> </div>
+		</div>
+		<!-- PlayerSelectRemote ****************************************************-->
+
+
+
+		<!-- Title About Night ****************************************************-->
+		<div id="Title_AboutNight" class="TitlePage">
+
+			<div class="CommonToolbar">
+				<a class="back" href="javascript:jQT.goTo('#Title_Tutorial')"></a>
+				<h1 class="Jp">5. 夜ステージの説明</h1>
+				<h1 class="En">5. About Night</h1>
+			</div>
+	
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<span class="importantText">最後に、「夜」ステージの説明をします。<br>
+									<br>
+									「夜」ステージでは、ゲームマスターから順番に、画面に表示された「ENTER」をタップし、夜のアクションを行います。</span><br>
+								<br>
+								人狼は、殺害するプレイヤーを選び、市民プレイヤーは、怪しいと思うプレイヤーを選択します。<br>
+								<br>その結果は、翌朝報告されます。<br>
+								詳しくは、画面の説明に従ってください。<br><br>
+								<br>
+								なお、夜の間も自由に会話ができます。ただし、夜のアクション内容は翌朝まで公表してはいけません。
+								<br>
+								アクションを完了したプレイヤーは、次の人に端末を手渡してください。<br>
+								<br>
+								それでは、ゲームを開始します。<br>
+							</div>
+
+							<div class="En">
+								<span class="importantText">Finally, I will explain the "night" action.<br>
+									<br>
+									At the night stage, all the players do a night action by tapping "Enter." This starts from the game master.</span><br>
+								<br>
+								The werewolves choose a player to kill while the citizens choose a player who they suspect to be a werewolf.<br>
+								You can know the results in the morning.<br>
+								Follow the instruction shown on the screen for details.<br>
+								<br>
+								The players can talk at the night stage. But the "Fortune Teller" can't share the results of the night actions until the next morning.
+								<br>
+								When you finish doing the night action, hand the device to next person.<br>
+								<br>
+								Let's start the game.<br>
+
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<p><a href="javascript:jQT.goTo('#Title_GameStart')" class="whiteButton fade">O K</a></p>
+			<div class="Height x40"> </div>
+		</div>
+
+
+		<!-- Title About Night for RemoteMode ****************************************************-->
+		<div id="Title_AboutNight_Remote" class="TitlePage">
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="Jp">5. 夜ステージの説明</h1>
+				<h1 class="En">5. About Night</h1>
+			</div>
+	
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<span class="importantText">最後に、オンラインモードの「夜」ステージの説明をします。</span><br>
+								「夜」ステージになりましたら、生存している<span class="importantText">各プレイヤーはオンラインモードの「次のアクション」</span>ボタンをタップし、夜のアクションを行います。<br>
+								<br>
+								すべてのプレイヤーが、夜のアクションを完了した後、<span class="importantText">ゲームマスターは本アプリ上の「全員が完了」</span>ボタンをタップして、ゲームを進めます。<br>
+								ゲームマスターが死亡した場合も、ゲームマスターは司会進行を続けます。<br>
+								<br>
+								それでは、ゲームを開始します。
+							</div>
+
+							<div class="En">
+								<span class="importantText">Finally, I explain the "night" action with online mode.<br>
+									At the night stage, all the players do the night action by tapping the "Reload" button.</span><br>
+								<br>
+								After all the players finished the night action, the game master taps the "All done" button to continue the game.<br>
+								Even if the Game Master dies, the Game Master will continue to moderate.
+								<br>
+								Let's start a game.<br>
+
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<p><a href="javascript:jQT.goTo('#Title_GameStart')" class="whiteButton fade">O K</a></p>
+			<div class="Height x40"> </div>
+		</div>
+
+		<!-- Title Game Start ****************************************************-->
+		<div id="Title_GameStart" class="TitlePage">
+			<div class="CommonToolbarOnlyTitle">
+				<h1 class="Jp">ゲーム開始</h1>
+				<h1 class="En">Game Start</h1>
+			</div>
+
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Jp">
+								<span class="importantText">『人狼ゲーム　牢獄の悪夢』</span><br>
+								<br>
+								みなさん。この牢獄に集められたのは、<span class="importantText">連続殺人犯「人狼（じんろう）」の容疑者と、事件解決の鍵となる超能力者</span>です。<br>
+								<br>
+								人狼を見つけ出し、事件を解決できるのか、それとも全員が人狼の餌食（えじき）と化すのか。<br>
+								今まさに、命をかけたゲームの幕が切って落とされました。<br>
+								<br>
+								<div class="NarrationButton Jp" id="NA_JP_0" onclick="PushNarration(this)"></div>
+							</div>
+
+							<div class="En">
+								<span class="importantText">Werewolf "Nightmare in Prison".</span><br>
+								Everyone, those gathered in this prison are those under suspicion of being a "Werewolf (Serial Killer)" and those who are supernatural humans.<br>
+								<br>
+								If you don't find the warewolves, you die.<br>
+								The survival game has begun.<br>
+								<br>
+
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+
+
+			<p><a href="javascript:GoToTitleNight()" class="redButton fade">GAME START</a></p>
+			<div class="Height x40"> </div>
+		</div>
+
+
+		<!-- Title Night ****************************************************-->
+		<div id="Title_Night" class="TitlePage">
+			<div class="Height x20"> </div>
+			<p class="ImageTitle">The 1st Night</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="Jp">
+								みなさん。<br>
+								<span class="ReNightComment redText" style="display:none">容疑者を処刑したにも関わらず、再び</span>
+								恐ろしい夜がやってきました。<br>
+								<br><br>
+								<div class="NO_REMOTE">
+									<span class="FirstPlayerInNight redText">ゲームマスター</span>さんから順番に、夜のアクションを行ってください。
+									<div class="NarrationButton Jp" id="NA_JP_1A" onclick="PushNarration(this)"></div>
+									<div class="NarrationButton Jp" id="NA_JP_1B" onclick="PushNarration(this)"></div>
+								</div>
+
+								<!-- オンラインモード -->
+								<div class="REMOTE">
+									<span class="importantText">みなさんのスマホで「次のアクション」ボタン</span>をタップして、夜のアクションを行ってください。
+								</div>
+
+							</div>
+
+							<div class="En">
+								Everyone,<br>
+								<span class="ReNightComment redText" style="display:none">Even though a suspect was executed, </span>The scary night has come<span class="ReNightComment" style="display:none"> again</span>.
+								<br>
+								<br>
+								<div class="NO_REMOTE">
+									<span class="FirstPlayerInNight redText">The Game Master</span> starts the night action followed by other players.
+								</div>
+								<div class="REMOTE">
+									Please tap the "Next Action" Button with your smartphone, and do the night action.
+								</div>
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<!--			<p><a href="javascript:jQT.goTo('#EnterPassword')" class="whiteButton slideleft">O K</a></p>
+-->
+			<p><a href="javascript:SetEnterPassword()" class="whiteButton slideleft">O K</a></p>
+
+			<div class="Height x20"> </div>
+			<div class="Height x20"> </div>
+			<div class="Height x20"> </div>
+		</div>
+
+
+		<!-- EnterPassword ****************************************************-->
+		<div id="EnterPassword" class="TitlePage">
+
+			<p class="ImageTitle">The 1st Night</p>
+			<div class="Height x20"> </div>
+			<a class="FaceArea" href="javascript:EnterDream()">
+				<div><img alt="" onerror="this.src='img/FaceIcon.jpg'" class="FaceImg" src="img/FaceIcon.jpg" /></div>
+				<div class="FaceName PlayerName"></div>
+			</a>
+
+			<div class="Height x10"> </div>
+			<div><a class="whiteButton" href="javascript:EnterDream()">ENTER</a></div>
+			<div class="Height x10"> </div>
+			<div class="PassButton" style="display:none"><a class="blueButton" href="javascript:DreamAction(giNowPlayerId, giNowPlayerId,'Pass')">SKIP</a></div>
+			<div class="Height x10"> </div>
+
+			<!-- UserMessageBox { ****************************************************-->
+			<p class="TextBox Jp">
+				<span class="PlayerName blueText"></span>さんは、ENTERボタンをおして、夜のアクションを行ってください。<br />
+			</p>
+
+			<p class="TextBox En">
+				<span class="PlayerName blueText"></span> taps Enter to do the night action.<br />
+			</p>
+			<div class="Height x20"> </div>
+			<!--UserMessageBox } ****************************************************-->
+		</div>
+
+		<!-- Foretell ****************************************************-->
+		<div id="Foretell" class="TitlePage">
+
+			<div class="Height x20"> </div>
+			<div class="Citizen ROLE">
+				<div><img alt="" src="img/Card_Human.png"></div>
+				<div class="RoleName Jp">人間</div>
+				<div class="RoleName En">Human</div>
+			</div>
+			<div class="Werewolf ROLE">
+				<div><img class="Card" alt="" src="img/Card_Werewolf.png"></div>
+				<div class="RoleName Jp"><span class="redText Jp">人狼</span></div>
+				<div class="RoleName En"><span class="redText En">Werewolf</span></div>
+			</div>
+			<div class="Vampire ROLE">
+				<div><img alt="" src="img/Card_Vamp.png"></div>
+				<div class="RoleName Jp"><span class="redText CARD_Jp_Vampire">吸血鬼</span></div>
+				<div class="RoleName En"><span class="redText CARD_En_Vampire">Vampire</span></div>
+			</div>
+			<div class="FortuneTeller ROLE">
+				<div><img alt="" class="Card" src="img/Card_FortuneTeller.png"></div>
+				<div class="RoleName Jp"><span class="blueText CARD_Jp_FortuneTeller">占い師</span></div>
+				<div class="RoleName En"><span class="blueText CARD_En_FortuneTeller">Fortune Teller</span></div>
+			</div>
+
+			<!-- UserMessageBox { ****************************************************-->
+			<div class="TextBox Citizen ROLE">
+				<div class="Jp">
+					<span class="PlayerName"> </span>さんは、<span class="blueText">人間（人狼<span class="VampireHumanHidden">、<span class="CARD_Jp_Vampire">吸血鬼</span></span>以外）</span>でした！OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+				<div class="En">
+					<span class="PlayerName"> </span> is <span class="blueText">Human</span>! Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+
+			<div class="TextBox Werewolf ROLE">
+				<div class="Jp">
+					<span class="PlayerName"> </span>さんは、<span class="redText">人狼</span>でした！OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+
+				<div class="En">
+					<span class="PlayerName"> </span> is <span class="redText">Werewolf</span>！ Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+
+			<div class="TextBox Vampire ROLE">
+				<div class="Jp">
+					<span class="PlayerName"></span>さんは、<span class="redText CARD_Jp_Vampire">吸血鬼</span>でした！OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+
+				<div class="En">
+					<span class="PlayerName"></span> is <span class="redText CARD_En_Vampire">Vampire</span>！ Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+
+			<div class="TextBox FortuneTeller ROLE">
+				<div class="Jp">
+					<span class="PlayerName"></span>さんは、<span class="redText CARD_Jp_FortuneTeller">占い師</span>でした！OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+
+				<div class="En">
+					<span class="PlayerName"></span> is <span class="redText CARD_En_FortuneTeller">Fortune Teller</span>！ Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+
+
+			<!--UserMessageBox } ****************************************************-->
+
+			<p><span class="whiteButton" onclick="GoToNextPage('fade')">O K</span></p>
+			<div class="Height x40"> </div>
+
+		</div>
+
+
+		<!-- Necromancy ****************************************************-->
+		<div id="Necromancy" class="TitlePage">
+
+			<div class="Height x20"> </div>
+			<div>
+				<div><img alt="" id="NecromancyCard" src="img/Card_Citizen.png" style="width:120px"></div>
+				<div class="RoleName">市民</div>
+			</div>
+
+			<!-- UserMessageBox { ****************************************************-->
+			<div class="TextBox Citizen">
+				<div class="Jp">
+					<span class="PlayerName"></span>さんは、<span class="blueText RoleNameSmall">市民</span>でした！翌朝から、あなたは<span class="RoleNameSmall blueText">市民</span>に変身します。OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+				<div class="En">
+					<span class="PlayerName"></span> is <span class="blueText RoleNameSmall">Citizen</span>! you will transform to <span class="RoleNameSmall">Citizen</span> in the next morning. Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+			<!--UserMessageBox } ****************************************************-->
+
+			<p><span class="whiteButton" onclick="GoToNextPage('fade')">O K</span></p>
+			<div class="Height x40"> </div>
+
+		</div>
+
+		<!-- Magician ****************************************************-->
+		<div id="Magician" class="TitlePage">
+
+			<div class="Height x20"> </div>
+			<div>
+				<div><img alt="" id="MagicianCard" src="img/Card_Citizen.png" style="width:120px"></div>
+				<div class="RoleName">市民</div>
+			</div>
+
+			<!-- UserMessageBox { ****************************************************-->
+			<div class="TextBox Citizen">
+				<div class="Jp">
+					<span class="PlayerName"></span>さんは、<span class="blueText RoleNameSmall">市民</span>でした！翌朝から、あなたは<span class="RoleNameSmall blueText">市民</span>になり、<span class="PlayerName"></span>さんは市民になります。OKボタンを押してから、次のプレイヤーに端末を渡してください。<br />
+				</div>
+				<div class="En">
+					<span class="PlayerName"></span> is <span class="blueText RoleNameSmall">Citizen</span>! you will transform to <span class="RoleNameSmall">Citizen</span> and <span class="PlayerName"></span> will transform to Citizen in the next morning. Tap "OK" and hand the device to the next player.<br />
+				</div>
+			</div>
+			<!--UserMessageBox } ****************************************************-->
+
+			<p><span class="whiteButton" onclick="GoToNextPage('fade')">O K</span></p>
+			<div class="Height x40"> </div>
+
+		</div>
+
+
+		<!-- Dream ****************************************************-->
+		<div id="Dream" class="TitlePageNoBg">
+
+			<div class="Height x20"> </div>
+			<!-- First Dream { -->
+			<div id="FirstDream">
+				<div class="CardView">
+					<div id="ShuffleCard" onclick="ShowCard('ShuffleCard')"> </div>
+				</div>
+				<!-- Hand Motion ********************-->
+				<div id="HandScrollDisplay" style="display:none">
+					<div class="IconTap"><img src="img/IconHand.png"></div>
+				</div>
+				<p class="RoleName"> </p>
+			</div>
+			<div id="OtherDream" style="display:none">
+				<table style="margin:0 auto">
+					<tr>
+						<td style="width:80px"><img class="SmallCard" src="img/spacer.gif"></td>
+						<td>
+							<p class="RoleName"> </p>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+
+			<div id="MainDream" style="display:none">
+				<!-- UserMessageBox { ****************************************************-->
+				<!--Werewolf-->
+				<div class="TextBox Werewolf">
+					<div class="Jp">
+						あなたは<span class="redText">人狼</span>です。<br>
+						今夜、殺害するプレイヤーを１人選んでください。<br>
+						<br>
+						あなたが選択したプレイヤーは、残りの人狼プレイヤーに伝わります。<br>
+						<br>
+						人狼同士で意見が別れた場合は、対象者の中から<span class="redText">ランダムに1人</span>選択されます。<br>
+						<br>
+						<span class="redText">[特殊能力]<br>
+							人狼は他の人狼を知ることができます。
+							人狼には「人狼」と表示されます。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="redText">Werewolf</span>.<br>
+						Choose one player to kill tonight.<br>
+						<br>
+						Other werewolf players will know who you chose to kill.<br>
+						<br>
+						If other werewolf players choose different players to kill, <span class="redText">one of them will be chosen randomly</span>.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							The werewolves know who the other werewolves are.<br>
+							Other werewolf players will be labeled as “werewolf”.<br>
+						</span>
+					</div>
+				</div>
+
+				<!--Citizen-->
+				<div class="TextBox Citizen">
+					<div class="Jp">
+						あなたは<span class="yellowText">市民</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+					</div>
+
+					<div class="En">
+						You are <span class="yellowText">Citizen</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+					</div>
+				</div>
+
+				<!--Dead-->
+				<div class="TextBox Dead">
+					<div class="Jp">
+						あなたは<span class="redText">死亡</span>しました。<br>
+						各プレイヤーの役職を確認して、OKを押してください。<span class="redText">明日の夜からは、あなたのターンは自動的にパスされます。</span>
+					</div>
+					<div class="En">
+						You are <span class="redText">dead</span>.<br>
+						Confirm the roles of other players and tap OK.<span class="redText">Your turn will be skipped from next night.</span>
+					</div>
+					<br>
+					<span class="blueButton" onclick="DreamAction(giNowPlayerId, giNowPlayerId, 'Checked')">O K</span><br>
+				</div>
+
+				<!--ForetellEnd-->
+				<div class="TextBox ForetellEnd">
+					<div class="Jp">
+						残りのプレイヤーは全員占いました。<br>
+						各プレイヤーの役職を確認して、OKを押してください。
+					</div>
+					<div class="En">
+						You have already told the fortunes to all the players.<br><br>
+						Confirm the roles of other players and tap OK.
+					</div>
+					<br>
+					<span class="blueButton" onclick="DreamAction(giNowPlayerId,giNowPlayerId,'Checked')">O K</span><br>
+				</div>
+
+				<!--FortuneTeller-->
+				<div class="TextBox FortuneTeller">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_FortuneTeller">占い師</span>です。<br>
+						あなたが人狼か人間か、確認したいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							占いによって、選んだ相手が人狼かどうか知ることができます。
+							人狼には「人狼」。<span class="CARD_Jp_Vampire">吸血鬼</span>には「<span class="CARD_Jp_Vampire">吸血鬼</span>」。それ以外には「人間」と表示されます。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_FortuneTeller">Fortune Teller</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can know if the player you chose is werewolf or not.<br>
+							The player will be labeled as either “werewolf”, “human” or "<span class="CARD_En_Vampire">vampire</span>".<br>
+						</span>
+					</div>
+				</div>
+
+
+				<!--Shaman-->
+				<div class="TextBox Shaman">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Shaman">霊媒師</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							死者の霊と会話し、すでに死んだプレイヤーの正体を知ることができます。
+							人狼には「人狼」。<span class="CARD_Jp_Vampire">吸血鬼</span>には「<span class="CARD_Jp_Vampire">吸血鬼</span>」。それ以外には「人間」と表示されます。
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="blueText CARD_En_Shaman">Shaman</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can check if the dead players are werewolves or not.<br>
+							The player you chose will be labeled as “werewolf”, “human”, or "<span class="CARD_En_Vampire">vampire</span>".<br>
+						</span>
+					</div>
+
+				</div>
+
+				<!--Knight-->
+				<div class="TextBox Knight">
+
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Knight">騎士</span>です。<br>
+						あなたが守りたいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							毎晩、１人だけ人狼からプレイヤーを守ることができます。
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="blueText CARD_En_Knight">Knight</span>.<br>
+						Choose one player to protect from the werewolves.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can protect one player from the werewolves every night.<br>
+						</span>
+					</div>
+
+				</div>
+
+				<!--Lovers-->
+				<div class="TextBox Lovers">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Lovers">恋人</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_Lovers">恋人</span>同士は、もう１人の恋人を知ることができます。
+							<span class="CARD_Jp_Lovers">恋人</span>には「<span class="CARD_Jp_Lovers">恋人</span>」と表示されます。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_Lovers">Lover</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							The <span class="CARD_En_Lovers">Lovers</span> can know your partner.<br>
+							The <span class="CARD_En_Lovers">Lovers</span> are displayed as "<span class="CARD_En_Lovers">Lover</span>".
+						</span>
+					</div>
+
+				</div>
+
+				<!--Psycho-->
+				<div class="TextBox Psycho">
+
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Psycho">多重人格</span>です。<br>
+						あなたが人狼ではないと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_Psycho">多重人格</span>は、市民としてカウントされますが、人狼チームです。
+							つまり人狼が怪しまれないようにサポートしてください。
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_Psycho">Psycho</span>.<br>
+						Choose one player who you do not suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							<span class="CARD_En_Psycho">Psycho</span> counts as citizen, but in the werewolf team.
+							Support the werewolves.
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--Vampire-->
+				<div class="TextBox Vampire">
+
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Vampire">吸血鬼</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_Vampire">吸血鬼</span>は、市民としても人狼としてもカウントされません。
+							ゲーム終了時に生き残っていると勝利となります。
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_Vampire">Vampire</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							<span class="CARD_En_Vampire">Vampire</span> is neither a citizen nor a werewolf.
+							You win when you survive until the game is over.
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--Rich-->
+				<div class="TextBox Rich">
+
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Rich">富豪</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_Rich">富豪</span>は、最後まで生き残ると勝利チームの勝利ポイントが２倍になります。</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_Rich">Rich</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							When you survive until the game is over, the winners' points double.
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--変身した吸血鬼-->
+				<div class="TextBox Bat">
+
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Bat">変身した吸血鬼</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_Bat">変身した吸血鬼</span>は、市民としても人狼としてもカウントされません。
+							ゲーム終了時に生き残っていると勝利となります。<br>
+							人狼に狙われても、空を飛んで逃げることができます。<br>しかし、占い師に占われると、霊気を奪われて死んでしまいます。
+							（「第１夜の殺害無し」の有効時は、第１夜は死にません）
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_Bat">Vampire Bat</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							<span class="CARD_En_Bat">Vampire Bat</span> is neither a citizen nor a werewolf.
+							You win when you survive until the game is over.<br>
+							Even if a werewolf attacked you, you fly and escape.
+							But if you were foretelled by the fortune teller, you lose your spirit and die.
+							(When "No killing on the 1st night" mode is on, <span class="CARD_En_Bat">Vampire bat</span> doesn't die on the 1st night.)
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--サイコキラー-->
+				<div class="TextBox PsychoKiller">
+
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_PsychoKiller">サイコキラー</span>です。<br>
+						あなたが人狼ではないと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_PsychoKiller">サイコキラー</span>は、市民としてカウントされますが、人狼チームです。
+							つまり人狼が怪しまれないようにサポートしてください。また、夜にあなたに関わったプレイヤーは、あなたによって全員殺されます。
+							（「第１夜の殺害無し」の有効時は、第１夜は誰も殺されません）
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_PsychoKiller">Psycho Killer</span>.<br>
+						Choose one player who you do not suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							<span class="CARD_En_PsychoKiller">Psycho Killer</span> counts as citizen, but in the werewolf team.
+							Support the werewolves. And the player who contacts you in the night will be killed by you.
+							(When "No killing on the 1st night" mode is on, the players who contact you don't die on the 1st night.)
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--偉大な霊媒師-->
+				<div class="TextBox GreatShaman">
+
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_GreatShaman">偉大な霊媒師</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							死者の霊と会話し、すでに死んだプレイヤーの正体を知ることができます。
+							死者には「人狼」、「<span class="CARD_Jp_Vampire">吸血鬼</span>」、それ以外の人間の場合は「降霊する」と表示されます。<br>
+							死者の霊を「降霊する」と、翌朝からあなたの役職は選択したプレイヤーの役職に変化します。<br>
+							降霊は1度しか使うことができません。降霊後は、霊媒師の能力は失われます。</span><br>
+						※ 「吸血鬼の占い結果を『人間』モード」をオンにしている場合、吸血鬼にも「降霊する」と表示されます。ただし、降霊すると「市民」になります。<br></br>
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="blueText CARD_En_GreatShaman">GreatShaman</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can check if the dead players are werewolves or not.<br>
+							The dead player will be labeled as “werewolf”, "<span class="CARD_En_Vampire">vampire</span>", or “Necromancy”.<br>
+							"Necromancy" means the player is "human".
+							You can "Communicate with the Dead (Necromancy)" and your role will transform to the dead player's role next morning.<br>
+							You can use this power only once. After using  "Necromancy", you lose the Shaman's power.<br>
+							If "Vampire=>Human" mode is on, the "Necromancy" Button shows in the dead vampire area. However, if you necromancy the vampire, you will transform to "Citizen".
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--Cosplayer -->
+				<div class="TextBox Cosplayer">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Cosplayer">コスプレイヤー</span>です。<br>
+						あなたが守りたいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							毎晩、１人だけ人狼からプレイヤーを守ることができます。<br>
+							<span class="redText">しかし、占い師や霊媒師に見られると「人狼」と判断されます。</span>
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="blueText CARD_En_Cosplayer">Cosplayer</span>.<br>
+						Choose one player to protect from the werewolves.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can protect one player from the werewolves every night.<br>
+							<span class="redText">However, you are seen as a "Werewolf" when the fortune teller and the shaman check you in the night.</span><br>
+						</span>
+					</div>
+				</div>
+
+
+				<!--Paparazzi-->
+				<div class="TextBox Paparazzi">
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Paparazzi">パパラッチ</span>です。<br>
+						あなたが人狼か占い師か人間か、確認したいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							調査によって、選んだ相手の役職を知ることが出来ます。
+							「人狼」、「<span class="CARD_Jp_Vampire">吸血鬼</span>」、「<span class="CARD_Jp_FortuneTeller">占い師</span>」、それ以外には「人間」と表示されます。</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="redText CARD_En_Paparazzi">Paparazzi</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							You can know if the player you chose is werewolf or not.<br>
+							The player will be labeled as either "werewolf", "<span class="CARD_En_Vampire">vampire</span>", "<span class="CARD_En_FortuneTeller">fortune teller</span>" or "human".<br>
+						</span>
+					</div>
+				</div>
+				<!-- Paparazzi END -->
+
+				<!--Paparazzi すべてを調査した場合-->
+				<div class="TextBox ScoopEnd">
+					<div class="Jp">
+						残りのプレイヤーは全員調査しました。<br>
+						各プレイヤーの役職を確認して、OKを押してください。
+					</div>
+					<div class="En">
+						You have already checked all players.<br>
+						Confirm the roles of other players and tap OK.
+					</div>
+					<br>
+					<span class="blueButton" onclick="DreamAction(giNowPlayerId,giNowPlayerId,'Checked')">O K</span><br>
+				</div>
+				<!-- Paparazzi すべて調査済み END -->
+
+
+
+				<!--Magician-->
+				<div class="TextBox Magician">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Magician">マジシャン</span>です。<br>
+						あなたが役職を奪いたい相手を、１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							相手のカードを奪います。奪われた相手は「市民」になります。<br>
+							「人狼」のカードを奪った場合、残りの人狼が2人以上いる場合は、カードを奪われた人狼は、仲間の人狼に殺されます。<br>
+							（その場合、人狼が選んだ相手は殺害されません）</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_Magician">Magician</span>.<br>
+						Choose one player whose role you want to change.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can take another player's card. In that case, that other player becomes a Citizen.<br>
+							When you choose a "Werewolf" player, if there are more than two werewolves still alive, the werewolf player will be killed by the other werewolves automatically.<br>
+							(In this case, the player who is attacked by werewolves doesn't die.)
+						</span>
+					</div>
+				</div>
+				<!-- Magician END -->
+
+				<!--Bomber まだ無敵になっていない-->
+				<div class="TextBox Bomber">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Bomber">ボマー</span>です。<br>
+						ゲーム中、一晩だけ爆弾をしかけ無敵になれます。今晩、無敵になるか、あなたが人狼だと思う人を、１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							一晩だけ無敵になります。無敵になった夜にあなたに会いに行ったプレイヤー（人狼、占い師、騎士、コスプレイヤー）は、死亡します。</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_Bomber">Bomber</span>.<br>
+						Set the trap or Choose one player who you suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can set a bomb and will be invincible for one night.<br>
+							And the player ( Werewolf, Fortune Teller, Knight, Cosplayer ) who contacts you in the night you became invincible will be killed.<br>
+						</span>
+					</div>
+
+					<!-- 無敵ボタン -->
+					<div class="Jp">
+						<span class="blueButton TrapButton Jp" onclick="SetBomb()">爆弾を仕掛ける</span><br>
+					</div>
+					<div class="En">
+						<span class="blueButton TrapButton En" onclick="SetBomb()">Set a bomb!</span><br>
+					</div>
+
+				</div>
+
+				<!-- ボマー無敵使用済み -->
+				<div class="TextBox BomberEnd">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Bomber">ボマー</span>です。<br>
+						すでに「無敵」を使用済みです。あなたが人狼だと思う人を、１人選んでください。<br>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_Bomber">Bomber</span>.<br>
+						You have already used the trap. Choose one player who you suspect to be a werewolf.<br>
+					</div>
+
+				</div>
+				<!-- Bomber END -->
+
+
+
+				<!--Mentalist-->
+				<div class="TextBox Mentalist">
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_Mentalist">メンタリスト</span>です。<br>
+						あなたが疑いを向けたいプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							誰が人狼なのか、夜の間に確認することができます。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="redText CARD_En_Mentalist">Mentalist</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							You can know who the werewolves are.<br>
+							The werewolf's player is labeled as "Werewolf".
+						</span>
+					</div>
+				</div>
+				<!-- Mentalist END -->
+
+
+
+				<!--DarkShaman-->
+				<div class="TextBox DarkShaman">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_DarkShaman">闇の霊媒師</span>です。<br>
+						あなたが疑いを向けたいプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							死者の霊と会話し、すでに死んだプレイヤーの正体を知ることができます。
+							人狼には「人狼」。<span class="CARD_Jp_Vampire">吸血鬼</span>には「<span class="CARD_Jp_Vampire">吸血鬼</span>」。それ以外には「人間」と表示されます。<br>
+							裁判での投票の結果、プレイヤーたちに処刑されると、亡霊となりその夜、騎士とコスプレイヤーを襲撃します。<br>
+							（この能力が発動するのは、裁判の投票で処刑された場合のみです。人狼に襲われるなど、他の理由で殺害された場合は、何もおきません）<br>
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_DarkShaman">DarkShaman</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can check if the dead players are werewolves or not.<br>
+							The player you chose will be labeled as “werewolf”, “human”, or "<span class="CARD_En_Vampire">vampire</span>".<br>
+							If you are killed by the players' voting in the judgement stage, the "Knight" and "Cosplayer" will be killed by your dark soul in the night.<br>
+							(This power will be shown when you are killed by voting. In other cases, nothing will happen.)
+						</span>
+					</div>
+				</div>
+				<!-- DarkShaman END -->
+
+				<!--DestinedLovers-->
+				<div class="TextBox DestinedLovers">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_DestinedLovers">運命の恋人</span>です。<br>
+						あなたが人狼だと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_DestinedLovers">運命の恋人</span>同士は、もう１人の恋人を知ることができます。
+							<span class="CARD_Jp_DestinedLovers">運命の恋人</span>には「<span class="CARD_Jp_DestinedLovers">恋人</span>」と表示されます。
+							ただし、<span class="CARD_Jp_DestinedLovers">運命の恋人</span>の一方が死亡した場合、もう１人の恋人は人狼に戦いを挑み、翌朝、死亡してしまいます。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="blueText CARD_En_DestinedLovers">Destined Lover</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							The <span class="CARD_En_DestinedLovers">Destined Lovers</span> can know your partner.<br>
+							The <span class="CARD_En_DestinedLovers">Destined Lovers</span> are displayed as "<span class="CARD_En_DestinedLovers">Destined Lovers</span>".
+							When one lover dies, the other destined lover will fight against werewolves and die the next morning.
+						</span>
+					</div>
+
+				</div>
+
+
+				<!--Rain Man-->
+				<div class="TextBox RainMan">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_RainMan">レインマン</span>です。<br>
+						あなたが疑いを向けたいプレイヤーを１人選んでください。<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							特殊能力を持った市民プレイヤーです。
+							レインマンが生存している間は、毎日、雨が降ります。（朝にGMが天気を発表します）
+							時々発生する雷雨の朝には、落雷によってランダムに１名が死亡します。（落雷の対象は、レインマン自身も含めて、すべてのプレイヤーです）
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="redText CARD_En_RainMan">Rain Man</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							Rain Man is a citizen who has a supernatural power.
+							When Rain Man is alive, it rains every day.
+							Sometimes the lightning volt kills a player at random in the morning.
+							The Rain Man is included in lightning targets.
+						</span>
+					</div>
+				</div>
+				<!-- RainMan END -->
+
+				<!--Original-->
+				<div class="TextBox Original">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Original">オリジナル</span>です。<br>
+						あなたが疑いを向けたいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							ゲームマスターが設定した能力を持っています。
+						</span>
+					</div>
+
+					<div class="En">
+						You are a <span class="redText CARD_En_Original">Original</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You have some power which the Game Master set.
+						</span>
+					</div>
+				</div>
+				<!-- Original END -->
+
+				<!--Legendary Wolf -->
+				<div class="TextBox LegendaryWerewolf">
+					<div class="Jp">
+						あなたは<span class="redText">伝説の人狼</span>です。<br>
+						今夜、殺害するプレイヤーを１人選んでください。<br>
+						<br>
+						あなたが選択したプレイヤーは、残りの人狼プレイヤーに伝わります。<br>
+						<br>
+						人狼同士で意見が別れた場合は、対象者の中から<span class="redText">ランダムに1人</span>選択されます。<br>
+						<br>
+						<span class="redText">[特殊能力]<br>
+							人狼は他の人狼を知ることができます。
+							人狼には「人狼」と表示されます。
+							<br><br>
+							夜にあなたに関わったプレイヤーは、あなたによって全員殺されます。<br>
+							（「第１夜の殺害無し」の有効時は、第１夜は誰も殺されません）
+						</span>
+					</div>
+				
+					<div class="En">
+						You are a <span class="redText">Legendary Wolf</span>.<br>
+						Choose one player to kill tonight.<br>
+						<br>
+						Other werewolf players will know who you chose to kill.<br>
+						<br>
+						If other werewolf players choose different players to kill, <span class="redText">one of them will be chosen randomly</span>.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							The werewolves know who the other werewolves are.<br>
+							Other werewolf players will be labeled as “werewolf”.<br><br>
+							The player who contacts you in the night will be killed by you.<br>
+							(When "No killing on the 1st night" mode is on, the players who contact you don't die on the 1st night.)
+						</span>
+					</div>
+				</div>				
+				<!-- LegendaryWolf END -->
+
+				<!-- PrisonBreaker -->
+				<div class="TextBox PrisonBreaker">
+				
+					<div class="Jp">
+						あなたは<span class="redText CARD_Jp_PrisonBreaker">脱獄犯</span>です。<br>
+						あなたが人狼ではないと思うプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="redText">[あなたの特殊能力]<br>
+							<span class="CARD_Jp_PrisonBreaker">脱獄犯</span>は、市民としてカウントされますが、人狼チームです。
+							つまり人狼が怪しまれないようにサポートしてください。<br>
+							夜に人狼に狙われても逃げることができ、死にません。
+						</span>
+					</div>
+					<div class="En">
+						You are a <span class="redText CARD_En_PrisonBreaker">PrisonBreaker</span>.<br>
+						Choose one player who you do not suspect to be a werewolf.<br>
+						The player who was suspected to be a werewolf by the most players will be announced in the morning.<br>
+						<br>
+						<span class="redText">&lt;Your Power&gt;<br>
+							<span class="CARD_En_PrisonBreaker">PrisonBreaker</span> counts as citizen, but in the werewolf team.
+							Support the werewolves.<br>
+							Even if werewolves attack you, you don't die because you can escape.
+						</span>
+					</div>
+				
+				</div>
+
+				<!--Oracle-->
+				<div class="TextBox Oracle">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Oracle">神託者</span>です。<br>
+						あなたが疑いを向けたいプレイヤーを１人選んでください。<br>
+						<br>
+						最も怪しまれているプレイヤーが翌朝公表されます。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							初夜に、ランダムに一人、人間を知ることができます。
+						</span>
+					</div>
+				
+					<div class="En">
+						You are a <span class="blueText CARD_En_Oracle">Oracle</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						The most suspicious player will be announced in the morning.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							You can know one of the humans randomly on the first night.
+						</span>
+					</div>
+				</div>
+
+				<!--Dreamer-->
+				<div class="TextBox Dreamer">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Dreamer">夢師</span>です。<br>
+						あなたが人狼か人間か、確認したいプレイヤーを１人選んでください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							毎晩、人狼と思われる人を選び、デジャヴで人狼か人間か知ることができます。しかし、1/3の確率で、間違えた夢を見てしまいます。<br>
+							人狼には「人狼」。<span class="CARD_Jp_Vampire">吸血鬼</span>には「<span class="CARD_Jp_Vampire">吸血鬼</span>」。それ以外には「人間」と表示されます。
+						</span>
+					</div>
+				
+					<div class="En">
+						You are a <span class="blueText CARD_En_Dreamer">Dreamer</span>.<br>
+						Choose one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							Every night, you can choose a person who you suspect to be a werewolf, and you will see whether the player is a werewolf or a human through a prophetic dream. However, there is a 1/3 chance that you will have an incorrect dream.<br>
+							The player will be labeled as either “werewolf”, “human” or "<span class="CARD_En_Vampire">vampire</span>".<br>
+						</span>
+					</div>
+				</div>
+
+				<!--Fixer-->
+				<div class="TextBox Fixer">
+					<div class="Jp">
+						あなたは<span class="blueText CARD_Jp_Fixer">フィクサー</span>です。<br>
+						あなたが人狼だと思うプレイヤーをマークしてください。<br>
+						<br>
+						<span class="blueText">[あなたの特殊能力]<br>
+							あなたが処刑や、人狼による襲撃によって死亡すると、あなたが最後にマークしたプレイヤーは翌朝、報復をうけて死亡します。
+						</span>
+					</div>
+				
+					<div class="En">
+						You are a <span class="blueText CARD_En_Fixer">Fixer</span>.<br>
+						Mark one player who you suspect to be a werewolf.<br>
+						<br>
+						<span class="blueText">&lt;Your Power&gt;<br>
+							If you are killed by execution or a werewolf attack, the last marked player will face revenge and be found dead the next morning.
+						</span>
+					</div>
+				</div>
+
+
+				<!-- ↓ 以下、役職ごとの特殊な能力表示 ****************************************** -->
+				<!-- 仲間の人狼  { -->
+				<div id="WerewolvesTeam" class="HeaderSuperPowerAlertRed" style="display:none">
+					<div class="TitleBG Jp">
+						<div class="Title Mincho">人狼メンバー</div>
+					</div>
+					<div class="TitleBG En">
+						<div class="Title Mincho">Werewolves</div>
+					</div>
+					<div class="WerewolvesTeamBgColor">
+						<div id="WerewolvesTeam_OUTPUT"></div>
+					</div>
+					<!-- Voiceテンプレート -->
+					<div class="WerewolvesTeam_TEMPLATE" style="display:none">
+						<table style="width:255px">
+							<tr class="PlayerTr">
+								<td style="width:40px"><img onerror="this.src='img/FaceIcon.jpg'" src="img/FaceIcon75.jpg" class="PlayerIcon" style="width:40px"></td>
+								<td style="width:215px" class="PlayerName"> </td>
+							</tr>
+						</table>
+					</div>
+					<div class="WerewolvesTeamBgColor Height x10"> </div>
+					<div class="GoldBar"> </div>
+				</div>
+				<!-- 仲間の人狼 } -->
+
+
+				<!-- 初日占い結果（ランダムに人間を知る） { -->
+				<div id="FirstFortuneTell" class="HeaderSuperPowerAlert" style="display:none">
+					<div class="TitleBG Jp">
+						<div class="Title Mincho">初日の占い結果</div>
+					</div>
+					<div class="TitleBG En">
+						<div class="Title Mincho">Fortune Result</div>
+					</div>
+
+					<!-- 占いエリア -->
+					<div class="FirstFortunePlayer" style="display:block">
+						<div class="Height x10"> </div>
+						<table style="width:255px">
+							<tr class="PlayerTr">
+								<td style="width:40px"><img onerror="this.src = 'img/FaceIcon.jpg'" src="img/FaceIcon75.jpg" class="PlayerIcon" style="width:40px"></td>
+								<td style="width:215px;background-color:#000" class="PlayerName">プレイヤー</td>
+							</tr>
+						</table>
+						<div class="Height x10"> </div>
+						<div class="Jp Mincho NotWerewolfText">は、人狼ではありません。<br><span style="font-size:12px">（役職の詳細は、わかりません）</span></div>
+						<div class="En Mincho NotWerewolfText">is not Werewolf.<br><span style="font-size:12px">(You don't know the detail of role.)</span></div>
+						<div class="Height x10"> </div>
+					</div>
+
+					<div class="GoldBar"> </div>
+				</div>
+				<!-- 初日占い結果（ランダムに人間を知る） } -->
+
+				<!-- 霊媒結果（昨日、処刑された人の正体を知る） { -->
+				<div id="ShamanResult" class="HeaderSuperPowerAlert" style="display:none">
+					<div class="TitleBG Jp">
+						<div class="Title Mincho">霊媒師の能力</div>
+					</div>
+					<div class="TitleBG En">
+						<div class="Title Mincho">Shaman Power</div>
+					</div>
+
+					<!-- 占いエリア -->
+					<div class="FirstFortunePlayer" style="display:block">
+						<div class="Height x10"> </div>
+						<table style="width:255px">
+							<tr class="PlayerTr">
+								<td style="width:40px"><img src="img/FaceIcon75.jpg" onerror="this.src='img/FaceIcon.jpg'" class="PlayerIcon" style="width:40px"></td>
+								<td style="width:215px;background-color:#000" class="PlayerName">プレイヤー</td>
+							</tr>
+						</table>
+						<div class="Height x10"> </div>
+						<div class="NotWerewolfText">
+							<div class="Jp Mincho">は、人狼ではありませんでした。<br><span style="font-size:12px">（役職の詳細は、わかりません）</span></div>
+							<div class="En Mincho">is not Werewolf.<br><span style="font-size:12px">(You don't know the detail of role.)</span></div>
+						</div>
+						<div class="FindLayerText">
+							<div class="Jp Mincho">は、<span class="redText LayerRole" style="font-size:30px">人狼</span>でした。</div>
+							<div class="En Mincho">is <span class="redText LayerRole" style="font-size:30px">Werewolf</span>.</div>
+						</div>
+						<div class="Height x10"> </div>
+					</div>
+
+					<div class="GoldBar"> </div>
+				</div>
+				<!-- 霊媒結果 ここまで -->
+
+
+				<div class="Height x20"> </div>
+				<!--UserMessageBox } ****************************************************-->
+
+				<!--PlayerListBox { ****************************************************-->
+				<div class="PlayerListBox">
+				</div>
+				<!-- PlayerBox Templete { *********** -->
+				<div class="PlayerBox PlayerBoxBg" style="display:none">
+					<table class="PlayerList">
+						<tr>
+							<td class="LeftCol">
+								<div class="FaceImgBox">
+									<img alt='' onerror="this.src = 'img/FaceIcon.jpg';" src="img/FaceIcon.jpg" class="DreamFaceImg">
+								</div>
+							</td>
+							<td class="RightCol">
+								<div class="PlayerName">Player Name</div>
+								<div class="ActionButton"><a href="#" class="redButton Action">Werewolf ?</a></div>
+
+								<div class="KillReason" style="display:none">
+									<div style="text-align: center"><img src="img/DreamKillReasonMark.png"></div>
+									<div class="KillReasonButtonBox"><a href="#" class="redButtonSmall Mincho KILL_1"></a></div>
+									<div class="KillReasonButtonBox"><a href="#" class="redButtonSmall Mincho KILL_2"></a></div>
+									<div class="KillReasonButtonBox"><a href="#" class="redButtonSmall Mincho KILL_3"></a></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!-- PlayerBox Templete } *********** -->
+				<!--PlayerListBox } ****************************************************-->
+				<div class="Height x10"> </div>
+			</div>
+		</div>
+
+
+		<!-- Title The Morning ****************************************************-->
+		<div id="Morning" class="TitlePageMorning">
+			<div class="Height x20">&nbsp;</div>
+			<p class="ImageTitle">The Morning</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="Message Page1">
+
+								<div class="Jp">
+									夜のアクションを完了しました。<br>
+									<span class="NO_REMOTE redText">ゲームマスターに端末を手渡してください。</span>
+								</div>
+								<div class="En">
+									All players completed the night action.<br>
+									<span class="redText">Hand the device to the Game Master.</span>
+								</div>
+
+								<br>
+								<br>
+								<br>
+							</div>
+
+							<div class="Message Page2">
+								<div class="Jp">
+									恐ろしい夜が明け、朝が来ました。<br>
+									<div class="WeatherRain">本日は雨が降っています。</div>
+									<div class="WeatherLightning">本日は大雨です。昨晩、落雷がありました。</div>
+									<br>
+									昨晩の犠牲者は・・・・
+								</div>
+								<div class="En">
+									The morning has come.<br>
+									<div class="WeatherRain">It is rainy today.</div>
+									<div class="WeatherLightning">It is heavy rain today. And there was a terrible lightning strike last night.</div>
+									<br>
+									Last night's victim was...
+								</div>
+
+								<br><br>
+							</div>
+
+							<div class="Message Page3">
+								<div class="Jp">
+									恐ろしい夜が明け、朝が来ました。<br>
+									<div class="WeatherRain">本日は雨が降っています。</div>
+									<div class="WeatherLightning">本日は大雨です。そして、昨晩、凄まじい落雷がありました。</div>
+									<br>
+									昨晩の犠牲者は・・・・
+									<br><br>
+
+									<div class="Dead Result">
+										<span class="DeadPlayer redText">Player Name</span>です。<br>
+										<br>
+										<span class="DeadPlayer redText">Player Name</span>は、幽霊となり、ゲーム終了まで話してはいけません。<br>
+										<br>
+										<div class="NarrationButton Jp" id="NA_JP_2A" onclick="PushNarration(this)"></div>
+
+									</div>
+
+									<div class="Guard Result">
+										いませんでした！人狼の襲撃は失敗したようです。
+										<div class="NarrationButton Jp" id="NA_JP_2B" onclick="PushNarration(this)"></div>
+
+									</div>
+
+									<div class="FirstNightNoKill Result">
+										いませんでした！人狼は静かに身を潜めたようです。<br><br>
+										<span class="redText">（第１夜は、殺害されない機能が有効になっています）</span>
+										<div class="NarrationButton Jp" id="NA_JP_2C" onclick="PushNarration(this)"></div>
+
+									</div>
+								</div>
+
+								<div class="En">
+									The morning has come.<br>
+									<div class="WeatherRain">It is rainy today.</div>
+									<div class="WeatherLightning">It is heavy rain today. And there was a terrible lightning strike last night.</div>
+									<br>
+									The victim of last night was…
+									<br><br>
+
+									<div class="Dead Result">
+										<span class="DeadPlayer redText">Player Name</span>.<br>
+										<br>
+										<span class="DeadPlayer redText">Player Name</span> becomes a ghost and is not allowed to talk until the game is over.<br>
+										<br>
+									</div>
+
+									<div class="Guard Result">
+										No one!<br>
+										The werewolves probably missed the attack on citizens.
+									</div>
+
+									<div class="FirstNightNoKill Result">
+										No one!<br>
+										The werewolves did not kill any players.<br>
+										<span class="redText">("No killing on the 1st night" mode is on.)</span>
+									</div>
+
+								</div>
+
+							</div>
+
+
+							<div class="Message Page4">
+								<div class="Jp">
+									<div class="Suspect">
+										そして、にわかに怪しいと思われる人物が浮上しました。<br>
+										<br>
+										その人物とは・・・<span class="SuspectPlayer redText">PlayerName</span>です。<br>
+										<div class="NarrationButton Jp" id="NA_JP_3B" onclick="PushNarration(this)"></div>
+
+									</div>
+
+									<div class="SuspectNone">
+										今朝は強く疑われている人物はいませんでした。
+										<br>
+										<br>
+										<div class="NarrationButton Jp" id="NA_JP_3A" onclick="PushNarration(this)"></div>
+
+									</div>
+
+								</div>
+
+								<div class="En">
+
+									<div class="Suspect">
+										And a player is suspected.<br>
+										The player is ...
+										<span class="SuspectPlayer redText">PlayerName</span>.<br>
+										<br>
+										<br>
+									</div>
+
+									<div class="SuspectNone">
+											There aren't any players who are suspected specifically in this morning.<br>
+										</div>
+									</div>
+
+							</div>
+
+							<div class="Message Page5">
+								<div class="Jp">
+									<span class="importantText">今、生き残っているプレイヤーには、<span class="AlivePointShow">1</span>ポイントが加算されます。<br><br>それでは、今から、人狼をみつけるために話し合いを行ってください。</span><br>
+									<div class="NarrationButton Jp" id="NA_JP_4" onclick="PushNarration(this)"></div>
+
+								</div>
+								<div class="En"><span class="importantText">
+										The living players get <span class="AlivePointShow">1</span> point.<br><br>
+										Then, start talking to each other to find out who the werewolves are.</span>
+								</div>
+
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<p><span class="whiteButton ShowNextPageMorning" onclick="ShowNextPageMorning()">O K</span></p>
+		</div>
+
+
+
+
+		<!-- Timer ****************************************************-->
+		<div id="Timer" class="TitlePageMorning">
+			<div class="Height x10"> </div>
+			<p class="ImageTitle">The Morning</p>
+			<div class="TimerBox BgBlue">00:00</div>
+
+			<table style="margin:0 auto">
+				<tr>
+					<td><a href="javascript:PlusTimer(60,true,'#Timer .TimerBox')"><img src="img/TimerMin.png" style="height:49px;width:auto"></a></td>
+					<td><a href="javascript:PlusTimer(60,false,'#Timer .TimerBox')"><img src="img/TimerPlus.png" style="height:49px;width:auto"></a></td>
+					<td><a href="javascript:PlusTimer(-60,false,'#Timer .TimerBox')"><img src="img/TimerMinus.png" style="height:49px;width:auto"></a></td>
+				</tr>
+			</table>
+
+			<div class="Height x10"> </div>
+			<div onclick="FinishDiscussion()" class="redButton FinishDiscussionButton" style="display:block;width:202px">
+				<span class="Jp">議論終了</span>
+				<span class="En">Finish discussion.</span>
+			</div>
+			<div class="Height x10"></div>
+
+			<!-- Role Check -->
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Role List</div>
+			<div class="GmMessageTable">
+				<table style="width:100%" summary="">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+							<div class="Role"></div>
+							<div class="ReduceRoleRandom" style="display:none;margin-top:6px">
+								<div class="redText Jp">「人狼、吸血鬼、変身した吸血鬼、恋人、運命の恋人」以外の役職がランダムに１つ「市民」に変わる可能性があります。「市民」が「市民」に変わった場合は、何も変化がありません。</div>
+								<div class="redText En">One of roles (except "Werewolf", "Vampire", "Vampire Bat", "Lovers", "Destined Lovers") maybe changes to Citizen. However, if a Citizen may be changed to a Citizen, nothing changes.</div>
+							</div>
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+
+
+			<!-- GM Tool -->
+			<a onclick="ShowGmTool(1)" class="GameMasterToolButton" style="display:none">
+				<span class="Jp"><img src="./img/ButtonGMToolJp.png" style="height:49px;width:auto"></span>
+				<span class="En"><img src="./img/ButtonGMToolEn.png" style="height:49px;width:auto"></span>
+			</a>
+
+			<!--PlayerListBox { ****************************************************-->
+			<div class="GameMasterTool" style="display:none">
+				<div onclick="ShowGmTool(0)" class="whiteButton HideBmButton">
+					<span class="Jp">閉じる</span>
+					<span class="En">CLOSE</span>
+				</div>
+				<div class="Height x10"></div>
+				<div class="PlayerBox_OUTPUT">
+				</div>
+				<!-- PlayerBox Templete { *********** -->
+				<div class="PlayerBox_TEMPLATE PlayerBoxBg" style="display:none;">
+					<table class="PlayerList">
+						<tr>
+							<td class="LeftCol">
+								<div class="PlayerName">Player Name</div>
+							</td>
+							<td class="RightCol"></td>
+						</tr>
+					</table>
+				</div>
+				<!-- PlayerBox Templete } *********** -->
+				<!--PlayerListBox } ****************************************************-->
+			</div>
+
+		</div>
+
+
+		<!-- Title Judgement ****************************************************-->
+		<div id="Title_Judgement" class="TitlePageSunset">
+
+			<div class="Height x10"> </div>
+			<p class="ImageTitle">Judge</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="Message Page1 importantText">
+								<div class="Jp">
+									話し合いは終了です。<br>
+									陽は暮れて、今日もひとり容疑者を処分する時間が訪れました。<br>
+									<div class="NarrationButton Jp" id="NA_JP_5" onclick="PushNarration(this)"></div>
+
+								</div>
+								<div class="En">
+									The discussion is over.<br>
+									The night falls and it’s time to execute a suspect.
+								</div>
+
+							</div>
+
+							<div class="Message Page2">
+								<div class="Jp">
+									<div class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										<span class="importantText">ゲームマスターに名前を呼ばれたプレイヤーは、怪しいと思うプレイヤーの名前を告げて質問してください。</span><br>
+										質問の回答を聞いた上で、誰に投票するか決定します。<br>
+										<span class="importantText">投票されたプレイヤーは、投票数がわかるように投票された数だけ指を立てて、全プレイヤーに見えるようにしてください。</span>
+										<div class="NarrationButton Jp" id="NA_JP_6A" onclick="PushNarration(this)"></div>
+
+									</div>
+									<div class="Title_Judgement_VotingStyleAnonymous Title_Judgement_VotingStyle">
+										<span class="importantText">ゲームマスターに名前を呼ばれたプレイヤーは、怪しいと思うプレイヤーの名前を告げて質問してください。</span><br>
+										質問の回答を聞いた上で、誰に投票するか決定します。<br>
+										<span class="importantText">投票は非公開で行います。順番に端末を手渡して投票をしてください。</span>
+										<div class="NarrationButton Jp" id="NA_JP_6C" onclick="PushNarration(this)"></div>
+									</div>
+									<div class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										<span class="importantText">投票は、自由投票です。
+											投票したいプレイヤーは好きなタイミングで手を上げ、一人ずつ投票を行います。</span><br>
+										投票する際は、投票したい相手の名前を告げ、その理由を一言だけ話してください。<br>
+										投票されたプレイヤーは、投票数がわかるように投票された数だけ指を立てて、全プレイヤーに見えるようにしてください。
+										<div class="NarrationButton Jp" id="NA_JP_6B" onclick="PushNarration(this)"></div>
+									</div>
+								</div>
+								<div class="En">
+									<div class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										<span class="importantText">The Game Master will call a player. That player decides a player he or she suspects, and announces the player's name and ask him or her a question.</span><br>
+										<br>
+										Please decide who to vote for after hearing their answer.<br>
+										<span class="importantText">The players show the number of votes with fingers so that other players can see it.</span>
+									</div>
+									<div class="Title_Judgement_VotingStyleAnonymous Title_Judgement_VotingStyle">
+											<span class="importantText">The Game Master will call a player. That player decides a player he or she suspects, and announces the player's name and ask him or her a question.</span><br>
+										<br>
+										Please decide who to vote for after hearing their answer.<br>
+										<span class="importantText">The vote is closed. Vote once and hand the device to the next player.</span>
+									</div>
+
+									<div class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										<span class="importantText">Voting will be done in a free order.</span>
+										The player who wants to vote will raise his or her hand at any time and vote one by one.<br>
+										<br>
+										When voting, say the name of the player you want to vote for and tell the reason why.<br>
+										<span class="importantText">The players show the number of votes with fingers so that other players can see it.</span>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="Message Page3">
+								<div class="Jp">
+									<div class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										最後に投票時の注意です。<br>
+										投票の際、<span class="importantText">発言ができるのは、質問しているプレイヤーと質問されたプレイヤーの２名のみです。</span><br>
+										それ以外の人は、自分の順番が回ってくるまで発言してはいけません。<br>
+										<br>
+										<span class="LastDeadPlayerExist importantText">最後に殺害された<span class="PlayerName redText"></span>を起点として、時計回りに順番に投票を行います。</span>
+										<div class="NarrationButton Jp" id="NA_JP_7A" onclick="PushNarration(this)"></div>
+									</div>
+
+									<div class="Title_Judgement_VotingStyleAnonymous Title_Judgement_VotingStyle">
+										最後に投票時の注意です。<br>
+										投票の際、<span class="importantText">発言ができるのは、質問しているプレイヤーと質問されたプレイヤーの２名のみです。</span><br>
+										それ以外の人は、自分の順番が回ってくるまで発言してはいけません。<br>
+										<div class="NarrationButton Jp" id="NA_JP_7C" onclick="PushNarration(this)"></div>
+									</div>
+
+									<div class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										最後に、投票状況をわかりやすくする方法です。<br>
+										<br>
+										まだ投票していないプレイヤーは、胸に片手を当てておきます。<br>
+										投票が終わったら、その手を下ろしてください。<br>
+										これによって、残りの投票数がわかります。<br>
+										それでは、みなさん、投票をお願いします。
+										<div class="NarrationButton Jp" id="NA_JP_7B" onclick="PushNarration(this)"></div>
+									</div>
+
+								</div>
+								<div class="En">
+									<span class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										Note that <span class="importantText">only a player who asks and a player who is asked can talk at this time</span>.<br>
+										Other players are not allowed to talk until their turns come.<br>
+										<br>
+										The votes go around clockwise starting from <span class="PlayerName redText"></span> who was killed last.
+									</span>
+									<span class="Title_Judgement_VotingStyleAnonymous Title_Judgement_VotingStyle">
+										Note that <span class="importantText">only a player who asks and a player who is asked can talk at this time</span>.<br>
+										Other players are not allowed to talk until their turns come.<br>
+									</span>
+
+									<span class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										Finally, there is a way to make the voting status easier to understand.<br>
+										<br>
+										The players who have not voted yet place one hand on their chests.<br>
+										Please lower your hand after the vote is over.<br>
+										This will tell you the remaining number of votes.<br>
+										Well then, everyone, please vote.
+									</span>
+								</div>
+
+
+							</div>
+
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<p><span class="whiteButton ShowNextPage" onclick="ShowNextPage('#Title_Judgement', '.ShowNextPage', 3, 'InitJudgement(&quot;#Judgement .PlayerListBox&quot;, &quot;#Judgement .PlayerBox&quot;)')">O K</span></p>
+
+			<div class="Height x20"> </div>
+			<div class="Height x40"> </div>
+
+		</div>
+
+		<!-- Title Judgement ****************************************************-->
+		<div id="Title_JudgementShort" class="TitlePageSunset">
+
+			<div class="Height x10"> </div>
+			<p class="ImageTitle">Judge</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="Message Page1 importantText">
+								<div class="Jp">
+									話し合いは終了です。<br>
+									陽は暮れて、今日もひとり容疑者を処分する時間が訪れました。<br>
+									<br>
+									<div class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										<span class="LastDeadPlayerExist importantText">最後に殺害された<span class="PlayerName redText" style="font-size:18px"></span>を起点として、時計回りに順番に投票を行います。</span>
+									</div>
+									<div class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										投票したい人から順番に手をあげて、投票先のプレイヤー名とその理由を一言だけ話してください。
+									</div>
+									<div class="NarrationButton Jp" id="NA_JP_5" onclick="PushNarration(this)"></div>
+								</div>
+
+								<div class="En">
+									The discussion is over.<br>
+									The night falls and it’s time to execute a suspect.
+									<br>
+									<div class="Title_Judgement_VotingStyleSeat Title_Judgement_VotingStyle">
+										The votes go around clockwise starting from <span class="PlayerName redText" style="font-size:18px"></span> who was killed last.
+									</div>
+									<div class="Title_Judgement_VotingStyleFree Title_Judgement_VotingStyle">
+										Please raise your hand if you want to vote. State who you want to vote for and explain the reason to vote.
+									</div>
+								</div>
+
+							</div>
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+			<p><span class="whiteButton ShowNextPage" onclick="ShowNextPage('#Title_Judgement', '.ShowNextPage', 1, 'InitJudgement(&quot;#Judgement .PlayerListBox&quot;, &quot;#Judgement .PlayerBox&quot;)')">O K</span></p>
+
+			<div class="Height x20"> </div>
+			<div class="Height x40"> </div>
+
+		</div>
+
+
+		<!-- Judgement ****************************************************-->
+		<div id="Judgement" class="TitlePageSunset">
+			<div class="Height x20"> </div>
+			<p class="ImageTitle">Judgement</p>
+
+			<!-- GameMasterBox { ****************************************************-->
+			<div class="GMMessageHeader Trajan">Game Master</div>
+			<div class="GmMessageTable">
+				<table style="width:100%">
+					<tr>
+						<td class="GmMessageLeft"> </td>
+						<td class="GmMessageCenter">
+
+							<div class="Default Explain">
+								<div class="Jp">
+									<div class="VotingStyleSeat">
+										<span class="PlayerName" style="font-size:18px">Playerさん</span>の投票です。<br>
+										<br>
+										誰か1人に質問したうえで、投票するプレイヤーを決めてください。
+									</div>
+									<div class="VotingStyleFree">
+										投票先の名前と、その理由を一言で発表してください。
+									</div>
+									<div>
+										残り投票数： <span class="VotingStatus"></span><br>
+									</div>
+								</div>
+
+								<div class="En">
+									<div class="VotingStyleSeat VotingStyleAnonymous">
+										<span class="PlayerName" style="font-size:18px">Player</span>'s turn.<br>
+										<br>
+										Choose one player who you suspect to be a werewolf and explain the reason.
+									</div>
+
+									<div class="VotingStyleFree">
+										Tell the player name that you want to vote for and tell the reason why.
+									</div>
+									<div>
+										Remaining votes: <span class="VotingStatus"></span><br>
+									</div>
+								</div>
+
+							</div>
+
+
+							<div class="FinalJudgement Explain">
+								<div class="Jp">
+									投票の結果、<span class="PlayerName">Playerさん</span>の決選投票を行います。<br>
+									<br>
+									容疑をかけられたプレイヤーは、一言ずつ最後の弁明をしてください。<br>
+									<br>
+									残りのプレイヤーで再投票を行います。<br>
+									なお、さらに投票数が同じになった場合は、
+									<div class="SameVoteExplain SameVoteRandom importantText">決戦投票の対象者から１名が、ランダムに選ばれ、処刑されます。
+										<div class="NarrationButton Jp" id="NA_JP_8A" onclick="PushNarration(this)"></div>
+
+									</div>
+									<div class="SameVoteExplain SameVoteNoKilling importantText">今回の処刑は行われません。
+										<div class="NarrationButton Jp" id="NA_JP_8B" onclick="PushNarration(this)"></div>
+									</div>
+									<div class="SameVoteExplain SameVoteSelectable importantText">「ランダム処刑」するか、「処刑なし」とするか、プレイヤー同士で話し合います。さらに意見がわれた場合は、「ランダム処刑」となります。
+										<div class="NarrationButton Jp" id="NA_JP_8C" onclick="PushNarration(this)"></div>
+									</div>
+
+								</div>
+								<div class="En">
+									As a result of the votes, <span class="PlayerName">Player</span> are the most voted players.<br>
+									Justify yourself before the final vote.<br>
+									<br>
+									The rest of the players make the final vote.<br>
+									If the number of the votes is the same,
+									<span class="SameVoteExplain SameVoteRandom">a player to be executed will be chosen at random.</span>
+									<span class="SameVoteExplain SameVoteNoKilling">none of the players will be killed in this time.</span>
+									<span class="SameVoteExplain SameVoteSelectable">the players vote to decide the judgement rule, "Kill at random" or "No Killing". If the number of votes results in a tie, the judgement will be "Kill at random".</span>
+									<br>
+								</div>
+							</div>
+
+							<div class="DrawJudgement Explain">
+								<div class="Jp">
+									投票の結果、同票となり結論がでませんでした。<br>
+									<br>
+									再投票を行います。
+									<div class="NarrationButton Jp" id="NA_JP_9E" onclick="PushNarration(this)"></div>
+								</div>
+								<div class="En">
+									The result of the vote yielded a tie.<br>
+									All the players make another vote.
+								</div>
+
+							</div>
+
+
+							<div class="NoKilling Explain">
+								<div class="Jp">
+									投票の結果、同票となり結論がでませんでした。<br>
+									<br>
+									<span class="importantText">
+										本日は、誰も処刑しません。<br>
+										（「票割れ時：処刑なし」設定となっています）</span>
+									<div class="NarrationButton Jp" id="NA_JP_9C" onclick="PushNarration(this)"></div>
+
+								</div>
+								<div class="En">
+									The result of the vote yielded a tie.<br>
+									<span class="importantText">At this time, we won't kill anybody.<br>
+										(The judgement rule is set as "No Killing")</span>
+								</div>
+
+							</div>
+
+							<div class="Selectable Explain">
+								<div class="Jp">
+									投票の結果、同票となり結論がでませんでした。<br>
+									<br>
+									決選投票の対象者から「ランダムに１人を処刑する」か、
+									今回は「誰も処刑しない」かを、話し合って決めてください。<br>
+									<br>
+									<span class="importantText">（意見がわれた場合は「ランダム処刑」となります）</span>
+									<div class="NarrationButton Jp" id="NA_JP_8C" onclick="PushNarration(this)"></div>
+
+								</div>
+								<div class="En">
+									The result of the vote yielded a tie.<br>
+									Please decide the execution way, "Kill at random" or "No Killing" by discussion.<br>
+									<br>
+									<span class="importantText">
+										(If the players can't decide it, it will be "Kill at random".)</span>
+								</div>
+
+							</div>
+
+
+						</td>
+						<td class="GmMessageRight"> </td>
+					</tr>
+				</table>
+			</div>
+			<div class="GMMessageFooter"><img src="img/GMMessage_Footer.png" style="width:360px" alt=""></div>
+			<!-- GameMasterBox } ****************************************************-->
+
+			<div class="TimerArea">
+				<div class="TimerBox BgBlue">00:00</div>
+				<div class="Height x20"> </div>
+			</div>
+
+			<!-- ReVoteButton -->
+			<div onclick="InitReVote()" class="ReVoteButton whiteButton Explain">O K</div>
+
+			<!-- NoKillingButton -->
+			<div onclick="GoToTitleNight()" class="NoKillingButton redButton Explain">O K</div>
+
+			<!-- SelectableButton -->
+			<div class="Selectable Explain">
+				<div onclick="KillAtRandomByButton()" class="redButton"><span class="Jp">ランダム処刑</span><span class="En">Kill at random</span></div>
+				<div class="Height x10"></div>
+				<div onclick="GoToTitleNight()" class="blueButton"><span class="Jp">処刑なし</span><span class="En">No Killing</span></div>
+			</div>
+
+			<!--PlayerListBox { ****************************************************-->
+			<div class="PlayerListBox">
+			</div>
+
+			<!-- PlayerBox Templete { *********** -->				
+			<div class="PlayerBox PlayerBoxCard" style="display:none;">
+
+				<!-- 投票数が表示される左列 width:73px *** -->
+				<div class="VoteBox">
+					<div class="VoteQuestion CopperplateBold">?</div>
+					<div class="VoteNum CopperplateBold">0</div>
+					<div class="center"><img src="img/VoteText.png" style="width:41px"></div>
+				</div>
+				<div class="VoteBoxBorder"></div>
+
+				<!-- 名前などが表示される右列 flex:1 *** -->
+				<div class="NameBox">
+					<!-- 名前エリア行 -->
+					<div class="NameRow">
+						<div class="PlayerName Mincho">Player Name</div>
+						<div class="VoteButton">
+							<div class="ActionButton"><span class="voteButton">投票する</span></div>
+							<div class="VotingPlayer"><img src="img/NowVoting.png" style="width:40px"></div>
+						</div>
+					</div>
+					<!-- 投票者行 -->
+					<div  class="VotePlayerShowMode">
+						<div class="VotedPlayerRow VotePlayerList">
+							<div>VotePlayerName</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- ver.11.1 までのデザイン（バックアップ用）-->
+			<div class="PlayerBox_bkup PlayerBoxBg_bkup" style="display:none;">
+				<table class="PlayerList">
+					<tr>
+						<td class="LeftCol">
+							<div class="PlayerName">Player Name</div>
+							<div class="ActionButton"><span class="redButton VoteButton">投票する</span></div>
+						</td>
+						<td class="RightCol">
+							<div class="VoteQuestion">?</div>
+							<div class="VoteNum">Vote : 0</div>
+							<div class="VotePlayerList"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- PlayerBox Templete } *********** -->
+			<!--PlayerListBox } ****************************************************-->
+
+			<!-- Undo Button -->
+			<div class="UndoVoteBox">
+				<div class="Height x20"></div>
+				<div class="Jp"><a style="width:280px" class="grayButton" href="#" onclick="UndoVote()">直前の投票を取り消す</a></div>
+				<div class="En"><a style="width:280px" class="grayButton" href="#" onclick="UndoVote()">Undo Pre-voting</a></div>
+			</div>
+
+		</div>
+
+		<!-- Judgement Result ****************************************************-->
+		<div id="JudgementResult" class="TitlePage">
+			<div class="Height x20"> </div>
+			<p class="ImageTitleBig">Judgement</p>
+			<div class="FaceArea">
+				<p><img alt="" class="FaceImg" onerror="this.src = 'img/FaceIcon.jpg';" src="img/FaceIcon.jpg" /></p>
+				<p class="FaceName PlayerName"></p>
+			</div>
+			<div class="Height x20"> </div>
+
+			<!-- 投票の結果コメント -->
+			<div class="JudgementButton">
+				<div class="TextBox">
+					<div class="JudgementText">
+						・投票の結果
+						・再び同票になったため、ランダムに処刑対象が決まりました。
+						・本日処刑されるのは●●さんです。
+					</div>
+
+					<!-- ナレーション -->
+					<div class="Jp">
+						<div class="NarrationButton NA_Normal" id="NA_JP_9A" onclick="PushNarration(this)"></div>
+						<div class="NarrationButton NA_Random" id="NA_JP_9B" onclick="PushNarration(this)"></div>
+					</div>
+				</div>
+				<div onclick="JudgementAnimation()"><img alt="" src="img/ButtonJudgement.png"></div>
+			</div>
+			<div class="Height x20"> </div>
+
+			<!-- 処刑後のコメント -->
+			<div id="Blood" style="display:none">
+				<div style="height:290px"></div>
+				<div class="TextBox">
+					<div class="TextBoxOutput"></div>
+					<div class="Jp">
+						<div class="NarrationButton Jp NA_Random" id="NA_JP_11" onclick="PushNarration(this)"></div>
+					</div>
+				</div>
+				<!-- 通常モード -->
+				<div><span onclick="GoToNextPage('fade')" class="redButton">O K</span></div>
+				<!-- オンラインモード （データをサーバに反映させてから GoToNextPageする） -->
+				<!--				<div class="REMOTE"><span onclick="SendJudgementResult()" class="redButton">O K</span></div>
+-->
+				<div class="Height x20"> </div>
+			</div>
+		</div>
+
+		<!-- GameOverResult ****************************************************-->
+		<div id="GameOverResult" class="">
+			<div class="BackgroundLayer">
+				<div class="Height ScreenShotHide" style="height:180px;width:1px"> </div>
+				<div class="Height ScreenShotShow" style="display:none;height:120px;width:1px"> </div>
+				<div class="ScreenShotHide">
+					<div class="Jp TextBox">
+						<!-- Citizen Win -->
+						<span class="WinType WinType_Citizen">
+							この瞬間に、人狼は息絶えました。<br>
+							<span class="bigText">市民チームの勝利</span>です。<br>
+						</span>
+
+						<!-- Werewolf Win -->
+						<span class="WinType WinType_Werewolf">
+							この瞬間に、人狼と市民の数は同じになりました。<br>
+							<span class="bigText">人狼チームの勝利</span>です。<br>
+						</span>
+
+						<!-- Werewolf WillWin -->
+						<span class="WinType WinType_WerewolfWill">
+							容疑者を処刑したにも関わらず、再び恐ろしい夜が訪れました。そして、人狼によって市民が殺され、翌朝、人狼と市民の数は同じになりました。<br>
+							<span class="bigText">人狼チームの勝利</span>です。<br>
+						</span>
+
+						<!-- VampireWin -->
+						<span class="WinType WinType_Vampire">
+							この瞬間に、ゲームは終了しました。そして、第三陣営が生き残っています！<br>
+							<span class="bigText"><span class="VampireRoleName">吸血鬼</span>チームの勝利</span>です。<br>
+						</span>
+
+						<!-- 富豪の説明 -->
+						<span class="RichExplain bigText"><span class="RichRoleName">富豪</span>が生き残ったので得点２倍！</span><br>
+
+						<!-- 点数説明 -->
+						勝利したプレイヤーには、<span class="bigText WinningPointShow">15</span>ポイントが加算されます。
+
+						<!-- ナレーションボタン { -->
+						<!-- CitizenWin -->
+						<div class="NarrationButton WinType WinType_Citizen" id="NA_JP_10A" onclick="PushNarration(this)"></div>
+
+						<!-- WerewolfWin -->
+						<div class="NarrationButton WinType WinType_Werewolf" id="NA_JP_10B" onclick="PushNarration(this)"></div>
+
+						<!-- WerewolfWillWin -->
+						<div class="NarrationButton WinType WinType_WerewolfWill" id="NA_JP_10C" onclick="PushNarration(this)"></div>
+
+						<!-- VampireWin -->
+						<div class="NarrationButton WinType WinType_Vampire" id="NA_JP_10D" onclick="PushNarration(this)"></div>
+
+						<!-- } ナレーションボタン -->
+
+					</div>
+
+
+
+					<div class="En TextBox">
+						<!-- Citizen Win -->
+						<span class="WinType WinType_Citizen">
+							At this moment, all the werewolves are executed.<br>
+							<span class="bigText">Citizens Win!</span><br>
+						</span>
+
+						<!-- Werewolf Win -->
+						<span class="WinType WinType_Werewolf">
+							At this moment, the number of werewolves and citizens has become equal.<br>
+							<span class="bigText">Werewolves Win!</span><br>
+						</span>
+
+						<!-- Werewolf WillWin -->
+						<span class="WinType WinType_WerewolfWill">
+							Even though a suspect was executed, another scary night has come.
+							A citizen was killed at that night, and the number of werewolves and citizens has become the same.<br>
+							<span class="bigText">Werewolves Win!</span><br>
+						</span>
+
+						<!-- VampireWin -->
+						<span class="WinType WinType_Vampire">
+							At this moment, the game is over. And the third party survived.<br>
+							<span class="bigText"><span class="VampireRoleName">Vampire</span> Team Win!</span><br>
+						</span>
+
+						<!-- 富豪の説明 -->
+						<span class="RichExplain bigText"><span class="RichRoleName">Rich</span> survived, the winners' points double！</span><br>
+
+						<!-- 点数説明 -->
+						Winners get <span class="bigText WinningPointShow">15</span> pt
+
+					</div>
+
+				</div>
+
+
+				<div style="background-color:rgba(0,0,0,0.5);padding:12px 0">
+					<div class="DateLayout Trajan" style="margin:0px auto;width:250px;font-weight:bold;color:white">
+						<div class="DateBox" style="width:132px;float:left">
+							<div style="font-size:10px;color:#D3D3D3;margin-bottom: 6px">Date</div>
+							<div style="font-size:16px" class="GameOverResult_DATE">Jun 6, 2020</div>
+						</div>
+						<div class="DateBox" style="width:110px;float:right">
+							<div style="font-size:10px;color:#D3D3D3;margin-bottom: 6px">Play Time</div>
+							<div style="font-size:16px" class="GameOverResult_TIME">9999+ mins</div>
+						</div>
+						<hr style="clear:both;visibility: hidden">
+					</div>
+				</div>
+				<div class="Height x24"> </div>
+
+
+				<!-- Winner Title -->
+				<div style="width:300px;margin:0 auto">
+					<div class="WinnerNameTitle"><span class="Trajan">Winner: </span><span class="Mincho WinnerTeam">市民チーム</span></div>
+					<div style="text-align:center"><img src="img/ResultBorder.png" style="width:300px"></div>
+				</div>
+
+				<!--WinnerListBox { ****************************************************-->
+				<div class="WinnerListBox clearfix" style="width:320px;margin:0 auto 12px auto">
+				</div>
+
+				<!-- Loser Title -->
+				<div style="width:300px;margin:0 auto">
+					<div class="WinnerNameTitle"><span class="Trajan">Loser:</span>
+						<span class="Mincho LoserTeam">市民チーム<span class="VampireExplain">、<span class="VampireRoleName">吸血鬼</span>チーム</span></span></div>
+					<div style="text-align:center"><img src="img/ResultBorder.png" style="width:300px"></div>
+				</div>
+
+				<!--LoserListBox { ****************************************************-->
+				<div class="LoserListBox clearfix" style="width:320px;margin:0 auto 12px auto">
+				</div>
+
+				<!-- PlayerBox Templete { *********** -->
+				<div class="PlayerBox PlayerBoxStyle" style="display:none">
+					<table class="PlayerList" style="line-height: 0; width:150px">
+						<tr>
+							<td style="width:34px;line-height:0;font-size:0">
+								<div style="position:relative;height:34px">
+									<div class="FaceImgBoxResult"></div>
+									<div class="DeadIcon"><img src="img/IconDeadWhite.png" style="width:24px"></div>
+								</div>
+							</td>
+							<td style="width:6px;font-size:1px"> </td>
+							<td style="width:110px" class="RoleBg">
+								<div class="PlayerName Mincho HideOverText">PlayerName</div>
+								<div class="PlayerRole Mincho HideOverText">市民</div>
+							</td>
+						</tr>
+						<tr>
+							<td><img src="img/spacer.gif" style="width:1px;height:6px"></td>
+							<td><img src="img/spacer.gif" style="width:1px;height:1px"></td>
+							<td style="border-bottom:#454766 1px solid"><img src="img/spacer.gif" style="width:1px;height:1px;"></td>
+						</tr>
+					</table>
+				</div>
+				<!-- PlayerBox Templete } *********** -->
+				<!-- PLAYER LIST } -->
+
+
+				<!-- Button Set { **************** -->
+				<div class="ScreenShotHide" id="ScreenShotButton">
+					<div class="Height x24"> </div>
+					<div style="text-align:center" class="Jp"><a href="javascript:ShareGameResult()"><img src="img/ButtonResultShareJp.png" style="width:280px"></a></div>
+					<div style="text-align:center" class="En"><a href="javascript:ShareGameResult()"><img src="img/ButtonResultShareEn.png" style="width:280px"></a></div>
+					<div class="Height x12"> </div>
+					<div style="text-align:center"><a href="javascript:jQT.goTo('#Ranking','fade')"><img src="img/ButtonOK.png" style="width:280px"></a></div>
+					<div class="Height x40"> </div>
+					<div class="Height x40"> </div>
+				</div>
+				<!-- Button Set } **************** -->
+
+				<!-- Footer Title -->
+				<div style="width:100%; position:absolute; bottom:0; margin:6px auto;display:none" class="ScreenShotShow">
+					<div class="Trajan" style="text-align:center;position:relative;margin:0 auto;color:white;font-size:8px;text-shadow: 0 2px 2px #000000;font-weight: bold">
+						&copy; Werewolf "Nightmare in Prison"
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<!-- Ranking ********************-->
+		<div id="Ranking" class="TitlePage RankingPage">
+			<div class="Height x20"> </div>
+
+			<p class="ImageTitle">Player Ranking</p>
+			<div class="Height x20"> </div>
+
+			<!-- Ranking Table { *********** -->
+			<table id="RankingTable">
+				<thead>
+					<tr class="Header">
+						<th colspan=2 class="RightBorder">Player Name</th>
+						<th class="RightBorder">Total</th>
+						<th>Add</th>
+					</tr>
+				</thead>
+				<!-- Player Area -->
+				<tbody class="PlayerListBox">
+				</tbody>
+			</table>
+
+			<!--Template-->
+			<table style="display:none">
+				<tbody>
+					<tr class="RowBox RowBoxBg">
+						<td class="TdFaceImg"><img onerror="this.src = 'img/FaceIcon.jpg';" src="img/FaceIcon.jpg" class="FaceImg" alt=""></td>
+						<td class="TdName"> </td>
+						<td class="TdTotal"> </td>
+						<td class="TdAdd redText"> </td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- Ranking Table } ************ -->
+
+
+			<div class="Height x40"> </div>
+
+			<p class="TextBox Jp"><span class="blueText" style="font-size:14px;line-height:150%"><b>プレイヤーランキングとは</b></span><br>
+				ゲーム内容によって得られたポイントの合計によるランキングです。ゲームを続けることで、各プレイヤーに加算されていきます。ぜひ、トッププレイヤーを目指しましょう。
+				<br><br>
+				<span class="blueText" style="font-size:14px;line-height:150%"><b>ポイントの種類</b></span><br>
+				<b>勝利ポイント：</b><br>
+				ゲームに勝利したチームの全員が得られるポイント。市民チームで勝利した場合、<span class="blueText CitizenWinningPointShow">10</span>ポイント。人狼チームで勝利した場合、<span class="blueText WerewolfWinningPointShow">15</span>ポイントが加算されます。
+				<span class="VampireExplain"><span class="VampireRoleName">吸血鬼</span>チームで勝利した場合、<span class="blueText VampireWinningPointShow">20</span>ポイントが加算されます。</span>
+				<br><br>
+				<b>生存ポイント：</b><br>
+				生きて朝を迎えるたびに、<span class="blueText AlivePointShow">1</span>ポイント加算されます。
+				<br><br>
+				<b>ファーストターゲットボーナス：</b><br>
+				強いプレイヤーほど、人狼に狙われやすいため、最初に人狼に殺されたプレイヤーには、<span class="blueText FirstTargetPointShow">3</span>ポイントが加算されます。
+			</p>
+
+			<p class="TextBox En"><span class="blueText" style="font-size:14px;line-height:150%"><b>What is Player Ranking</b></span><br>
+				It is a ranking of total points which you get in the game. Each player gets points as they play the game. Get more points and be a top player!
+				<br><br>
+				<span class="blueText" style="font-size:14px;line-height:150%"><b>How to get points</b></span><br><br>
+				<b>Winning points:</b><br>
+				The points which everyone in the winning team can get.<br>
+				When you win the game as a citizen, you get <span class="blueText CitizenWinningPointShow">10</span> points.<br>
+				When you win the game as a werewolf, you get <span class="blueText WerewolfWinningPointShow">15</span> points.
+				When you win the game as a vampire, you get <span class="blueText VampireWinningPointShow">20</span> points.
+				<br>
+				<br>
+				<b>Surivival points:</b><br>
+				When you survive each night, you get <span class="blueText AlivePointShow">1</span> point.
+				<br>
+				<br>
+				<b>First target bonus points:</b><br>
+				Stronger players are more likely to be targeted by the werewolves.<br>
+				If you are killed first, you get <span class="blueText FirstTargetPointShow">3</span> points.
+				<br>
+				<br>
+			</p>
+
+
+			<div class="Height x20"> </div>
+
+			<!-- 通常モード -->
+			<div class="NO_REMOTE">
+				<div class="Jp" onclick="FinishGame('Continue',true)"><img src="img/ButtonContinueJpSP.png" style="width:280px" /></div>
+				<div class="En" onclick="FinishGame('Continue',true)"><img src="img/ButtonContinueEnSP.png" style="width:280px" /></div>
+				<div class="Height x20"> </div>
+				<div class="Jp" onclick="FinishGame('Top',true)"><img src="img/ButtonBackTitleJp.png" style="width:280px" /></div>
+				<div class="En" onclick="FinishGame('Top',true)"><img src="img/ButtonBackTitleEn.png" style="width:280px" /></div>
+			</div>
+			<!-- オンラインモード -->
+			<div class="REMOTE">
+				<div class="Jp" onclick="FinishGame('ContinueRemoteGame',true)"><img src="img/ButtonContinueRemoteModeJp.png" style="width:280px" /></div>
+				<div class="En" onclick="FinishGame('ContinueRemoteGame',true)"><img src="img/ButtonContinueRemoteModeEn.png" style="width:280px" /></div>
+				<div class="Height x10"> </div>
+				<div class="Jp" onclick="FinishGame('Top',true)"><img src="img/ButtonFinishRemoteModeJp.png" style="width:280px" /></div>
+				<div class="En" onclick="FinishGame('Top',true)"><img src="img/ButtonFinishRemoteModeEn.png" style="width:280px" /></div>
+			</div>
+
+			<div class="Height x20"> </div>
+		</div>
+
+
+
+		<!-- Loading ********************-->
+		<div id="Loading" style="display:none">
+			<div class="Spinner"><img src="img/Spinner.png"></div>
+			<div style="background-color:black">
+				<div class="Height x10"> </div>
+				<div class="Default">
+					<div class="Text Jp">通信中です。<br>今しばらくお待ちください</div>
+					<div class="Text En">Now connecting.</div>
+				</div>
+
+				<div class="AppStore">
+					<div class="Text Jp">App Store へ通信中です。<br>今しばらくお待ちください</div>
+					<div class="Text En">Now connecting to App Store.</div>
+
+				</div>
+				<div class="Height x10"> </div>
+				<div class="Default"><span class="grayButton" onclick="AbortAjax()">Cancel</span></div>
+				<div class="AppStore"><span class="grayButton" onclick="AbortAjax(1,1)">Cancel</span></div>
+				<div class="Height x10"> </div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+	<!-- オンライン用 人狼の声 -->
+	<div id="WerewolfRemoteMessage" style="display:none">
+	</div>
+
+	<div style="display:none" onclick="$(this).hide('slow')" class="WerewolfMessageAreaBg WerewolfRemoteMessage_TEMPLATE">
+		<div class="WerewolfMessageArea flexbox">
+			<!--左セル-->
+			<div class="PlayerIconArea">
+				<div class="PlayerIcon From"></div>
+			</div>
+			<!-- 右セル -->
+			<div class="MessageArea">
+				<div class="WerewolfMessageBox flexbox">
+					<div class="MessageText"> </div>
+					<div class="PlayerIcon To"></div>
+				</div>
+				<div class="WerewolfFromToArea flexbox">
+					<div class="TextFrom"> </div>
+					<div class="TextTo"> </div>
+					<div class="VoteNum"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="WerewolfVoteBox" style="display:none">
+		<div class="WerewolfVoteBox_TEMPLATE">
+				<div class="WerewolfFromToArea flexbox">
+					<div class="TextFrom"> </div>
+					<div class="VoteNum"></div>
+				</div>
+			</div>
+	</div>
+
+
+	<!-- 非同期プログラム用のグローバル変数 -->
+	<input type="hidden" id="gUDID">
+
+</body>
+</html>

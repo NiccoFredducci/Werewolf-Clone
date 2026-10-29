@@ -1,0 +1,3194 @@
+
+/****************************************************
+	Werewolf Design CSS
+****************************************************/
+html {
+	padding:0;
+	margin:0;
+}
+/* ver.11.2 画像を長押しできないようにする */
+/* 処理がものすごく重くなったのでpointer-eventsは使えない
+img {
+	pointer-events: none;
+}
+*/
+body.fullscreen #home .info {
+	  display: none;
+	  background-color:black;
+}
+body {
+	background-color:black;
+	/* iOS8からは、-webkit-overflow-scrolling:touchにすると
+	 * 夜のアクションで、素早く画面スクロールできないので設定しないこと
+	-webkit-overflow-scrolling: touch;*/
+	
+	/* ページ遷移後の初期位置が最初にならないバグ対応 2015.05.04 
+	 * Android版は、JavaScript内で設定する
+	 */ 
+	/* height:auto; */
+}
+input {
+	outline:0;
+	-webkit-appearrance:none;
+	border-radius:0px;
+	box-shadow:0px 0px 0px #FFFFFF;
+}
+
+#jqt {
+
+	width:100%;
+/*	max-width:375px;*/
+	margin:0 auto;
+	/* height:auto; */
+	background-color:black;
+}
+#jqt > * {
+    /* Android 4 対応 */
+    /*height:100%;*/
+   transform: translateZ(0px);
+}
+
+#jqt > div {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#jqt > div > .CommonToolbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: 57px;
+}
+
+/* Add Font Data *****/
+
+@font-face {
+	font-family: "Trajan Pro";
+	src: local("Trajan Pro"),
+	url("./font/TrajanPro.otf") format("opentype");
+}
+.Mincho {
+	font-family:'HiraMinProN-W6', 'Hiragino Mincho ProN', serif;
+}
+.Trajan {
+	font-family:"Trajan Pro";
+}
+@font-face {
+	font-family: "MPLUS1p-Regular";
+	src:url("./font/MPLUS1p-Regular.ttf") format("truetype");
+}
+.Mplus1 {
+	font-family:'MPLUS1p-Regular';
+}
+@font-face {
+	font-family: "MPLUS1p-ExtraBold";
+	src:url("./font/MPLUS1p-ExtraBold.ttf") format("truetype");
+}
+.Mplus1b {
+	font-family:'MPLUS1p-ExtraBold';
+}
+@font-face {
+	font-family: "CopperplateBold";
+	src:url("./font/CopperplateBold.otf") format("opentype");
+}
+.CopperplateBold {
+	font-family:'CopperplateBold';
+	letter-spacing: -0.1em;
+}
+
+
+/* Common Font */
+.Font11 {
+	font-size: 11px;
+}
+.Font12 {
+	font-size: 12px;
+}
+.Font14 {
+	font-size:14px;
+}
+.Font16 {
+	font-size:16px;
+}
+
+.FontWhite {
+	color:white;
+}
+
+
+/* Common Button */
+.ButtonBlue {
+	background: #456EDD;
+	border-radius: 10px;
+	font-size: 12px;
+	color: #FFFFFF;
+	letter-spacing: 0;
+	text-align: center;
+	display:block;
+	width:230px;
+	height:35px;
+	line-height: 35px;
+	margin:6px auto;
+	text-decoration: none;
+}
+.ButtonBlueDisabled {
+	background: #999;
+	border-radius: 10px;
+	font-size: 12px;
+	color: #FFFFFF;
+	letter-spacing: 0;
+	text-align: center;
+	display:block;
+	width:230px;
+	height:35px;
+	line-height: 35px;
+	margin:6px auto;
+	text-decoration: none;
+}
+
+.DotLine {
+	border-top:1px dotted #CCC;
+	margin: 10px 10px 10px 10px;
+}
+.Center {
+	text-align:center;
+}
+.FlexCenter {
+	display: flex;
+	justify-content: center;
+	/* 水平方向に中央揃え */
+	align-items: center;
+	/* 垂直方向に中央揃え */
+	height: 100vh;
+	/* 画面全体の高さを確保 (100vh = 100% of viewport height) */
+}
+.WhiteBorder {
+	background-image:url(img/WhiteBorder.png);
+	width:320px;
+	height:1px;
+	margin: 24px 0;
+}
+.MailText {
+	font-size:16px;
+	text-decoration: underline;
+}
+
+.HoverDark:hover {
+	filter: brightness(50%);	
+}
+.HideOverText {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.clearfix:after {
+    content: "";         /* 擬似要素を実体化 */
+    clear: both;        /* floatを解除する */
+    display: block;     /* ブロック要素にする */
+}
+.flexbox{
+	display:flex;
+}
+
+/* 共通ツールバー ***/
+.CommonToolbar {
+	background-image:url(./img/HeaderBackground.png);
+	background-position-x:right;
+	background-position-y:4px;
+	background-size: 100% 100%;/*auto 57px;*/
+	background-repeat: no-repeat;
+	height:57px;
+}
+.CommonToolbar h1, .CommonToolbarOnlyTitle h1 {
+	margin: 0 0 24px 0;
+	width:100%;
+	color:white;
+	font-size:18px;
+	text-align:center;
+}
+.CommonToolbar h1.Jp {
+	font-family:'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	font-weight:bold;
+	line-height:60px;
+}
+.CommonToolbar h1.En, .CommonToolbarOnlyTitle h1.En {
+	font-family:'Trajan Pro';
+	font-weight:bold;
+	line-height:62px;
+}
+
+.CommonToolbar .back, .CommonToolbar .backbg {
+	position: absolute;
+	z-index:2;
+	top:3px;
+	width:63px;
+	height:57px;
+	display:block;
+	background-image:url(img/BackButtonNew.png);
+	background-size:63px auto;
+}
+.CommonToolbarOnlyTitle {
+	background-image:url(img/HeaderTitleBg.png);
+	background-size: auto 64px;
+	background-position-x: center;
+	background-position-y: center;
+	background-repeat: no-repeat;
+	height:64px;
+}
+.CommonToolbarOnlyTitle h1.Jp {
+	font-family:'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	font-weight:bold;
+	color:white;
+	font-size:18px;
+	line-height:60px;
+}
+.CommonToolbarOnlyTitle h1.En {
+	font-family:'Trajan Pro';
+	font-weight:bold;
+	line-height:64px;
+}
+
+
+
+
+/* about ****************************************************/
+#About, #Secret {
+	text-align: center;
+    background-image:url(img/Background_Night.jpg);
+	color:#fff;
+}
+#About .Title{
+	text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+	font-size: 13px;
+	margin-bottom:24px;
+}
+#About .BodyText{
+	font-size:12px;
+	margin-bottom:30px;
+	line-height:150%;
+	font-weight:normal;
+}
+#About a {
+	color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#About .SecretButton {
+	width:320px;
+	height:20px;
+	top:0px;
+	left:0px;
+	position:absolute;
+	z-index:100;
+}
+#Secret ul {
+	width:200px;
+}
+#Secret .Success {
+	display:none;
+}
+
+
+/* How To Play ****************************************************/
+.Tutorial {
+	padding-bottom:30px;
+	background-image:url(img/CardSliderBackground.jpg);
+	background-size:contain;
+	background-position-x: center;
+}
+.Tutorial .TitleText, #Medal .TitleText {
+	color: #FFF;
+	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
+	font-size:16px;
+	font-weight: bold;
+	margin:15px 0px 15px 0px;
+	padding-left:10px;
+}
+.Tutorial .BodyText, #Medal .BodyText {
+	font-size:12px;
+	margin-bottom:30px;
+	line-height:150%;
+	font-weight:normal;
+}
+
+/* Top ****************************************************/
+#Top {
+	position:relative;
+	background-color:#000;
+	background-image:url(img/TitleBackground@2x.png);
+	background-size:cover;
+	background-position-x:center;
+	background-repeat:no-repeat;
+}
+#Top_wolf {
+	position:relative;
+	display:none;
+/*	background-image:url("img/TitleBackground@2x.png");
+	background-size:cover;
+	background-position-x:center;
+	background-repeat:no-repeat;
+	background-color:#000;
+	*/
+	text-align:center;
+	width:100%;
+	margin:0 auto;
+}
+#Top .LanguageButton {
+    font: normal 14px Futura;
+    text-align:center;
+    width:120px;
+    height:20px;
+    line-height:20px;
+    text-decoration: none;
+    display:block;
+    margin:0 auto;
+
+	padding: 10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#111b4b), to(#45507c));	
+	border: 1px #FFF solid;
+	color: #FFF;
+	border-radius: 10px;	
+}
+
+#Top .FooterCopyright {
+	text-align:center;
+	font-family:"Baskerville-SemiBold";
+	color:white;
+	font-size:10px;
+}
+#Footer {
+	position:fixed;
+	display:flex;
+	bottom:0;
+	height:88px;
+	width:100%;
+	z-index:100;
+	background-position-x: center;
+	background-position-y: 23px;
+	background-size:auto 74px;
+	background-repeat: repeat-x;
+	background-image:url(img/FooterMenuBg.png);
+}
+#Footer .FooterMenu {
+	width:100%;
+	background-position-x: center;
+	background-repeat: no-repeat;
+	padding-top:60px;
+	text-align: center;
+	text-shadow: 1px 1px 3px #000000;
+	
+}
+#Footer .FooterMenu.MSide {
+	background-position-y: 15px;
+	background-size: auto 55px;
+}
+#Footer .FooterMenu.MCenter {
+	background-position-y: 0px;
+	background-size: auto 84px;
+}
+#Footer .FooterMenu .En {
+	font-family: 'CopperplateBold';
+	font-size:11px;
+	color: #FFFFFF;
+	letter-spacing: 0;
+}
+#Footer .FooterMenu .Jp {
+	font-family: 'MPLUS1p-ExtraBold';
+	font-size:12px;
+	color: #FFFFFF;
+	letter-spacing: 0;
+}
+#Footer .News {
+	background-image: url(img/FooterMenu_News.png);	
+}
+.NewsOn {
+	background-image: url(img/FooterMenu_NewsOn.png);
+	animation: jump 3s infinite;
+}
+/* ジャンプアニメーション ****/
+@keyframes jump {
+	0% {
+		background-position-y: 15px;
+		animation-timing-function: ease-out;	}
+
+	8% {
+		background-position-y: 0px;
+		/* ジャンプの頂点 */
+		animation-timing-function: ease-in;	}
+
+	16% {
+		background-position-y: 15px;
+		animation-timing-function: ease-out;		/* 降下中 */
+	}
+
+	24% {
+		background-position-y: 5px;
+		animation-timing-function: ease-in;
+			/* 降下中 */		/* 2回目のジャンプ */
+	}
+
+	32%,100% {
+		background-position-y: 15px;
+		animation-timing-function: ease-out;		/* 着地 */
+	}
+}
+/***********************************************/
+
+
+#Footer .Cards {
+	background-image: url(img/FooterMenu_Cards.png);	
+}
+#Footer .Game {
+	background-image: url(img/FooterMenu_Game.png);	
+}
+#Footer .Rule {
+	background-image: url(img/FooterMenu_Rule.png);	
+}
+#Footer .Other {
+	background-image: url(img/FooterMenu_Other.png);	
+}
+#Footer .Account {
+	background-image: url(img/FooterMenu_Account.png);
+}
+
+/*
+#Top .BannerArea {
+	position:absolute;
+	z-index:50;
+	bottom:10px;
+	left:0px;
+	right:0px;
+	text-align:center;
+	width:100%;
+	max-width:375px;
+	line-height:0;
+	margin:0 auto;
+	height:50px;
+}
+*/
+#ReloadButton {
+	position:absolute;
+	z-index:52;
+	bottom:150px;
+	left:0;
+	right:0;
+	text-align:center;
+	width:80%;
+	height:50px;
+	line-height:50px;
+	margin:0 auto;
+	border: 1px #fff solid;
+	border-radius: 10px;
+	color:#fff;
+	font-family:"Trajan Pro";
+	font-weight:bold;
+
+}
+#ReloadButton div {
+	height:50px;
+	line-height:50px;
+}
+
+#Top .CommunityArea {
+margin-top:24px;
+}
+*/
+#TopContinue {
+	visibility: hidden;
+}
+#Top #MainMenu div {
+	line-height:0;
+}
+#Top .MenuButton {
+	display:block;
+	width:162px;
+	height:32px;
+	line-height:36px;
+	margin:0 auto 5px;
+	font-family:"Trajan Pro";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 4px;
+	font-size:14px;
+	text-align:center;
+	background-repeat:no-repeat;
+}
+#Top .MenuButton.Green {
+	background-image:url(img/MenuButton_Green.png);
+}
+#Top .MenuButton.Red {
+	background-image:url(img/MenuButton_Red.png);
+}
+#Top .MenuButton.Blue {
+	background-image:url(img/MenuButton_Blue.png);
+}
+#Top .TutorialMenuBg {
+	background-image:url(img/MenuTutorialBg.png);
+	background-repeat:repeat-y;
+	background-position:center;
+	margin:0;
+	padding:0;
+}
+select {
+    -webkit-appearance: none;
+
+	padding: 5px 10px 5px 10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#DDD), to(#EEE));	
+	border: 1px #999 solid;
+	color: #000;
+	border-radius: 10px;
+}
+
+
+/* TitlePage ****************************************************/
+.TitlePage {
+	text-align: center;
+    background-image:url(img/Background_Night.jpg);
+}
+.TitleRoom {
+	text-align: center;
+	background-image: url(img/Background_ModeSelect.jpg);
+	background-size:100% auto;
+	background-repeat: no-repeat;
+	background-color: #0D142F;
+}
+.TitlePageNoBg {
+	text-align: center;
+}
+.TitlePageMorning {
+	text-align: center;
+	background-image:url(img/Background_Morning.jpg);
+	padding-bottom:40px;
+	min-height:460px;
+}
+.TitlePageSunset{
+	/* text-align: left; */
+	background-image:url(img/Background_Sunset.jpg);
+	padding-bottom:40px;
+	min-height:460px;
+}
+.TitlePageNoPadding {
+	text-align: center;
+    background-image:url(img/Background_Night.jpg);
+	min-height:460px;
+	background-attachment: fixed;
+
+}
+.TitlePage.WinWerewolves {
+	min-height:460px;
+}
+.TitlePage.WinCitizens {
+	min-height:460px;
+}
+
+.TitlePage.RankingPage {
+	background-image:url(img/Background_Morning.jpg);
+}
+
+.WinnerTitle {
+	font-weight:bold;
+	font-size:16px;
+}
+.Winner, .Looser {
+	line-height:150%;
+}
+
+/* Room *******************/
+.GameRoomClass .PlayerList {
+	width: 100%;
+	height: 95px;
+	border-top:solid #999 1px;
+	display: flex;
+	text-align: left;
+	align-items: center;
+	background-color: rgba(0,0,0,0.5);
+	cursor: move;
+}
+.GameRoomClass .PlayerList.sortable-chosen {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.GameRoomClass .PlayerList.sortable-ghost {
+	background-color: #B13495;
+}
+
+.GameRoomClass .stats-avatar{
+	width:90px;
+}
+.GameRoomClass .stats-avatar-around {
+	margin:0 auto;
+}
+.GameRoomClass .PlayerNameBox {
+	flex-grow:1;
+	color:white;
+}
+.GameRoomClass .PlayerName {
+	font-size:16px;
+}
+.GameRoomClass .GmLabel {
+	font-size: 12px;
+}
+.GameRoomClass .DragButton,.GameRoomClass .DeleteButton {
+	width: 45px;
+}
+.GameRoomClass .RoomId {
+	color:white;
+	margin:24px;
+	text-align:center;
+	font-size:12px;
+
+}
+.GameRoomClass .ExitArea {
+	position: absolute;
+	bottom: 48px;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+}
+
+
+.IconDrag {
+	background-image:url(img/Icon_DragMember.png);
+	background-size: 25px auto;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 30px;
+}
+
+.GameRoom_OPEN {
+	display: block;
+}
+
+.GameRoom_CLOSE {
+	display: none;
+}
+
+/* NewGame  ****************************************************/
+.ArrowDown {
+	margin-bottom:15px;
+}
+#Title_NewGame .ModeMenuBox {
+	width: 360px;
+	height: 170px;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	background-size: 360px auto;
+	position:relative;
+	z-index: 1;
+}
+#Title_NewGame .ModeMenuBox .ModeMenuSubtitle {
+	font-size: 12px;
+	position: absolute;
+	top: 60px;
+	left: 90px;
+	color: white;
+	z-index: 2;
+}
+#Title_NewGame .ModeMenuBox .ModeMenuBody {
+	text-align: left;
+	width: 230px;
+	font-size: 12px;
+	position: absolute;
+	top: 100px;
+	left: 90px;
+	color: white;
+	z-index: 3;
+}
+
+#Title_NewGame .ModeMenuBox.Online {
+	background-image:url(img/Button_OnlineMode.png);
+}
+#Title_NewGame .ModeMenuBox.Offline {
+	background-image: url(img/Button_OfflineMode.png);
+}
+
+/* InputPlayer ****************************************************/
+#PlayerSetting #PlayerSettingFaceBox {
+	margin: 0 auto;
+	width:320px;
+}
+#PlayerSetting .FaceReflect {
+	float:left;
+	margin: 0 0 3px 3px;
+/*	width:90px; */
+
+/*    -webkit-box-reflect:below 0px 
+    -webkit-gradient(linear, left top, left bottom,
+        from(transparent),
+        color-stop(0.5, transparent), to(rgba(255,255,255,0.5)));*/
+    
+/*    -webkit-box-reflect:below 1px url("img/reflect.png");*/
+}
+
+#PlayerSetting .FaceArea, #InputPlayer .FaceArea {
+	position: relative;
+	overflow: hidden;
+	width:75px;
+	height:90px;
+	border:1px solid rgb(200,200,200);
+}
+
+#PlayerSetting .FaceImg, #InputPlayer .FaceImg {
+	width:75px;
+	position: absolute;
+	top:-5px;
+	left:0px;
+	z-index:1;
+}
+#PlayerSetting .FaceName, #InputPlayer .FaceName {
+	position: absolute;
+	top:72px;
+	left:0px;
+	background-color: rgba(0,0,0,0.5);
+	color:#FFF;
+	font-size:10px;
+	height:18px;
+	width:75px;
+	max-width:75px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	line-height:18px;
+	z-index:2;
+}
+#PlayerSetting .CpuMark {
+	position: absolute;
+	top:2px;
+	left:49px;
+	z-index:5;
+	display:block;
+
+}
+#PlayerSetting .FirstNightNoKillBox {
+	width:300px;
+	text-align:center;
+}
+
+
+/* InputPlayer ****************************************************/
+#InputPlayer .LeftCol {
+	margin: 0 15px 0 15px;
+	padding:0 0 0 10px;
+	width:90px;
+	float:left;
+/*    -webkit-box-reflect:below 0px 
+    -webkit-gradient(linear, left top, left bottom,
+        from(transparent),
+        color-stop(0.5, transparent), to(rgba(255,255,255,0.5)));*/
+    -webkit-box-reflect:below 1px url("img/reflect.png");
+
+}
+#InputPlayer .RightCol {
+	float:left;
+	width:180px;
+	text-align: left;
+}
+
+#InputPlayer #InputPlayerCpuMark {
+	position: absolute;
+	top:2px;
+	left:49px;
+	z-index:50;
+	display: none;
+}
+
+
+#InputPlayer .InputText {
+	width:95%;
+}
+#InputPlayer .InputPassword {
+	width:60px;
+}
+
+hr {
+	clear:both;
+	visibility: hidden;
+}
+
+/* CheckRoleNum ****************************************************/
+/*
+#CheckRoleNum {
+	overflow-y:scroll;
+	-webkit-overflow-scrolling: touch;
+}
+*/
+.CardGroupTitleBasic {
+	background-image: url(img/CardSetPage_Title_Basic.jpg);
+	background-position:center;
+	font-size:18px;
+	line-height:35px;
+	height:35px;
+	text-align:center;
+    text-shadow: #000 1px 1px 4px;
+    color:white;
+	font-family:"Trajan Pro";
+}
+.CardGroupTitleAdvance {
+	background-image: url(img/CardSetPage_Title_Advance.jpg);
+	background-position:center;
+	font-size:18px;
+	line-height:35px;
+	height:35px;
+	text-align:center;
+    text-shadow: rgba(0, 0, 0, 1) 0px 0px 10px;
+    color:white;
+	font-family:"Trajan Pro";
+}
+.Ornament {
+	font-family:"Bodoni Ornaments";
+	font-size:20px;
+}
+.CardBox {
+	background-image: url(./img/CardBg.jpg);
+	background-color: #333;
+	border-top:1px #111111 solid;
+	border-bottom:2px #111111 solid;
+/*	width:320px;
+*/	width:100%;
+padding:24px 0;
+}
+.CardBox .CardBoxLeftMargin {
+	width:20px;
+}
+.CardBox .CardBoxLeftCard {
+	padding:10px 0 10px 0;
+	width:120px;
+	text-align:right;
+	vertical-align:middle;
+	
+}
+.CardBox .CardBoxRight {
+	padding:10px 0 10px 0;
+	width:180px;
+	vertical-align:top;
+	
+}
+.CardBox .CardName {
+	background-color:#FFF;
+	border-radius: 13px;
+	border:1px solid #666;
+	width:160px;
+	text-align:center;
+    margin:2px auto 2px auto;
+    background-image:url(img/IconRoleName.png);
+    background-repeat: no-repeat;
+    background-position-x: 140px;
+    background-position-y: center;
+    background-size: 17px auto;
+}
+.CardBox .CardNameDefault {
+/*	background-color:#333;*/
+	border-bottom:1px solid #FFF;
+	width:160px;
+	text-align:center;
+	margin:2px auto 2px auto;	
+}
+.CardBox .CardNameCitizen {
+	border-radius: 10px;
+	border:1px solid #666;
+	width:160px;
+	text-align:center;
+	margin:2px auto 2px auto;
+	height:30px;
+	line-height:30px;
+	font-size:18px;
+	color:#000;
+/*    text-shadow: rgba(0, 0, 0, 1) 0px 0px 15px;*/
+}
+
+.InputCardName {
+	font-size:16px;
+	color:#FFF;
+	text-align:center;
+	width:150px;
+	height:30px;
+	line-height:30px;
+	border:none;
+	background-color:transparent;
+	font-family: serif;
+}
+#CardSlider .InputCardName {
+	background-image:url(img/IconEditName.png);
+	background-repeat: no-repeat;
+	background-position-x:right;
+	background-position-y: center;
+	background-size:14px 14px;
+}
+#Tutorial_Card .InputCardName {
+	width:100%;
+}
+
+
+.CardBox .CardNum {
+	margin-top:20px;
+	font-size:80px;
+	color:#FFF;
+	text-align:center;
+	font-family:'Trajan Pro','Times New Roman','Dancing Script';
+	line-height:80px;
+	
+}
+.CardBox .CardPlusButton {
+	width:125px;
+	margin:0 auto;
+}
+.CardBox .CardPlusButton td {
+	text-align:center;
+}
+.CardBox .RoleBodyText {
+	text-align:left;
+	color:#fff;
+	/*text-shadow:rgba(0,0,0,0.8) 0px 0px 5px;*/
+	font-size:14px;
+    line-height:150%;
+}
+.CardBox .RoleBodyText .Jp, .CardBox .RoleBodyText .En {
+    width:320px;
+    margin: 15px auto;
+    text-align:left;
+}
+.CardBox .PointText {
+	text-align:right;
+	color:#fff;
+	font-size:16px;
+	line-height:150%;
+	padding:0 10px 0px 0px;
+	margin-bottom:10px;
+}
+
+/* Setting Explain ***/
+#CheckRoleNum div.RoleBodyText {
+
+	text-align:left;
+	color:#fff;
+	/*text-shadow:rgba(0,0,0,0.8) 0px 0px 5px;*/
+	font-size:14px;
+	line-height:150%;
+	width:300px;
+	margin:0 auto;
+		
+}
+
+/* Buy Card's Setting ( Need Update ) ******/
+#CheckRoleNum .AdBanner {
+    width:320px;
+    margin-bottom:-4px;
+}
+#CheckRoleNum .CardBgSize {
+	background-size:120px auto;
+	background-repeat:no-repeat;
+	background-position-x:right;
+}
+#CheckRoleNum .CardBgLovers {
+	background-image:url(img/Card_Lovers.png);
+}
+#CheckRoleNum .CardBgPsycho {
+	background-image:url(img/Card_Psycho.png);
+}
+#CheckRoleNum .CardBgVampire {
+	background-image:url(img/Card_Vampire.png);
+}
+#CheckRoleNum .CardBgRich {
+	background-image:url(img/Card_Rich.png);
+}
+#CheckRoleNum .CardBgBat {
+	background-image:url(img/Card_Bat.png);
+}
+#CheckRoleNum .CardBgPsychoKiller {
+	background-image:url(img/Card_PsychoKiller.png);
+}
+#CheckRoleNum .CardBgGreatShaman {
+	background-image:url(img/Card_GreatShaman.png);
+}
+#CheckRoleNum .CardBgCosplayer {
+	background-image:url(img/Card_Cosplayer.png);
+}
+#CheckRoleNum .CardBgPaparazzi {
+	background-image:url(img/Card_Paparazzi.png);
+}
+#CheckRoleNum .CardBgMagician {
+	background-image:url(img/Card_Magician.png);
+}
+#CheckRoleNum .CardBgBomber {
+	background-image:url(img/Card_Bomber.png);
+}
+#CheckRoleNum .CardBgMentalist {
+	background-image:url(img/Card_Mentalist.png);
+}
+#CheckRoleNum .CardBgDarkShaman {
+	background-image:url(img/Card_DarkShaman.png);
+}
+#CheckRoleNum .CardBgDestinedLovers {
+	background-image:url(img/Card_DestinedLovers.png);
+}
+#CheckRoleNum .CardBgRainMan {
+	background-image:url(img/Card_RainMan.png);
+}
+#CheckRoleNum .CardBgOriginal {
+	background-image:url(img/Card_Original.png);
+}
+
+/* New Icon Image */
+#CheckRoleNum .NewCardIcon {
+	position:absolute;
+	z-index:50;
+	top:-15px;
+	right:-45px;
+	background-image:url(img/NewCardIcon.png);
+	background-size:contain;
+	background-repeat: no-repeat;
+	width:72px;
+	height:51px;
+}
+
+#CheckRoleNum .BuyCard {
+	background-image:url(img/BuyButtonBg.png);
+	background-size: 155px auto;
+	background-repeat: no-repeat;
+	font-size:14px;
+	width:155px;
+	height:36px;
+	line-height: 36px;
+	text-align:center;
+	text-indent: 10px;
+}
+
+#AdBannerUnlocks {
+    background-image:url(img/AdBannerUnlocks.png);
+    background-size:294px 75px;
+    width:284px;
+    height:65px;
+    margin: 0 auto;
+    padding: 5px;
+    font-size:14px;
+    color:#333;
+    text-align: center;
+
+}
+#UnlockCampCards {
+    font-size:16px;
+    color:#CF04A1;
+    font-weight: bold;
+    line-height:30px;
+}
+
+/* Voting Style ***********************************************/
+#CheckRoleNum .VotingStyle {
+	width:105px;
+	height:90px;
+	background-image:url(img/VotingStyle.png);
+	position: relative;
+	background-size:315px 180px;
+	background-repeat: no-repeat;
+
+}
+#CheckRoleNum .VotingStyleText {
+	position: absolute;
+	top:70px;
+	width:105px;
+	font-size:12px;
+	text-align:center;
+	color:#000;
+}
+#CheckRoleNum .VotingStyleSeat {
+	background-position:0px 0px;
+}
+#CheckRoleNum .VotingStyleFree {
+	background-position:-105px 0px;
+}
+#CheckRoleNum .VotingStyleAnonymous {
+	background-position:-210px 0px;
+}
+#CheckRoleNum .VotingStyle_On {
+	background-position-y:-90px;
+}
+
+/* SameVote ***********************************************/
+#CheckRoleNum .SameVote {
+	width:105px;
+	height:90px;
+	background-image:url(img/SameVote.png);
+	position: relative;
+	background-size:315px 180px;
+	background-repeat: no-repeat;
+
+}
+#CheckRoleNum .SameVoteText {
+	position: absolute;
+	top:70px;
+	width:105px;
+	font-size:12px;
+	text-align:center;
+	color:#000;
+}
+#CheckRoleNum .SameVoteRandom {
+	background-position:0px 0px;
+}
+#CheckRoleNum .SameVoteNoKilling {
+	background-position:-105px 0px;
+}
+#CheckRoleNum .SameVoteSelectable {
+	background-position:-210px 0px;
+}
+#CheckRoleNum .SameVote_On {
+	background-position-y:-90px;
+}
+
+/* Purchased *******************************************************************/
+#Purchased, #Restored {
+	text-align: center;
+	background-image:url(img/Background_Night.jpg);
+	color:#fff;
+	background-attachment: fixed;
+}
+#Purchased .CardBg{
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:260px 350px;
+	width:260px;
+	height:350px;
+	margin:0 auto;
+}
+#Purchased .Key {
+	position:absolute;
+	width:100%;
+	text-align:center;
+	top:-105px;
+	left:0px;
+	z-index:100;
+}
+#Purchased .WhiteBoard {
+	position:absolute;
+	background-color:white;
+	top:0px;
+	left:0 auto;
+	width:100%;
+	height:100%;
+	z-index:101;
+	display:none;
+}
+#Purchased .YouGotTheCard {
+	display:none;
+}
+
+/* Restored **********************************************/
+#Restored .RestoreList {
+	border-radius: 10px;
+	border: 1px solid white;
+	width:80%;
+	background-color:black;
+	padding:10px 0;
+	color:white;
+	font-size:14px;
+	margin:5px auto;
+}
+
+/* Medal *******************************************************************/
+#Medal {
+	background-image:url(img/CardBg.jpg);
+}
+#Medal .MedalPointBg {
+	background-image:url(img/MedalPagePointBg.png);
+	width:290px;
+	height:95px;
+	position:relative;
+	margin: 0 auto;
+	
+}
+#Medal .MedalPoint {
+	font-family:"Times New Roman";
+	font-family:"Georgia-Bold";
+	font-size:30px;
+	text-shadow: 1px 1px 1px #000,
+		2px 2px 3px #000,
+		2px 2px 4px #000,
+		3px 3px 5px #000;
+	font-weight:bold;
+	color:#FF3300;
+	color:white;
+	position:absolute;
+	top:6px;
+	left:180px;
+}
+#Medal .UserCode {
+	font-family:"Georgia-Bold";
+	font-size:20px;
+	text-shadow: 1px 1px 1px #000,
+		2px 2px 2px #000,
+		-1px -1px 2px #000,
+		2px 2px 3px #000;
+	font-weight:bold;
+	color:#A6CAFF;
+	color:white;
+	position:absolute;
+	top:44px;
+	left:160px;
+}
+#Medal .CenterTitle {
+	text-align:center;
+	font-size:14px;
+	color:white;
+}
+/* Loading *******************************************************************/
+#Loading_bkup {
+	width:100%;
+	height:120%;
+	z-index:500;
+	position:absolute;
+	top:0;
+	left:0;
+	background-color:rgba(0,0,0,0.5);
+}
+#Loading, #NewsModal {
+	width:100%;
+	height:120%;
+	z-index:500;
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(0,0,0,0.5);
+}
+html.is-fixed, html.is-fixed body, html.is-fixed #jqt {
+	overflow:hidden;
+	height:100%;
+}
+.Spinner {
+	margin:140px auto 100px auto;
+	width:48px;
+	height:48px;
+}
+.Spinner img {
+	animation-name: RotateAnime;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function:linear;
+}
+#Loading .Text {
+	color: white;
+	text-align:center;
+	background-color:black;
+	font-family:"Trajan Pro",'HiraMinProN-W6', 'Hiragino Mincho ProN';
+}
+@-webkit-keyframes RotateAnime {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+}
+
+/* Hand Mortion *******************************************************************/
+#HandScrollDisplay {
+	z-index:1000;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+}
+
+
+#HandScrollDisplay .IconTap{
+	position:absolute;
+  animation: IconScrollFade ease-out 2s;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 50%;
+  width:100%;
+}
+
+@-webkit-keyframes IconScrollFade {
+  0% {
+    opacity:0;
+    transform:  translate(0px,265px)  scaleX(0.80) scaleY(0.80) ;
+  }
+  7% {
+    opacity:0.5;
+    transform:  translate(0px,265px)  scaleX(0.80) scaleY(0.80) ;
+  }
+  83% {
+    opacity:0.5;
+    transform:  translate(0px,145px)  scaleX(0.80) scaleY(0.80) ;
+  }
+  100% {
+    opacity:0;
+    transform:  translate(0px,145px)  scaleX(1.00) scaleY(1.00) ;
+  }
+}
+
+
+
+
+
+/* Enter Password *******************************************************************/
+#EnterPassword .FaceArea {
+	position: relative;
+	overflow: hidden;
+	width:150px;
+	height:180px;
+	border:1px solid rgb(200,200,200);
+	margin:0px auto 0px auto;
+	display:block;
+}
+
+#EnterPassword .FaceImg {
+	width:150px;
+	position: absolute;
+	top:-10px;
+	left:0px;
+	z-index:1;
+}
+#EnterPassword .FaceName {
+	position: absolute;
+	top:145px;
+	left:0px;
+	background-color: rgba(0,0,0,0.5);
+	color:#FFF;
+	font-size:18px;
+	height:35px;
+	width:150px;
+	max-width:150px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	line-height:35px;
+	z-index:2;
+}
+
+/* Dream ****************************************************/
+#Dream, #SelectPlayer {
+/*	height:460px;
+	height:100%;*/
+	background-image:url(img/Background_Night.jpg);
+}
+
+#ShuffleCard {
+	width:260px; 
+	height:350px; 
+	margin:0 auto;
+	background-size:contain;
+}
+
+#Dream .PlayerBoxBg, #SelectPlayer .PlayerBoxBg {
+	background-image:url(img/NightPlayerListBg.png);
+	background-size:320px auto;
+	background-repeat:no-repeat;
+	width:320px;
+	margin: 0 auto 10px auto;
+}
+#Dream .PlayerBoxBgRed {
+	background-image:url(img/NightPlayerListBg_Red.png);
+}
+
+#Dream .PlayerBoxBgBlue {
+	background-image:url(img/NightPlayerListBg_Blue.png);
+}
+#Dream .PlayerList, #SelectPlayer .PlayerList {
+	width:320px;
+	height:135px;
+}
+#Dream .PlayerList .LeftCol, #SelectPlayer .PlayerList .LeftCol {
+	width:110px;
+	text-align:left;
+	vertical-align:top;
+	padding-top:10px;
+}
+.FaceImgBox{
+	width:82px;
+	background:linear-gradient(#A09EA3, #38343C);
+	/* Sketch doesnt export gradient borders at this point */
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.70);
+	border-radius: 10px;
+	overflow:hidden;
+	padding:1px;
+	margin-left:15px;
+	margin-top:2px;
+	height:auto;
+	line-height:0;
+}
+
+#Dream .DreamFaceImg, #SelectPlayer .DreamFaceImg {
+	width:100%;
+	border-radius:10px;
+	margin:0;
+	padding:0;
+}
+#Dream .PlayerList .RightCol, #SelectPlayer .PlayerList .RightCol {
+	width:210px;
+	padding-top: 18px;
+	text-align:top;
+	vertical-align:top;
+}
+#Dream .PlayerList .RightCol .PlayerName, #SelectPlayer .PlayerList .RightCol .PlayerName {
+	font-size:18px;
+	text-align:center;
+	color:white;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 3px;
+	margin:8px 0 0 0;
+}
+#Dream .PlayerList .RightCol .Ranking, #SelectPlayer .PlayerList .RightCol .Ranking {
+	font-size:12px;
+	text-align:center;
+	font-family:"Times New Roman";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px -1px 0;
+}
+#Dream .PlayerList .RightCol .ActionButton, #SelectPlayer .PlayerList .RightCol .ActionButton {
+	text-align:center;
+	font-family:"Times New Roman";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px -1px 0;
+	font-size:32px;
+	margin: 20px 0px 3px 0px;
+}
+#OtherDream .RoleName {
+	text-align:left;
+	font-size:24px;
+}
+#OtherDream .SmallCard {
+	width:60px;
+}
+#Dream .PlayerList .RightCol .RoleName, #SelectPlayer .PlayerList .RightCol .ActionButton{
+	font-family:"Trajan Pro",'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	font-size:28px;
+}
+#Dream .PlayerList .KillReasonButtonBox, #SelectPlayer .PlayerList .KillReasonButtonBox {
+	margin-bottom:10px;
+}
+#Dream .WerewolfList {
+	margin:10px 0px 10px 0px;
+	font-size:16px;
+	color:#FF3333;
+	font-weight:bold;
+}
+
+#WerewolvesTeam_OUTPUT {
+	background-image:url(./img/WerewolvesTeamBg.png);
+	background-repeat:no-repeat;
+	background-color:#4F0E07;
+	padding:0 0 0 65px;
+	width:255px;
+	margin:0px auto;
+}
+.WerewolvesTeamBgColor {
+	background-color:#4F0E07;
+
+}
+#WerewolvesTeam .PlayerTr {
+	background: -webkit-gradient(linear, left top, left bottom, from(#500D03), to(#280602));
+}
+#WerewolvesTeam .PlayerName {
+	font-size:18px;
+	text-align:left;
+	padding-left:10px;
+	color:white;
+}
+
+
+#WerewolfVoice .VoiceMark {
+	background-image:url(./img/DreamVoiceMark.png);
+	background-repeat:no-repeat;
+	width:10px;
+	height:18px;
+}
+#WerewolfVoice .VoiceBox {
+	margin:0 auto;
+}
+#WerewolfVoice .VoiceRoundBox {
+	border-radius: 10px;
+	background-color:white;
+	padding:10px 0;
+	color:black;
+	font-size:14px;
+	margin-bottom:10px;
+	
+}
+#WerewolfVoice .KillVoteNumBg {
+	background-repeat:no-repeat;
+	background-image:url(./img/DreamDeadPointBg.png);
+	width:14px;
+}
+#WerewolfVoice .KILL_1 {
+	height:14px;
+}
+#WerewolfVoice .KILL_2 {
+	height:28px;
+}
+#WerewolfVoice .KILL_3 {
+	height:42px;
+}
+#VoiceBox_OUTPUT {
+	background-color:#4F0E07;
+	padding:20px 0;
+}
+
+/****************************************************
+	Foretell
+****************************************************/
+#Foretell .CardView {
+	text-align:center;
+}
+#Foretell .Card {
+	width:130px;
+}
+#Foretell .PlayerName {
+	font-size:16px;
+}
+
+#Morning .DeadPlayer, #Morning .SuspectPlayer {
+	font-size:16px;
+}
+#Morning .WeatherRain, #Morning .WeatherLightning {
+	font-size:14px;
+	color:rgb(69, 11, 186);
+	font-weight:bold;
+	font-style: italic;
+
+}
+
+.HeaderSuperPowerAlert .TitleBG, .HeaderSuperPowerAlertWerewolf .TitleBG {
+	background-image:url(./img/TitleBar_HeaderBG.png);
+	background-position:center;
+	background-repeat:repeat-x;
+	background-size: contain;
+	width:100%;
+	height:34px;
+}
+.HeaderSuperPowerAlertRed .TitleBG {
+	background-image:url(./img/TitleBar_HeaderBG_Red.png);
+	background-size: contain;
+}
+
+.HeaderSuperPowerAlert .Title, .HeaderSuperPowerAlertRed .Title  {
+	background-image:url(./img/TitleBar_FirstFortune.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size: contain;
+	width:160px;
+	margin:0 auto;
+	height:34px;
+	line-height:30px;
+	text-align:center;
+	font-size:16px;
+	padding:0;
+	color:white;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px -1px 0;
+}
+.HeaderSuperPowerAlertRed .Title {
+	background-image:url(./img/TitleBar_Werewolf.png);
+	background-size: contain;
+}
+.HeaderSuperPowerAlert .FirstFortunePlayer {
+	background-color:#05055A;
+}
+.HeaderSuperPowerAlert table {
+	border:1px solid #FFF;
+	margin:0 auto;
+}
+.HeaderSuperPowerAlert .PlayerTr{
+	background-color: #05055A;
+}
+.HeaderSuperPowerAlert .PlayerName {
+	color:white;
+	font-weight: bold;
+	font-size:20px;
+}
+.HeaderSuperPowerAlert .NotWerewolfText, .HeaderSuperPowerAlert .FindLayerText {
+	font-size:16px;
+	font-weight: bold;	
+	color:white;
+}
+.GoldBar {
+	background-image: url(img/TitleBar_Footer.jpg);
+	background-repeat: repeat-x;
+	height:5px;
+	width:100%;
+}
+
+
+
+/****************************************************
+	Timer
+****************************************************/
+#Timer .TimerBox {
+	margin:20px auto 12px auto;
+	text-align:center;
+	width:240px;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px 0px 5px;
+	border-radius: 20px;
+	color:#FFF;
+	padding:10px;
+	text-align:center;
+	font-size:80px;
+	font-family: Helvetica;
+	border:solid 1px #FFF;
+	
+}
+#Timer .BgBlue {
+	background: -webkit-gradient(linear, left top, left bottom, from(#7885e2), to(#2e2e96));
+}
+#Timer .BgRed {
+	background: -webkit-gradient(linear, left top, left bottom, from(#e25555), to(#820a0a));
+}
+#Timer .GameMasterTool {
+	border: 1px solid #FFE;
+    border-radius: 10px;
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;	
+}
+#Timer .PlayerList {
+    margin: 0 auto;
+}
+#Timer .ShowGmButton {
+	font-size:16px;
+}
+#Timer .PlayerBoxBg {
+	margin: 5px auto;
+	background-color:rgba(0,0,0,0.5);
+}
+
+/****************************************************
+	Judgement Timer
+****************************************************/
+#Judgement .TimerBox {
+	margin:0px auto 0px auto;
+	text-align:center;
+	width:100px;
+	text-shadow: rgba(0, 0, 0, 0.8) 0px 0px 5px;
+	border-radius: 5px;
+	color:#FFF;
+	padding:5px;
+	text-align:center;
+	font-size:24px;
+	font-family: Helvetica;
+	border:solid 1px #FFF;
+	
+}
+#Judgement .BgBlue {
+	background: -webkit-gradient(linear, left top, left bottom, from(#CCF), to(#116));
+}
+#Judgement .BgRed {
+	background: -webkit-gradient(linear, left top, left bottom, from(#F99), to(#600));
+}
+#Judgement .VotingStatus {
+	font-size:18px;
+	color:#FF3333;
+}
+
+
+/****************************************************
+	Title_Judgement
+****************************************************/
+#Title_Judgement .LastDeadPlayerExist {
+	display:none;
+}
+#Title_Judgement .LastDeadPlayerExist .PlayerName {
+	font-size:16px;
+}
+
+/****************************************************
+	Judgement
+****************************************************/
+
+#Judgement .PlayerBoxBg {
+	width:100%;
+	margin-bottom:10px;
+}
+
+#Timer .PlayerListBox {
+	width:320px;
+	border-top:1px solid #666;
+	border-bottom:1px solid #666;
+	margin:0 auto;
+}
+#Timer .PlayerList .LeftCol {
+	width:170px;
+	text-align:center;
+}
+
+#Timer .PlayerList .PlayerName {
+
+	font-family:"Trajan Pro";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 4px;
+	font-size:20px;
+	margin: 10px auto 0px auto;
+	
+}
+
+#Timer .PlayerList .RightCol {
+	width:150px;
+	text-align:center;
+	margin-bottom:10px;
+}
+
+#Judgement .GmMessageCenter .PlayerName {
+	color:#FF3333;
+}
+
+#Judgement .PlayerBoxCard {
+	max-width:500px;
+	width:100%;
+	display:flex;
+
+}
+#Judgement .PlayerBoxCard .VoteBox {
+	width:73px;
+	height:83px;
+	background-image:url(img/BackgroundVotePaper.jpg);
+	background-size:450px auto;
+	background-position-x: right;
+	border-radius: 3px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+#Judgement .PlayerBoxCard .VoteBox .VoteNum, #Judgement .PlayerBoxCard .VoteBox .VoteQuestion {
+	font-size: 34px;
+	line-height:34px;
+	margin:22px auto 3px auto;
+	color: #FFFFFF;
+	text-align: center;
+	text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+}
+/* VoteBoxの右側にある装飾ボーダー */
+#Judgement .PlayerBoxCard .VoteBoxBorder {
+	width:4px;
+	height:80px;
+	background: #9D7553;
+	box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+}
+
+/* 名前エリア 右エリア全体*/
+#Judgement .PlayerBoxCard .NameBox {
+	flex:1;	
+	background-image:url(img/BackgroundVotePaper.jpg);
+	background-size:450px auto;
+	margin-bottom:24px;
+	border-radius: 3px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+#Judgement .PlayerBoxCard .NameBox .NameRow {
+	display:flex;
+	min-height: 41px;
+	padding: 21px 8px;
+	justify-content: space-between;
+}
+#Judgement .PlayerBoxCard .NameBox .PlayerName {
+	flex:1;
+	font-size: 18px;
+	line-height: 40px;
+	color: #FFFFFF;
+	text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+}
+#Judgement .PlayerBoxCard .NameBox .VotedPlayerRow {
+	box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+	margin:0 6px 6px 6px;
+	padding:6px;
+	background-color:rgba(0,0,0,0.2);
+	border-radius: 5px;	
+}
+#Judgement .PlayerBoxCard .NameBox .VotedPlayerRow div {
+	color:#FFFFFF;
+	font-size:11px;
+	text-shadow: 0 1px 3px rgba(0,0,0,0.50);
+	background-image:url(./img/IconVote.png);
+	background-size:22px;
+	background-repeat:no-repeat;
+	text-indent: 20px;
+	line-height:22px;
+	display:inline-block;
+	margin-right:6px;
+
+}
+#Judgement .PlayerBoxCard .VotingPlayer {
+	/* border:1px solid white; */
+	width:40px;
+	height:40px;
+}
+
+/* Judgement Result ****************************************************/
+#JudgementResult{
+	height:460px;
+}
+
+
+#JudgementResult .FaceArea {
+	position: relative;
+	overflow: hidden;
+	width:150px;
+	height:180px;
+	border:1px solid rgb(200,200,200);
+	margin:0px auto 0px auto;
+}
+
+#JudgementResult .FaceImg {
+	width:150px;
+	position: absolute;
+	top:-10px;
+	left:0px;
+	z-index:1;
+}
+#JudgementResult .FaceName {
+	position: absolute;
+	top:145px;
+	left:0px;
+	background-color: rgba(0,0,0,0.5);
+	color:#FFF;
+	font-size:18px;
+	height:35px;
+	width:150px;
+	max-width:150px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	line-height:35px;
+	z-index:2;
+}
+#JudgementResult #Blood {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:10;
+	background-image:url(./img/BloodImage.png);
+	background-position:center;
+	background-size:contain;
+	height:460px;
+/*	width:320px;
+*/	width:100%;
+	text-align:center;
+}
+
+/* Ranking ****************************************************/
+#RankingTable {
+/*	width:320px;
+*/	width:100%;
+}
+#RankingTable .Header {
+	background-image:url(./img/toolbar.png);
+	font-family:"Trajan Pro";
+	font-size:14px;
+	height:44px;
+	vertical-align:middle;
+	color:white;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 4px;
+}
+#RankingTable .RightBorder {
+	border-right: 1px solid #504539;
+}
+#Ranking .FaceImg {
+	width:35px;
+	margin:10px;
+}
+/* tr class **********/
+#RankingTable .RowBoxBg {
+	background-color:rgba(256, 256, 256, 0.5);
+	border-bottom: 1px solid #666;	
+}
+/* td class **********/
+#RankingTable .TdFaceImg {
+	width:50px;
+}
+#RankingTable .TdName {
+	width:140px;
+	font-size:14px;
+	text-align:left;
+	border-right: 1px solid #666;	
+}
+#RankingTable .TdTotal {
+	width:70px;
+	font-size:18px;
+	font-weight:bold;
+	border-right: 1px solid #666;	
+}
+#RankingTable .TdAdd {
+	width:58px;
+	font-size:18px;
+	font-weight:bold;
+}
+
+
+/********************************************************************/
+/* Common Design ****************************************************/
+/********************************************************************/
+
+table, tr, td {
+	border-collapse:collapse;
+	border:none;
+	margin:0;
+	padding:0;
+}
+
+button {
+	height:20px;
+	font-size:18px;
+	line-height:20px;
+}
+
+select {
+	font-size:18px;
+}
+.Height {
+	font-size:0;
+	line-height:0;
+}
+.Height.x5 {height:5px;}
+.Height.x6 {height:6px;}
+.Height.x10 {height:10px;}
+.Height.x12 {height:12px;}
+.Height.x20 {height:20px;}
+.Height.x24 {height:24px;}
+.Height.x30 {height:30px;}
+.Height.x40 {height:40px;}
+.Height.x48 {height:48px;}
+.Height.x50 {height:50px;}
+.Height.x65 {height:65px;}
+.Height.x75 {height:75px;}
+.Height.x100 {height:100px;}
+.Height.x190 {height:190px;}
+.Height.x200 {height:200px;}
+.Height.x460 {height:460px;}
+
+
+.center {text-align:center}
+
+.whiteText {
+	color:#FFF;
+}
+.redText {
+	color:#FF3333;
+}
+.blueText {
+	color:#A0CCFF;
+}
+.importantText {
+	color:#0000CC;
+}
+.yellowText {
+	color:#FFFF33;
+}
+.bigText {
+	font-size:16px;
+	font-weight:bold;
+}
+.Bold {
+	font-weight:bold;
+}
+.SmallTitle {
+	font-size:14px;
+	font-weight:bold;
+	margin:5px 0 5px 0;
+}
+.SmallerTitle {
+	font-size:9px;
+	color:#BBB;
+}
+.SmallText{
+	font-size:12px;
+	margin:0 0 6px 0;
+}
+.StarText {
+	font-size:14px;
+	line-height:18px;
+}
+.IconText {
+	line-height:16px;
+	font-size:12px;
+}
+.LinkBox {
+	display:inline-block;
+	font-size:12px;
+	line-height:12px;
+	padding:12px 25px;
+	margin:10px 10px 10px 0px;
+	border-radius: 50px;
+	text-decoration: none;
+	text-indent: 12px;
+	border:1px solid #BBB;
+	box-shadow:0px 1px 2px #CCC;
+	color:#333;
+	background-size:16px;
+	background-repeat: no-repeat;
+	background-position: 12px center;
+}
+.IconYoutube {
+	background-image:url(img/IconYoutube.png);
+}
+.IconNiconico {
+	background-image:url(img/IconNiconico.png);
+}
+.Star {
+	display:inline-block;
+	font-size:16px;
+	line-height:16px;
+	background-size:16px;
+	background-repeat: repeat-x;
+	background-position: left center;
+	background-image:url(img/IconStars.png);
+	height:16px;
+}
+.Star1 {
+	width:16px;
+}
+.Star2 {
+	width:32px;
+}
+.Star3 {
+	width:48px;
+}
+.Star4 {
+	width:64px;
+}
+.Star5 {
+	width:80px;
+}
+
+.InputTextCopy {
+    color: #777;
+	border: 0;
+	border-radius:4px;
+    font: normal 14px Helvetica;
+    padding: 0;
+    margin-left: 0px;
+	width: 100%;
+	background: transparent;
+    -webkit-appearance: none;
+}
+.InputTextCopyRoom {
+	color: #ffffff;
+	border: 0;
+	border-radius: 10px;
+	font: normal 12px Helvetica;
+	padding-left: 10px;
+	width: 250px;
+	height: 36px;	background: #000;
+	-webkit-appearance: none;
+}
+.TextBox,
+.TextBoxWhite {
+	width:250px;
+	min-height:60px;
+	font-size:14px;
+	line-height:150%;
+	padding:10px;
+	margin: 0 auto;
+	text-align:left;
+}
+.TextBox {
+	-webkit-border-image: url(img/TextBoxBoarder.png) 10 10 10 10 fill / 10px 10px 10px 10px;
+	color:#FFF;
+	margin-bottom:20px;
+}
+.TextBoxWhite {	
+	-webkit-border-image: url(img/TextBoxBoarderWhite.png) 10 10 10 10 fill / 10px 10px 10px 10px;
+	color:#000;
+}
+.TextBoxBlack{
+	font-size:12px;
+	color:white;
+	background-color:rgb(0,0,0,0.5);
+	padding:12px;
+	text-align: left;;
+	width:300px;
+	margin: 0 auto;
+}
+.BottomModal{
+	position:absolute;
+	z-index:100;
+	width:320px;
+	height:50px;
+	padding-top:10px;
+	left:0px;
+	top:390px;
+	background-color:rgba(0,0,0, 0.8);
+}
+.BottomButtonBg{
+/*	width:320px;
+*/	width:100%;
+	height:70px;
+	padding-top:10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
+}
+
+.BottomMargin{
+	margin-bottom:15px;
+}
+
+.SubTitle {
+	font-family:"Trajan Pro";
+	font-weight:bold;
+	color:white;
+	text-shadow:1px 1px 1px #000;
+	font-size:16px;
+	margin-bottom:5px;
+	
+}
+.ImageTitle {
+
+	font-family:"Trajan Pro";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 4px;
+	font-size:26px;
+	margin: 20px 0px 5px 0px;
+	text-align:center;
+}
+.ImageTitleBig {
+
+	font-family:"Trajan Pro";
+	color:white;
+	text-shadow: rgba(0, 0, 0, 1) 0px 1px 4px;
+	font-size:30px;
+	margin: 20px 0px 5px 0px;
+	text-align:center;
+}
+.RoleName {
+	font-family:"Trajan Pro",'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	color:white;
+	font-size:30px;
+	margin: 10px 0px 10px 0px;
+	text-align:center;
+	
+}
+.RoleNameButton {
+	font-family:"Trajan Pro",'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	font-size:24px;
+	margin: 10px 0px 10px 0px;
+	text-align:center;
+	
+}
+.GradButtonBackground {
+	background-image:url(img/GradButtonBackground.png);
+	height:60px;
+	background-repeat:repeat-x;
+	border-radius: 8px;
+	border-collapse:separate;
+	border-spacing:2px;
+	width:100%;
+}
+.BarButton {
+	font-size:10px;
+	font-family:Helvetica;
+	color: #333;
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+
+/* GM Message *************************************/
+.GMMessageHeader, .GMMessageFooter {
+	line-height:0
+}
+.GMMessageHeader {
+	margin:20px auto 0px auto;
+	background-image:url(img/GMMessage_Header.png);
+	background-size:360px auto;
+	width:360px;
+	height: 32px;/*34px;*/
+	text-align:center;
+	font-size:12px;
+	line-height:34px;
+	text-shadow:1px 1px 3px #000;
+}
+.GMMessageFooter {
+	margin-bottom:20px;
+	text-align: center;
+}
+.GmMessageTable {
+	width:360px;
+	background-image:url(img/GMMessage_Bg.png);
+	background-size:360px auto;
+	margin:0 auto;
+}
+
+.GmMessageLeft, .GmMessageRight {
+	width:26px;
+	vertical-align:top;
+	
+}
+.GmMessageCenter {
+	color:#000;
+	width:228px;
+	vertical-align:top;
+	font-size:14px;
+	line-height:140%;
+	text-align:left;
+    padding: 5px;
+}
+.Message {
+	min-height:230px;
+}
+
+/* NARRATION ********/
+.NarrationButton{
+	background-image:url(img/NarrationButton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+	width:140px;
+	height:40px;
+	margin: 10px auto;
+    text-indent:-1000px;
+    font-size:1px;
+}
+.PushNarrationOn {
+    background-position-y: -40px;
+}
+
+/* REMOTE MODE DESIGN ***************/
+#RemoteWaitingGM .WaitingBar {
+	background: rgba(1,2,12,0.50);
+	border: 1px solid #FFFFFF;
+	position: relative;
+	width:240px;
+	margin:0 auto;
+	border-radius: 5px;
+}
+#RemoteWaitingGM .DoneBar {
+	background-image: linear-gradient(180deg, #B4EC51 0%, #99DF51 42%, #74CC51 100%);
+	margin:2px;
+	text-align: center;
+	font-family: Futura-Bold;
+	font-size: 14px;
+	text-shadow: 0 1px 2px rgba(0,0,0,0.50);
+	color: #FFFFFF;
+	height:34px;
+	line-height:34px;
+	border-radius: 3px;
+	background-position-x: left;
+	background-size:0% 100%;
+	background-repeat: no-repeat;
+}
+
+#RemoteWaitingGM .WaitFaceImg{
+	width:40px;
+}
+#RemoteWaitingGM .FaceImgBox{
+	overflow:hidden;
+	height:40px;
+	
+}
+#RemoteWaitingGM .PlayerName{
+	font-size:16px;
+	color:#FFF;
+    text-shadow: #000 1px 1px 4px;
+}
+#QRCanvas, #QRCanvas_Waiting, #QRCanvasRoom {
+	width:180px;
+	margin:12px auto;
+	padding:12px;
+	background-color:#FFF;
+}
+
+/* GAME OVER RESULT **************/
+#GameOverResult {
+	background-color:#131426;
+}
+
+#GameOverResult .BackgroundLayer {
+	background-image: url(img/ResultHeader_Citizen.jpg);
+	background-size: 100% auto;
+	background-repeat:no-repeat;
+	background-position-x: center;
+	margin:0 auto;
+	max-width:375px;
+}
+#GameOverResult .FaceImgBoxResult {
+	background-image: url("img/FaceIcon.jpg");  /* 表示する画像 */
+	background-size: contain;
+    width:  32px;       /* ※縦横を同値に */
+    height: 32px;       /* ※縦横を同値に */
+    border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+	background-position: center center;  /* 中央に表示 */
+	border:1px solid white;
+	z-index:10;
+	position: absolute;
+	top:0;
+	left:0;
+}
+#GameOverResult .DeadIcon {
+	z-index:11;
+	position: absolute;
+	top:14px;
+	left:15px;
+}
+#GameOverResult .PlayerBoxStyle {
+	width:160px;
+	margin:0;
+	margin-bottom:6px;
+	float:left;
+}
+#GameOverResult .PlayerList {
+	width:300px;
+}
+#GameOverResult .PlayerName {
+	color:white;
+	font-size:12px;
+	font-weight: bold;
+	height:12px;
+	line-height:12px;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+}
+#GameOverResult .RoleBg {
+	background-image:url(img/Card_Citizen.png);
+	background-size:auto 34px;
+	background-position-x: right;
+	background-repeat: no-repeat;
+}
+#GameOverResult .PlayerRole {
+	color:#BDBDBD;
+	font-size:10px;
+	font-weight: bold;
+	margin-top:7px;
+	line-height:10px;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+}
+#GameOverResult .RoleIcon {
+	height:40px;
+	width:30px;
+	border: 1px solid #FFFFFF;
+	border-radius: 3px;
+}
+
+#GameOverResult .WinnerNameTitle {
+	text-align:center;
+	color:white;
+	font-size:18px;
+	text-shadow: 0 2px 2px #000000;
+	font-weight: bold
+}
+
+/* CARD SLIDER *********************/
+#CardSlider {
+	background-color:rgba(0,0,0,0.5);
+	padding-bottom:0;
+}
+#CardSliderNavi {
+	margin:0;
+	background-color:rgba(0,0,0,0.5);
+}
+
+/* 上下のグラデーションボーダー */
+.GoldBorder {
+	content:"";
+	display:block;
+	height:2px;
+	width:100%;
+	background-image: linear-gradient(270deg, #FFFFFF 0%, #FFA02F 41%, #955C17 51%, #FFCA8C 55%, #FFD6A5 100%);	
+}
+.GoldBorderVertical {
+	content:"";
+	display:block;
+	height:2px;
+	width:100%;
+	background-image: linear-gradient(90deg, #FFFFFF 0%, #FFA02F 41%, #955C17 51%, #FFCA8C 55%, #FFD6A5 100%);	
+}
+
+/* 左右ボタン */
+#CheckRoleNum .SliderButton {
+	position: absolute;
+	top:0px;
+	z-index:10;
+}
+#CheckRoleNum .RightButton {
+	right:0px;
+}
+#CheckRoleNum .LeftButton {
+	left:0px;
+}
+
+.CardExplainArea .CardData {
+	color:white;
+	text-align: left;
+	width:150px;
+}
+
+.CardExplainArea .CardInfoArea {
+	width:320px;
+	margin:18px auto;
+}
+#Tutorial_Card .CardInfoArea  {
+	margin: 0 auto 0 auto;
+	padding:24px 0 24px 0;
+}
+#Tutorial_Card .CardSliderArea {
+	border-bottom:black 24px solid;
+}
+#Tutorial_Card .CardInfoFlexbox {
+	flex-direction: column;
+}
+#CardSlider .CardWidth {
+	width:150px;
+}
+#Tutorial_Card .CardWidth {
+	width:260px;
+}
+#CardSlider .NewFlg {
+	position:absolute;
+	z-index:2;
+	top:-25px;
+	left:-15px;
+}
+
+
+#CardSlider.CardExplainArea .CardImage {
+	width:150px;
+	height:200px;
+	margin:0 12px 0 0;
+	position:relative;
+}
+#Tutorial_Card .CardExplainArea .CardImage {
+	width:100%;
+	margin:0 0 12px 0;
+}
+#Tutorial_Card .CardExplainArea .CardImage .CardRole {
+	text-align:center;
+}
+#Tutorial_Card .CardData {
+	margin: 0 auto;
+	width: 260px;
+}
+
+
+.CardExplainArea .CardDataBorder {
+	height:2px;
+	font-size:0;
+	margin:3px 0 12px 0;
+}
+.CardExplainArea .CardDataBorder.Werewolf {
+	background-color:#980E1F;
+}
+.CardExplainArea .CardDataBorder.Citizen {
+	background-color:#456EDD;
+}
+.CardExplainArea .CardDataBorder.Vampire {
+	background-color:#9935BE;
+}
+.CardExplainArea .CardDetails {
+	width:50%;
+}
+.CardExplainArea .CardExplain{
+	width:300px;
+	margin:0 auto 0px auto;
+	background: rgba(0,0,0,0.5);
+	color:white;
+	box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.39);
+	border-radius: 6px;
+	padding:12px;
+	text-align:left;
+	font-size:14px;
+	line-height:145%;
+}
+#CardSlider.CardExplainArea .CardExplain {
+	margin-top: 30px;
+	height:75px;
+	overflow: scroll;
+	-webkit-mask-image: linear-gradient(#000 calc(100% - 2em), transparent);
+	padding:12px 12px 2em 12px;
+}
+
+/* move page dots into carousel */
+#CardSlider .flickity-viewport {
+	min-height:400px;
+}
+.gallery-cell {
+	min-width: 320px;
+	width: 100%;
+/*min-height: 412px;*/
+height:100%;
+	margin-right: 6px;
+background-image:url(img/CardSliderBackground.jpg);
+background-position-x:center;
+/*background-size: auto 400px;*/
+background-size: contain;
+}
+#CardSliderNavi .navi-cell {
+	width:58px;
+	height:77px;
+	border:1px solid black;
+	margin:3px 3px 3px 0px;
+	position: relative;
+}
+#CardSliderNavi .navi-cell.is-nav-selected {
+	border: 2px solid white;
+}
+#CheckRoleNum .Title, #PremiumShop .Title {
+	background-image: linear-gradient(180deg, #4D4D51 0%, #37373D 100%);
+	box-shadow: 0 2px 10px 0 #000000, inset 0 1px 5px 0 rgba(0,0,0,0.50);
+	font-family: HiraMinProN-W6,serif;
+	font-size: 16px;
+	color: #FFFFFF;
+	text-align: center;
+	text-shadow: 0 1px 10px #000000;
+	height:42px;
+	line-height: 42px;
+	margin-bottom: 6px;
+}
+#CheckRoleNum .Title::before, #PremiumShop .Title::before {
+	content:"";
+	display:block;
+	height:2px;
+	width:100%;
+	background-image: linear-gradient(180deg, #F5515F 0%, #D73647 100%);
+}
+#CheckRoleNum .Title::after, .RedBorder, #PremiumShop .Title::after {
+	content:"";
+	display:block;
+	height:2px;
+	width:100%;
+	background-image: linear-gradient(180deg, #AD1126 0%, #9F041B 100%);
+}
+
+
+#CheckRoleNum .CardNumFormBox {
+	display:flex;
+	justify-content: space-between;
+	background: #FFFFFF;
+	box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+	border-radius: 29px;
+	height:35px;
+	padding:6px 6px 3px 6px;	
+}
+#CheckRoleNum .CardNumFormBox div {
+	align-self:center;
+}
+#CheckRoleNum .CardNum {
+	font-size:24px;
+	color: #000000;
+	text-align: center;
+	line-height: 38px;
+	text-shadow: 0 1px 3px rgba(0,0,0,0.27);
+}
+
+#CheckRoleNum .ShowOptionBg{
+	color:white;
+	height:40px;
+	line-height:40px;
+	font-size:16px;
+	font-weight: bold;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-size:auto 40px;
+	background-position-x:center;
+}
+#CheckRoleNum .ShowOptionBg.Down {
+	background-image:url(img/ShowOptionBgDown.png);
+}
+#CheckRoleNum .ShowOptionBg.Up {
+	background-image:url(img/ShowOptionBgUp.png);
+}
+
+/**** CardNumList ****/
+#CardNumList {
+	background-color:rgba(0,0,0,0.5);
+	padding:12px 0;
+}
+#CardNumList .Team {
+	width:100px;
+	min-height: 50px;
+	color:white;
+	font-size:10px;
+	margin:0 3px;
+}
+#CardNumList .CardListTitle {
+	text-align:center;
+	padding-bottom:3px;
+}
+
+#CardNumList .Werewolf .CardListTitle {
+	border-bottom:2px solid #980E1F;
+}
+#CardNumList .Citizen .CardListTitle {
+	border-bottom:2px solid #395FC6;
+}
+#CardNumList .Vampire .CardListTitle {
+	border-bottom:2px solid #9935BE;
+}
+
+#CardNumList .Roles {
+	padding: 6px 0;
+	line-height:150%;
+	font-size:10px;
+}
+
+/*** REMOTE WEREWOLF NIGHT COMMENT ***/
+#WerewolfRemoteMessage {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+}
+#WerewolfRemoteMessage .WerewolfMessageAreaBg {
+	background: rgba(0,0,0,0.50);
+	position: relative;
+	padding:6px 0;
+}
+#WerewolfRemoteMessage .WerewolfMessageArea {
+	width:320px;
+	margin:0 auto;
+}
+#WerewolfRemoteMessage .PlayerIconArea {
+	position: relative;
+	width:44px;
+}
+#WerewolfRemoteMessage .PlayerIconArea .IconClose {
+	margin-left:5px;
+	
+}
+
+#WerewolfRemoteMessage .PlayerIcon {
+	background-image: url("img/FaceIcon.jpg");  /* 表示する画像 */
+	background-size: contain;
+    width:  32px;       /* ※縦横を同値に */
+    height: 32px;       /* ※縦横を同値に */
+    border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+	background-position: center center;  /* 中央に表示 */
+}
+
+#WerewolfRemoteMessage .PlayerIcon.From {
+	border: 1px solid #FFFFFF;
+	position: absolute;
+	z-index:1;
+	bottom:0;
+}
+#WerewolfRemoteMessage .PlayerIcon.To {
+	box-shadow:
+		0 0 0 1px #FFF,
+		0 0 0 3px #AC0F23;
+	margin:9px;
+}
+#WerewolfRemoteMessage .WerewolfMessageBox {
+	background: #FFFFFF;
+	border-radius: 10px 10px 0 0;
+	justify-content: space-between;
+	width:276px;
+	height:50px;
+}
+#WerewolfRemoteMessage .WerewolfMessageBox .MessageText {
+	width:220px;
+	color:black;
+	font-size:12px;
+	padding:6px 0 0 6px;
+	font-family:Helvetica, sans-serif
+}
+#WerewolfRemoteMessage .WerewolfMessageArea .PlayerName {
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+#WerewolfRemoteMessage .WerewolfFromToArea {
+	background-color: #AC0F23;
+	border-radius:0 0 10px 0;
+	width:100%;
+	height:24px;
+	margin-top:1px;
+	font-size:12px;
+	font-family:Helvetica, sans-serif;
+	line-height:24px;
+	justify-content: flex-end;
+}
+#WerewolfRemoteMessage .WerewolfFromToArea .TextFrom,#WerewolfRemoteMessage .WerewolfFromToArea .TextTo {
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space: nowrap;
+	max-width:96px;
+}
+#WerewolfRemoteMessage .WerewolfFromToArea .TextFrom {
+	padding:0 3px 0 6px;
+	background-color:white;
+	font-weight: bold;
+}
+#WerewolfRemoteMessage .WerewolfFromToArea .TextTo {
+	color:white;
+	padding:0 3px 0 12px;
+	background-image:url(img/DreamWerewolfArrowBg.png);
+	background-size:auto 100%;
+	background-repeat: no-repeat;
+	flex-grow:2;
+	font-weight: bold;
+}
+
+#WerewolfRemoteMessage .VoteNum {
+	background-image:url(img/Icon_KILL_2.png);
+	background-position-y:center;
+	background-position-x:right;
+	background-repeat: no-repeat;
+	background-size:54px auto;
+	width:54px;
+	height:24px;
+	margin-right:6px;
+	flex-grow: 2;
+}
+/* 各対象プレイヤーに表示する投票数表示用 *****/
+.WerewolfVoteBox {
+	background:transparent;
+}
+.WerewolfVoteBox .WerewolfFromToArea {
+	background: #AC0F23;
+	border-radius: 10px;
+	width:170px;
+	margin:3px auto;
+	height:24px;
+	font-size:10px;
+	line-height:24px;
+}
+.WerewolfVoteBox .TextFrom {
+	padding:0 3px 0 6px;
+	color:#000;
+	text-shadow: none;
+	font-family: "Helvetica Neue", Helvetica;
+	background-color:white;
+	font-weight: bold;
+	border-radius: 10px 0 0 10px;
+	width:100px;
+	background-image:url(img/DreamWerewolfArrowBg.png?2);
+	background-size:auto 100%;
+	background-repeat: no-repeat;
+	background-position-x:right;
+}
+.WerewolfVoteBox .VoteNum {
+	background-image:url(img/Icon_KILL_2.png);
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size:54px auto;
+	width:70px;
+	height:24px;
+}
+
+/*** Premium Menu ***/
+#PremiumShop {
+	background-image:url(./img/WoodBgLoop_w750.jpg);
+	background-size:cover;
+	background-repeat:repeat-y;
+}
+#PremiumShop .PremiumMenu {
+	background-color:white;
+	border-radius: 15px;
+	width:320px;
+	margin: 12px auto 24px auto;
+	overflow: hidden;
+
+	background: #FFFFFF;
+	box-shadow: 0 2px 8px 0 rgba(40,41,61,0.5), 0 16px 24px 0 rgba(96,97,112,0.3);
+}
+#PremiumShop .MenuSubTitle {
+	color:#252525;
+	font-size: 12px;
+	margin:12px 0 3px 0;
+	text-align:center;
+}
+#PremiumShop .MenuBodyText {
+	color:#252525;
+	font-size:12px;
+	width:260px;
+	margin:12px auto;
+	text-align: left;
+	padding:0 20px;
+
+}
+
+/* Rich Background ******/
+.BackgroundBrown {
+	background-image:url(img/CardSliderBackground.jpg);
+	background-position-x:center;
+	background-size: auto 400px;
+}
+.BackgroundBlack {
+	background-image: url(./img/CardBg.jpg);
+	background-color: #333;
+	border-top:1px #111111 solid;
+	border-bottom:2px #111111 solid;
+	width:100%;	
+}
+.TutorialMenuButton{
+	width:320px;
+	height:60px;
+	background-image: url(img/BackgroundVotePaper.jpg);
+	background-size:600px auto;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	font-family:'HiraMinProN-W6', 'Hiragino Mincho ProN', serif;
+	font-size: 18px;
+	color: #FFFFFF;
+	text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+	line-height: 60px;
+	text-align: center;
+	margin:12px auto;
+}
+.YoutubeBox {
+	position: relative;
+	width: 100%;
+	padding-top:56.25%;
+	background-size:100% auto;
+	background-position-y: center;
+	background-repeat: no-repeat;
+	margin: 0px 0 36px 0;
+
+}
+.YoutubeBox iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.FrameBorder {
+	width:300px;
+	margin:48px auto 24px;
+	border:solid 30px #666;
+	border-image:url("img/FrameBorder.png") 30 fill;
+	border-image-repeat:repeat;
+	position:relative;
+	color:white;
+	font-size:14px;
+	line-height:185%;
+	padding-top:24px;
+	
+}
+.TitleBgRed {
+	font-family:'HiraMinProN-W6', 'Hiragino Mincho ProN';
+	position:absolute;
+	top:-48px;
+	/*
+	background-image:url("img/TitleBgRed.png");
+	background-size:220px 37px;
+	*/
+	border-top:4px solid black;
+	border-bottom:4px solid black;
+	border-left:14px solid black;
+	border-right:14px solid black;
+	border-image:url(img/TitleBgRed.png) 5% fill;
+	border-image-slice: fill; 
+	min-width:220px;
+	height:37px;
+	line-height:37px;
+	color:white;
+	font-size: 16px;
+	color: #FFFFFF;
+	text-align: center;
+	text-shadow: 0 3px 10px #000000;
+}
+
+/* ヘッダーの残りの高さ100%でiframeを表示する方法 */
+
+.FlexColumn {
+	display: flex;
+	flex-direction: column;
+	height:100%;
+}
+.FlexGrow {
+	flex-grow: 1;
+}
+.FlexColumn .FlexGrow iframe {
+	position: absolute;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 122px);
+}
+
+/* Topicsのグラデーション背景 */
+.trapezoid {
+    width: 100px; /* 幅を設定 */
+    height: 24px; /* 高さを設定 */
+    background-image: linear-gradient(180deg, #B20505 0%, #830202 100%); /* 縦方向の線形グラデーション */
+	clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%); /* 台形の形状 */
+	color:white;
+	text-align: center;
+	font-family: Helvetica, sans-serif;
+	line-height: 24px;
+	font-size:12px;
+	padding-right: 10px;
+	font-weight: bold;
+}
+.Margin12px {
+	padding:12px 12px 0px 12px;
+}
+
+#CheckSetting .Setting {
+	font-size: 14px;
+}
+
+/* Accountページ関連 ***********/
+#Account div {
+	color:white;
+}
+
+.account-avatar {
+	margin: 5px auto 8px auto;
+	text-align: center;
+	width:320px;
+	display:flex;
+	align-items: center;
+}
+
+.avatar-image-around {
+	height: 200px;
+	width: 200px;
+	background-image: url(img/AvatarBackground.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.account-avatar-image {
+	border-radius: 50%;
+	margin-top: 20px;
+	height: 160px;
+	width: 160px;
+}
+
+#avatarChangeBar {
+	background-image: url(img/AvatarChoiceBar.png);
+	background-size: contain;
+	height: 57px;
+	width: 340px;
+	margin: 0 auto;
+}
+
+#avatarActions {
+	width: 320px;
+	height: 57px;
+	margin-left: 5px;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+#inputNickNameBox {
+	width: 310px;
+	margin: 17px auto 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#inputNickNameBox input[type="text"] {
+	height: 38px;
+	max-width: 98.5%;
+	margin-top: 8px;
+	padding-left: 12px;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+#inputNickNameBox input[type="text"]::placeholder {
+	color: #D5D5D5
+}
+
+#twitterConnectButton {
+	width: 309px;
+	height: 38px;
+	margin: 12px 0;
+	background-color: #4466E5;
+	border-radius: 20px;
+}
+
+.CheckBoxFlex {
+	display: flex;
+	align-items: center;
+}
+
+
+
+#followTwitterCheckBox {
+	height: 23px;
+	width: 23px;
+	margin-right: 12px;
+}
+
+#accountSaveButtonContainer {
+	margin: 24px 0 26px 0;
+	text-align: center;
+}
+
+#accountSaveButtonContainer > div {
+	width: 163px;
+	height: 44px;
+	margin: 0 auto;
+}
+
+.coin-symbol {
+	position: absolute;
+	z-index: 10;
+}
+.account-coin-unit {
+	width:320px;
+	margin:auto;
+}
+.account-coin-unit .coin-symbol img {
+	height: 84px;
+	width: 84px;
+}
+
+.coin-amount-unit {
+	position: relative;
+	height: 84px;
+	width: 280px;
+	margin: 0 auto;
+}
+
+.account-coin-unit:last-child {
+	margin-top: 27px;
+}
+
+.coin-amount-unit #accountCoinAmount,#accountWLFAmount {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	text-align: right;
+	padding: 0 21px 0 36px;
+	background-color: white;
+	font-size: 30px;
+	line-height: 42px;
+	font-weight: 400;
+	border-radius: 33px;
+	width: 180px;
+	color: black;
+}
+
+#submitPresentCoin,#submitPresentWLF {
+	text-align: center;
+}
+/*
+.account-stats {
+	height: 272px;
+	width: 360px;
+	margin: 0 auto;
+	padding-top: 20px;
+	background-image: url(img/Frame.png);
+	background-size: cover;
+	background-repeat: no-repeat; 
+}
+*/
+.account-stats {
+	position:relative;
+	width: 298px;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: 31px 31px 32px 31px;
+	-moz-border-image: url(img/TopFrameBorder.png) 62 62 64 62 stretch repeat;
+	-webkit-border-image: url(img/TopFrameBorder.png) 62 62 64 62 stretch repeat;
+	-o-border-image: url(img/TopFrameBorder.png) 62 62 64 62 stretch repeat;
+	border-image: url(img/TopFrameBorder.png) 62 62 64 62 stretch repeat;
+}
+
+.stats-contents {
+	text-align: start;
+	background-color: #1A1D21;
+}
+
+#statsAccountInfo {
+	width: 300px;
+	margin-bottom: 15px;
+	border-bottom: #888 1px solid;
+	display: flex;
+	align-items: center;
+}
+
+#statsAccountInfo .stats-account-name {
+	margin-left: 60px;
+}
+
+#statsAccountInfo .stats-avatar {
+	height: 65px;
+	width: 65px;
+	position:absolute;
+	top:-30px;
+	left:-10px;
+	z-index:100;
+}
+
+.stats-avatar .stats-avatar-around {
+	height: 65px;
+	width: 65px;
+	background-image: url(img/AvatarBackground.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.stats-avatar .stats-avatar-image {
+	border-radius: 50%;
+	height: 53px;
+	width: 53px;
+	margin: 6px 0 0 6px;
+}
+
+.header-coin-section {
+	display: flex;
+	height: 58px;
+	width: 100%;
+	background-image: url(img/MainHeaderBackground.png);
+	background-size: 100% 58px;
+	background-repeat: repeat-x;
+	margin-top:3px;
+}
+
+.main-section {
+	width: 100%;
+	margin: 0 auto;
+	position: absolute;
+	top: 0px;
+}
+
+.header-coin-unit {
+	margin-top: 6px;
+}
+
+.header-coin-amount-unit {
+	/* display: flex;
+	align-items: center; */
+	position: relative;
+	height: 40px;
+	width: 100px;
+}
+
+.header-coin-amount-unit #headerCoinAmount,#headerWLFAmount {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	text-align: right;
+	padding: 0 10px 0 5px;
+	background-color: white;
+	font-size: 13px;
+	line-height: 24px;
+	font-weight: 400;
+	border-radius: 33px;
+	width: 90px;
+}
+
+.header-coin-amount-unit:last-child {
+	margin-left: 5px;
+}
+
+.header-coin-unit .coin-symbol img {
+	height: 36px;
+	width: 36px;
+}
+
+.change-lang-section {
+	margin: 14px 10px 0 0;
+	display: flex;
+	flex-grow: 1;
+	justify-content: flex-end;
+}
+
+.change-lang-unit {
+	width: 80px;
+	height: 26px;
+	margin-bottom: 3px;
+	padding: 0 5px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+
+#isNotAccountInfo {
+	margin-top: 10px;
+}
+
+#isNotAccountInfo p {
+	font-size: 11px;
+}
+#NewsModal {
+	text-align:center;
+}
+#NewsModal .MainImage{
+	width:100%;
+	max-height: 300px;
+	max-width: 300px;
+
+}
