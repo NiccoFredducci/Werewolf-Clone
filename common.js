@@ -28,7 +28,14 @@ function IsApp(){
 	}
 	
 	// サーバーにアップされたウェブページの場合
-	if ((window.location.protocol == "file:" && sLocation.indexOf("file:///private") < 0) || sLocation.indexOf("127.0.0.1") > 0 || sLocation.indexOf("localhost") > 0) {
+	// Browser / web page detection
+	if (
+		window.location.protocol == "http:" ||
+		window.location.protocol == "https:" ||
+		(window.location.protocol == "file:" && sLocation.indexOf("file:///private") < 0) ||
+		sLocation.indexOf("127.0.0.1") > 0 ||
+		sLocation.indexOf("localhost") > 0
+	) {
 		return false;
 	} else {
 		console.log("23:This is App");
