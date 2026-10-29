@@ -936,7 +936,7 @@
             console.log("jqtouch.js 929 innerWidth=" + window.innerWidth);
             if (window.innerWidth >= 768) {
                 // 倍率
-                var iZoomPer = Math.min(window.innerWidth / 768, 1.5);
+                var iZoomPer = Math.min(window.innerWidth / 768, 1.3);
                 $("#jqt").css("zoom", iZoomPer);
             }
 
