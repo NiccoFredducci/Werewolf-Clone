@@ -108,8 +108,8 @@
 				<div style="padding:12px"><img src="#" id="TitleLogo" style="width:165px"></div>
 				<!-- 上下センター配置用Tableタグ -->
 				<div id="MainMenu" style="margin-top:12px">
-					<!-- div onclick="NewGame()" class="center" -->
-					<div onclick="MakeOfflineGame()" class="center">
+					<div onclick="NewGame()" class="center">
+					<!-- div onclick="MakeOfflineGame()" class="center" -->
 						<span class="En"><img src="img/MenuButton_NewGame_En.png" width="280" /></span>
 					</div>
 					<div onclick="ContinueGame()" id="TopContinue" class="center">
@@ -1533,9 +1533,8 @@
 			<!-- OK ボタン -->
 			<div class="Height x48"> </div>
 
-			<div class="Jp"><span onclick="SetRole()"><img src="img/ButtonDoneSettingJp.png" style="width:280px" /></span></div>
 			<div class="En"><span onclick="SetRole()"><img src="img/ButtonDoneSettingEn.png" style="width:280px" /></span></div>
-			<div class="Height x40"> </div>
+			<div class="Height x100"> </div>
 			<div class="Height x20"> </div>
 
 		</div>
@@ -1725,7 +1724,7 @@
 			<!-- GameMasterBox } ****************************************************-->
 
 			<p><a href="javascript:jQT.goTo('#Title_AboutNight')" class="whiteButton slideleft">O K</a></p>
-			<div class="Height x40"> </div>
+			<div class="Height x140"> </div>
 		</div>
 
 
@@ -1824,7 +1823,6 @@
 				</div>
 				<div class="Height x6"></div>
 				<!-- PlayerListBox の表示を行うボタン-->
-				<div class="Jp"><a href="javascript:$('#RemoteWaitingGM .PlayerListBox').show()" style="font-size:10px" class="whiteButton">各プレイヤーの行動状態を表示する</a></div>
 				<div class="En"><a href="javascript:$('#RemoteWaitingGM .PlayerListBox').show()" style="font-size:10px" class="whiteButton">Show each player's status</a></div>
 				<!--PlayerListBox { ****************************************************-->
 				<div class="PlayerListBox" style="width:280px;margin:0 auto 12px auto;display:none"></div>
@@ -2098,14 +2096,13 @@
 			<!-- GameMasterBox } ****************************************************-->
 
 			<p><a href="javascript:jQT.goTo('#Title_GameStart')" class="whiteButton fade">O K</a></p>
-			<div class="Height x40"> </div>
+			<div class="Height x140"> </div>
 		</div>
 
 
 		<!-- Title About Night for RemoteMode ****************************************************-->
 		<div id="Title_AboutNight_Remote" class="TitlePage">
 			<div class="CommonToolbarOnlyTitle">
-				<h1 class="Jp">5. 夜ステージの説明</h1>
 				<h1 class="En">5. About Night</h1>
 			</div>
 	
@@ -2197,7 +2194,7 @@
 
 
 			<p><a href="javascript:GoToTitleNight()" class="redButton fade">GAME START</a></p>
-			<div class="Height x40"> </div>
+			<div class="Height x140"> </div>
 		</div>
 
 
@@ -2257,7 +2254,7 @@
 -->
 			<p><a href="javascript:SetEnterPassword()" class="whiteButton slideleft">O K</a></p>
 
-			<div class="Height x20"> </div>
+			<div class="Height x100"> </div>
 			<div class="Height x20"> </div>
 			<div class="Height x20"> </div>
 		</div>

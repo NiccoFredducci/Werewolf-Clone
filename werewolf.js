@@ -2050,6 +2050,7 @@ function CheckInitNewGame() {
     出力       なし
 ****************************************************/
 function MakeOfflineGame() {
+	$("#Footer").hide();
     gsGameMode = LoadData("gsGameMode");
     // 前回のゲームがオンラインゲームの場合
     if (gsGameMode == "Online") {
@@ -2099,8 +2100,9 @@ function InitNewGame() {
 
     // フッターメニューを非表示にする
     $("#Footer").hide();
-
-    jQT.goTo("#Title_NewGame", "slideleft");
+	
+	MakeOfflineGame()
+    //jQT.goTo("#Title_NewGame", "slideleft");
 
 }
 
@@ -11660,7 +11662,7 @@ var gbLoopStatus = false;
 
     G入力    gmSE, gmLoop, gmNA        メディアオブジェクト
 ****************************************************/
-function InitMedia() {
+/*function InitMedia() {
 
     // すべての音声を、仮のサウンドで初期化する
     var sAudio = "audio/Gun.mp3";
@@ -11826,16 +11828,129 @@ function PlayAudio(sAudio, bStopFlg) {
             break;
     }
 
+}*/
+
+var gmLoop = null;
+var gmSE = null;
+var gmNA = null;
+var gbLoopStatus = false;
+
+var browserAudioUnlocked = false;
+var browserLoopAudio = null;
+var browserSeAudio = null;
+var browserNarrationAudio = null;
+
+// Allow browsers to play audio after the first user interaction.
+function UnlockBrowserAudio() {
+    if (browserAudioUnlocked) return;
+
+    browserAudioUnlocked = true;
+
+    var audio = new Audio();
+    audio.src = "audio/Gun.mp3";
+    audio.volume = 0;
+
+    var promise = audio.play();
+
+    if (promise && promise.then) {
+        promise.then(function () {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.volume = 1;
+        }).catch(function () {
+            browserAudioUnlocked = false;
+        });
+    }
 }
 
+document.addEventListener("touchstart", UnlockBrowserAudio, { once: true });
+document.addEventListener("click", UnlockBrowserAudio, { once: true });
+
+function InitMedia() {
+    // Browser audio objects are created when PlayAudio is called.
+    return;
+}
+
+function PlayAudio(sAudio, bStopFlg) {
+    if (!sAudio) return;
+
+    var sType = "SE";
+
+    if (sAudio.indexOf("Loop") !== -1) {
+        sType = "LOOP";
+    } else if (sAudio.indexOf("NA_") !== -1) {
+        sType = "NA";
+    }
+
+    // Respect the game's sound settings.
+    if (CheckNoSound(sAudio) === true) {
+        return;
+    }
+
+    // Stop the currently playing audio of this type.
+    if (bStopFlg === true) {
+        if (sType === "LOOP" && browserLoopAudio) {
+            browserLoopAudio.pause();
+            browserLoopAudio.currentTime = 0;
+            browserLoopAudio = null;
+            gbLoopStatus = false;
+        } else if (sType === "NA" && browserNarrationAudio) {
+            browserNarrationAudio.pause();
+            browserNarrationAudio.currentTime = 0;
+            browserNarrationAudio = null;
+        } else if (sType === "SE" && browserSeAudio) {
+            browserSeAudio.pause();
+            browserSeAudio.currentTime = 0;
+            browserSeAudio = null;
+        }
+        return;
+    }
+
+    var audio = new Audio(sAudio);
+    audio.preload = "auto";
+
+    if (sType === "LOOP") {
+        if (browserLoopAudio) {
+            browserLoopAudio.pause();
+            browserLoopAudio.currentTime = 0;
+        }
+
+        audio.loop = true;
+        browserLoopAudio = audio;
+        gbLoopStatus = true;
+    } else if (sType === "NA") {
+        if (browserNarrationAudio) {
+            browserNarrationAudio.pause();
+            browserNarrationAudio.currentTime = 0;
+        }
+
+        browserNarrationAudio = audio;
+
+        audio.addEventListener("ended", function () {
+            if (typeof gsNarrationFile !== "undefined" &&
+                gsNarrationFile === sAudio) {
+                $("#" + gsNarrationId).removeClass("PushNarrationOn");
+                $("#" + gsNarrationId).text("");
+                gsNarrationId = "";
+                gsNarrationFile = "";
+            }
+        });
+    } else {
+        browserSeAudio = audio;
+    }
+
+    audio.play().catch(function (error) {
+        console.warn("Audio playback failed:", sAudio, error);
+    });
+}
 
 function CheckNoSound(sAudio) {
 
-    // Safariの場合
-    if (gbIsApp != true) {
-        Log("CheckNoSound Safari扱い");
-        return true;
-    }
+	// Browser / GitHub Pages: allow audio
+	if (gbIsApp != true) {
+		Log("CheckNoSound: Browser audio enabled");
+		return false;
+	}
 
     // ナレーション以外で「BGMなし」設定の場合
     // （ナレーションボタンは、BGMがオフでも有効にする）
