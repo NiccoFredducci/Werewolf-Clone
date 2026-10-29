@@ -155,18 +155,18 @@ body.landscape .toolbar > h1 {
 */
 
 .grayButton {
-    -webkit-border-image: url(img/grayButton.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/grayButton.png) 22 12 22 12 / 22px 12px 22px 12px;
     color: #FFFFFF;
 }
 .grayButton:hover {
-    -webkit-border-image: url(img/grayButtonPressed.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/grayButtonPressed.png) 22 12 22 12 / 22px 12px 22px 12px;
 }
 .redButton {
-    -webkit-border-image: url(img/redButton.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/redButton.png) 22 12 22 12 / 22px 12px 22px 12px;
     color: #FFFFFF;
 }
 .redButton:active {
-    -webkit-border-image: url(img/redButtonPressed.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/redButtonPressed.png) 22 12 22 12 / 22px 12px 22px 12px;
 }
 .redButtonSmall {
     -webkit-border-image: url(img/redButtonSmall.png)  19 12 18 12 / 19px 12px 18px 12px;
@@ -176,18 +176,18 @@ body.landscape .toolbar > h1 {
 	filter: brightness(50%);	
 }
 .greenButton {
-    -webkit-border-image: url(img/greenButton.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/greenButton.png) 22 12 22 12 / 22px 12px 22px 12px;
     color: #FFFFFF;
 }
 .greenButton:hover {
-    -webkit-border-image: url(img/greenButtonPressed.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/greenButtonPressed.png) 22 12 22 12 / 22px 12px 22px 12px;
 }
 .blueButton {
-    -webkit-border-image: url(img/blueButton.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/blueButton.png) 22 12 22 12 / 22px 12px 22px 12px;
     color: #FFFFFF;
 }
 .blueButton:hover {
-    -webkit-border-image: url(img/blueButtonPressed.png) 22 12 21 12 / 22px 12px 21px 12px;
+    -webkit-border-image: url(img/blueButtonPressed.png) 22 12 22 12 / 22px 12px 22px 12px;
 }
 .voteButton {
     display: block;
